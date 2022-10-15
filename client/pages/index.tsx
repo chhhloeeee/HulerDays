@@ -38,19 +38,51 @@ const Home: NextPage = () => {
 
         <div className={styles.grid}>
           <div className={styles.card}>
-            <h2>Request Leave &rarr;</h2>
+            <Image
+              src="https://cdn.huler.io/v2/wp-content/uploads/2022/06/14085410/Lifestyle9.jpg"
+              alt="calendar"
+              width="271.11"
+              height="271.11"
+            />
+            <div className={styles.textWrapper}>
+              <h2>Request Leave &rarr;</h2>
+            </div>
           </div>
 
           <div className={styles.card}>
-            <h2>Manage Requests &rarr;</h2>
+            <Image
+              src="https://cdn.huler.io/v2/wp-content/uploads/2022/06/14090345/Office12.jpg"
+              alt="calendar"
+              width="271.11"
+              height="271.11"
+            />
+            <div className={styles.textWrapper}>
+              <h2>Manage Requests &rarr;</h2>
+            </div>
           </div>
 
           <div className={styles.card}>
-            <h2>Calendar View &rarr;</h2>
+            <Image
+              src="https://cdn.huler.io/v2/wp-content/uploads/2022/06/14090344/Office11.jpg"
+              alt="calendar"
+              width="271.11"
+              height="271.11"
+            />
+            <div className={styles.textWrapper}>
+              <h2>Calendar View &rarr;</h2>
+            </div>
           </div>
 
           <div className={styles.card}>
-            <h2>Policies &rarr;</h2>
+            <Image
+              src="https://cdn.huler.io/v2/wp-content/uploads/2022/06/14090343/Office10.jpg"
+              alt="calendar"
+              width="271.11"
+              height="271.11"
+            />
+            <div className={styles.textWrapper}>
+              <h2>Policies &rarr;</h2>
+            </div>
           </div>
         </div>
       </main>

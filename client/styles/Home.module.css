@@ -86,14 +86,13 @@
 
 .card {
   text-align: left;
+  position: relative;
   text-decoration: none;
-  border: 6px solid #292931;
   border-radius: 15px;
   transition: color 0.15s ease, border-color 0.15s ease;
   width: 271.11px;
   height: 271.11px;
   box-shadow: 0px 10px 40px #00000040;
-  background: #292931;
   color: #ffff;
 }
 
@@ -106,9 +105,20 @@
   transform: translateY(-0.25em);
 }
 
+.card img {
+  border-radius: 15px;
+}
+
 .card h2 {
-  margin: 13rem 0 0 1rem;
+  margin: 14rem 0 0 1rem;
   font-size: 1.5rem;
+  color: black;
+  font-weight: 400;
+}
+
+.textWrapper {
+  position: absolute;
+  top: 0;
 }
 
 @media (max-width: 600px) {
