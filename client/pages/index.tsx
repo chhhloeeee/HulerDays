@@ -1,7 +1,8 @@
 import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
-import Icon from "../icons";
+import Icon from "../components/icons";
+import Grid from "components/grid";
 
 const Home = () => {
   return (
@@ -34,6 +35,8 @@ const Home = () => {
             <p>Days to take: </p>
           </div>
         </main>
+
+        <Grid />
 
         <footer className={styles.footer}></footer>
       </div>
