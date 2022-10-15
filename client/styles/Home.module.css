@@ -9,6 +9,22 @@
   height: 50px;
 }
 
+.logout {
+  position: absolute;
+  right: 0;
+  margin-right: 10px;
+  top: 15px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.logout svg {
+  width: 30px;
+  height: 30px;
+  fill: #8e8e90;
+}
+
 .main {
   flex: 1;
   display: flex;

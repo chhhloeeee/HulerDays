@@ -3,6 +3,7 @@ import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
 import logout from "../icons/Logout";
+import Icon from "../icons";
 
 const Home: NextPage = () => {
   return (
@@ -23,7 +24,7 @@ const Home: NextPage = () => {
       </div>
 
       <button className={styles.logout} type="button">
-        <span>{logout}</span>
+        <Icon name="logout" />
       </button>
 
       <main className={styles.main}>
