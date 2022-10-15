@@ -16,7 +16,7 @@ const Grid = ({ className }: GridProps) => {
             width="271.11"
             height="271.11"
           />
-          <div className="textWrapper">
+          <div>
             <h2>Request Leave &rarr;</h2>
           </div>
         </div>
@@ -28,7 +28,7 @@ const Grid = ({ className }: GridProps) => {
             width="271.11"
             height="271.11"
           />
-          <div className="textWrapper">
+          <div>
             <h2>Manage Requests &rarr;</h2>
           </div>
         </div>
@@ -40,7 +40,7 @@ const Grid = ({ className }: GridProps) => {
             width="271.11"
             height="271.11"
           />
-          <div className="textWrapper">
+          <div>
             <h2>Calendar View &rarr;</h2>
           </div>
         </div>
@@ -52,7 +52,7 @@ const Grid = ({ className }: GridProps) => {
             width="271.11"
             height="271.11"
           />
-          <div className="textWrapper">
+          <div>
             <h2>Policies &rarr;</h2>
           </div>
         </div>
@@ -76,9 +76,7 @@ const StyledGrid = styled(Grid)`
   .card {
     text-align: left;
     position: relative;
-    text-decoration: none;
     border-radius: 15px;
-    transition: color 0.15s ease, border-color 0.15s ease;
     width: 271.11px;
     height: 271.11px;
     box-shadow: 0px 10px 40px #00000040;
@@ -92,20 +90,17 @@ const StyledGrid = styled(Grid)`
       color: black;
       font-weight: 400;
     }
+    > div {
+      position: absolute;
+      top: 0;
+    }
   }
 
   .card:hover,
   .card:focus,
   .card:active {
-    color: #fb6666;
-    border-color: #292931;
     box-shadow: 0px 10px 40px #00000090;
     transform: translateY(-0.25em);
-  }
-
-  .textWrapper {
-    position: absolute;
-    top: 0;
   }
 
   @media (max-width: 600px) {
