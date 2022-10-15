@@ -2,12 +2,15 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
-import logout from "../icons/Logout";
 import Icon from "../icons";
 
-const Home: NextPage = () => {
+interface HomeProps{
+  className: string;
+}
+
+const Home = ({className}<HomeProps>) => {
   return (
-    <div className={styles.container}>
+    <div className={className}>
       <Head>
         <title>HulerDays</title>
         <meta name="description" content="Welcome to Hulerdays" />
