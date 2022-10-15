@@ -4,13 +4,9 @@ import Image from "next/image";
 import styles from "../styles/Home.module.css";
 import Icon from "../icons";
 
-interface HomeProps{
-  className: string;
-}
-
-const Home = ({className}<HomeProps>) => {
+const Home = () => {
   return (
-    <div className={className}>
+    <div className={styles.container}>
       <Head>
         <title>HulerDays</title>
         <meta name="description" content="Welcome to Hulerdays" />
