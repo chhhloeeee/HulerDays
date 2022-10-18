@@ -44,6 +44,14 @@
   text-align: center;
 }
 
+.bodydiv {
+  display: flex;
+  width: 100%;
+  @include breakpoint(medium) {
+    flex-wrap: wrap;
+    flex-direction: column-reverse;
+  }
+}
 .head {
   font-size: 1.5rem;
   background: #fff;

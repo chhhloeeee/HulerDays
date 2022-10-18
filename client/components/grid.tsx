@@ -1,15 +1,47 @@
 import Image from "next/image";
 import styled from "styled-components";
+import { motion, AnimatePresence } from "framer-motion";
+import RequestForm from "./requestForm";
+import { useState } from "react";
 
 interface GridProps {
   className: string;
 }
 
 const Grid = ({ className }: GridProps) => {
+  const containerVariants = {
+    start: {
+      transition: {
+        staggerChildren: 0.03,
+      },
+    },
+    end: {
+      transition: {
+        staggerChildren: 0.03,
+      },
+    },
+  };
+
+  const handleClose = () => {
+    //do nothing
+    return;
+  };
+
+  const makeRequest = () => {
+    console.log("request clicked");
+    return (
+      <motion.div variants={containerVariants}>
+        <AnimatePresence>
+          <RequestForm close={handleClose} />
+        </AnimatePresence>
+      </motion.div>
+    );
+  };
+
   return (
     <div className={className}>
       <div className="grid">
-        <a className="card" href="/request">
+        <button className="card" onClick={makeRequest}>
           <Image
             src="https://cdn.huler.io/v2/wp-content/uploads/2022/06/14085410/Lifestyle9.jpg"
             alt="calendar"
@@ -19,7 +51,7 @@ const Grid = ({ className }: GridProps) => {
           <div>
             <h2>Request Leave &rarr;</h2>
           </div>
-        </a>
+        </button>
 
         <a className="card" href="/manage">
           <Image
