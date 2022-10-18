@@ -64,7 +64,9 @@ const Modal = ({
               className="icon-button"
               aria-label="Go Back"
               onClick={close}
-            ></button>
+            >
+              close
+            </button>
             {title && title}
           </h1>
           {children}
@@ -95,7 +97,7 @@ const StyledModal = styled(Modal)<StyledModalProps>`
   width: 100%;
   height: 100%;
   backdrop-filter: blur(30px);
-  padding: 100px 150px 40px;
+  padding: 100px 100px 40px;
   z-index: 90;
   display: flex;
   overflow: auto;

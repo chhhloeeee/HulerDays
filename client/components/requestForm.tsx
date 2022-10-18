@@ -10,25 +10,24 @@ interface FormProps {
 }
 
 interface Values {
-  firstName: string;
+  name: string;
   lastName: string;
   email: string;
 }
 
 const RequestSchema = Yup.object().shape({
-  firstName: Yup.string().required("Required"),
+  name: Yup.string().required("Required"),
   lastName: Yup.string().required("Required"),
 });
 
 const RequestForm = ({ close }: FormProps) => {
-  console.log("here");
   return (
     <Modal close={close}>
       <div>
         <h2>New Holiday Request</h2>
         <Formik
           initialValues={{
-            firstName: "",
+            name: "",
             lastName: "",
             email: "",
           }}
@@ -41,6 +40,7 @@ const RequestForm = ({ close }: FormProps) => {
             setTimeout(() => {
               alert(JSON.stringify(values, null, 2));
               setSubmitting(false);
+              close();
             }, 500);
           }}
         >
@@ -60,17 +60,18 @@ const RequestForm = ({ close }: FormProps) => {
                 name="name"
                 size="sm"
                 placeholder="Name*"
-                value={values.firstName}
+                value={values.name}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                hasError={!!(errors.firstName && touched.firstName)}
-                error={values.firstName}
+                hasError={!!(errors.name && touched.name)}
+                error={values.name}
               />
+
               <Input
                 hideLabel
-                label="lastname"
+                label="lastName"
                 type="text"
-                name="lastname"
+                name="lastName"
                 size="sm"
                 placeholder="Last Name*"
                 value={values.lastName}
@@ -79,12 +80,21 @@ const RequestForm = ({ close }: FormProps) => {
                 hasError={!!(errors.lastName && touched.lastName)}
                 error={values.lastName}
               />
+              <Input
+                hideLabel
+                label="email"
+                type="text"
+                name="email"
+                size="sm"
+                placeholder="email*"
+                value={values.email}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                hasError={!!(errors.email && touched.email)}
+                error={values.email}
+              />
 
-              <Button
-                primaryOutline
-                type="submit"
-                onClick={() => handleSubmit()}
-              >
+              <Button primaryOutline type="submit">
                 Submit
               </Button>
             </Form>
