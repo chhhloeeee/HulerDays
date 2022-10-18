@@ -1,6 +1,5 @@
 import Modal from "./modal";
 import styled from "styled-components";
-import StyledButton from "./Button";
 
 interface FormProps {
   close: () => void;
@@ -10,7 +9,7 @@ const RequestForm = ({ close }: FormProps) => {
   return (
     <Modal close={close}>
       <div>
-        <h2>Hello</h2>
+        <h2>New Holiday Request</h2>
       </div>
     </Modal>
   );

@@ -10,17 +10,9 @@ interface GridProps {
 
 const Grid = ({ className }: GridProps) => {
   const [isCreate, setIsCreate] = useState(false);
-  const containerVariants = {
-    start: {
-      transition: {
-        staggerChildren: 0.03,
-      },
-    },
-    end: {
-      transition: {
-        staggerChildren: 0.03,
-      },
-    },
+
+  const handleClose = () => {
+    setIsCreate(false);
   };
 
   return (
@@ -38,7 +30,7 @@ const Grid = ({ className }: GridProps) => {
           </div>
         </motion.div>
         <AnimatePresence>
-          {isCreate && <RequestForm close={close} />}
+          {isCreate && <RequestForm close={handleClose} />}
         </AnimatePresence>
 
         <a className="card" href="/manage">
