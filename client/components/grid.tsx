@@ -9,6 +9,7 @@ interface GridProps {
 }
 
 const Grid = ({ className }: GridProps) => {
+  const [isCreate, setIsCreate] = useState(false);
   const containerVariants = {
     start: {
       transition: {
@@ -22,26 +23,10 @@ const Grid = ({ className }: GridProps) => {
     },
   };
 
-  const handleClose = () => {
-    //do nothing
-    return;
-  };
-
-  const makeRequest = () => {
-    console.log("request clicked");
-    return (
-      <motion.div variants={containerVariants}>
-        <AnimatePresence>
-          <RequestForm close={handleClose} />
-        </AnimatePresence>
-      </motion.div>
-    );
-  };
-
   return (
     <div className={className}>
       <div className="grid">
-        <div className="card" onClick={makeRequest}>
+        <motion.div className="card" onClick={() => setIsCreate(true)}>
           <Image
             src="https://cdn.huler.io/v2/wp-content/uploads/2022/06/14085410/Lifestyle9.jpg"
             alt="calendar"
@@ -51,7 +36,10 @@ const Grid = ({ className }: GridProps) => {
           <div>
             <h2>Request Leave &rarr;</h2>
           </div>
-        </div>
+        </motion.div>
+        <AnimatePresence>
+          {isCreate && <RequestForm close={close} />}
+        </AnimatePresence>
 
         <a className="card" href="/manage">
           <Image

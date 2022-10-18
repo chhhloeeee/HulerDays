@@ -94,10 +94,9 @@ const StyledModal = styled(Modal)<StyledModalProps>`
   left: 0;
   width: 100%;
   height: 100%;
-  backdrop-filter: blur(8px);
+  backdrop-filter: blur(30px);
   padding: 100px 150px 40px;
   z-index: 90;
-  background: lightgray;
   display: flex;
   overflow: auto;
   overflow-x: hidden;
@@ -109,7 +108,7 @@ const StyledModal = styled(Modal)<StyledModalProps>`
   scrollbar-width: 9px;
 
   > div {
-    background: grey;
+    background: #fff;
     max-width: 750px;
     width: 100%;
     margin: auto;
@@ -159,7 +158,7 @@ const StyledModal = styled(Modal)<StyledModalProps>`
         width: 16px;
         height: 16px;
         * {
-          fill: gray;
+          fill: black;
         }
       }
       ${(props) => props.noCloseIcon && `display: none;`}

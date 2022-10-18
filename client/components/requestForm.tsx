@@ -1,5 +1,6 @@
 import Modal from "./modal";
-import styles from "../styles/Home.module.css";
+import styled from "styled-components";
+import StyledButton from "./Button";
 
 interface FormProps {
   close: () => void;
@@ -15,4 +16,5 @@ const RequestForm = ({ close }: FormProps) => {
   );
 };
 
-export default RequestForm;
+const StyledRequestForm = styled(RequestForm)``;
+export default StyledRequestForm;
