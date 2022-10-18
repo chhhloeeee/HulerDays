@@ -44,14 +44,7 @@ const RequestForm = ({ close }: FormProps) => {
             }, 500);
           }}
         >
-          {({
-            values,
-            errors,
-            touched,
-            handleBlur,
-            handleSubmit,
-            handleChange,
-          }) => (
+          {({ values, errors, touched, handleBlur, handleChange }) => (
             <Form>
               <Input
                 hideLabel
