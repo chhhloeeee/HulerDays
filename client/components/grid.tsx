@@ -9,7 +9,7 @@ const Grid = ({ className }: GridProps) => {
   return (
     <div className={className}>
       <div className="grid">
-        <div className="card">
+        <a className="card" href="/request">
           <Image
             src="https://cdn.huler.io/v2/wp-content/uploads/2022/06/14085410/Lifestyle9.jpg"
             alt="calendar"
@@ -19,9 +19,9 @@ const Grid = ({ className }: GridProps) => {
           <div>
             <h2>Request Leave &rarr;</h2>
           </div>
-        </div>
+        </a>
 
-        <div className="card">
+        <a className="card" href="/manage">
           <Image
             src="https://cdn.huler.io/v2/wp-content/uploads/2022/06/14090345/Office12.jpg"
             alt="calendar"
@@ -31,9 +31,9 @@ const Grid = ({ className }: GridProps) => {
           <div>
             <h2>Manage Requests &rarr;</h2>
           </div>
-        </div>
+        </a>
 
-        <div className="card">
+        <a className="card" href="/calendar">
           <Image
             src="https://cdn.huler.io/v2/wp-content/uploads/2022/06/14090344/Office11.jpg"
             alt="calendar"
@@ -43,9 +43,9 @@ const Grid = ({ className }: GridProps) => {
           <div>
             <h2>Calendar View &rarr;</h2>
           </div>
-        </div>
+        </a>
 
-        <div className="card">
+        <a className="card" href="/policies">
           <Image
             src="https://cdn.huler.io/v2/wp-content/uploads/2022/06/14090343/Office10.jpg"
             alt="calendar"
@@ -55,7 +55,7 @@ const Grid = ({ className }: GridProps) => {
           <div>
             <h2>Policies &rarr;</h2>
           </div>
-        </div>
+        </a>
       </div>
     </div>
   );
