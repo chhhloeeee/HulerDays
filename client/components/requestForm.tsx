@@ -8,7 +8,7 @@ const RequestForm = ({ close }: FormProps) => {
   console.log("here");
   return (
     <Modal close={close}>
-      <div className={styles.bodydiv}>
+      <div>
         <h2>Hello</h2>
       </div>
     </Modal>

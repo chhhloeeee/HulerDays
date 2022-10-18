@@ -5,7 +5,7 @@ import RequestForm from "./requestForm";
 import { useState } from "react";
 
 interface GridProps {
-  className: string;
+  className?: string;
 }
 
 const Grid = ({ className }: GridProps) => {
@@ -41,7 +41,7 @@ const Grid = ({ className }: GridProps) => {
   return (
     <div className={className}>
       <div className="grid">
-        <button className="card" onClick={makeRequest}>
+        <div className="card" onClick={makeRequest}>
           <Image
             src="https://cdn.huler.io/v2/wp-content/uploads/2022/06/14085410/Lifestyle9.jpg"
             alt="calendar"
@@ -51,7 +51,7 @@ const Grid = ({ className }: GridProps) => {
           <div>
             <h2>Request Leave &rarr;</h2>
           </div>
-        </button>
+        </div>
 
         <a className="card" href="/manage">
           <Image
@@ -93,6 +93,10 @@ const Grid = ({ className }: GridProps) => {
   );
 };
 
+Grid.defaultProps = {
+  className: "",
+};
+
 const StyledGrid = styled(Grid)`
   .grid {
     display: flex;
@@ -113,6 +117,7 @@ const StyledGrid = styled(Grid)`
     height: 271.11px;
     box-shadow: 0px 10px 40px #00000040;
     color: #ffff;
+    cursor: pointer;
     img {
       border-radius: 15px;
     }
