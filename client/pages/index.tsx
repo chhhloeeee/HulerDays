@@ -3,6 +3,7 @@ import Image from "next/image";
 import styles from "../styles/Home.module.css";
 import Icon from "../components/icons";
 import Grid from "components/grid";
+import Footer from "components/footer";
 
 const Home = () => {
   return (
@@ -21,24 +22,19 @@ const Home = () => {
             height="50"
           ></Image>
         </div>
-
         <button className={styles.logout} type="button">
           <Icon name="logout" />
         </button>
-
         <main className={styles.main}>
           <h1 className={styles.title}>
             Welcome to <strong>HulerDays</strong>
           </h1>
-
           <div className={styles.head}>
             <p>Days to take: </p>
           </div>
         </main>
-
         <Grid />
-
-        <footer className={styles.footer}></footer>
+        <Footer />
       </div>
     </>
   );
