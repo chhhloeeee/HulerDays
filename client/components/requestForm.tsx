@@ -23,85 +23,83 @@ const RequestSchema = Yup.object().shape({
 
 const RequestForm = ({ close, className }: FormProps) => {
   return (
-    <div className={className}>
-      <Modal title="New Leave Requestx" close={close}>
-        <Formik
-          initialValues={{
-            name: "",
-            lastName: "",
-            email: "",
-          }}
-          validateOnMount
-          validationSchema={RequestSchema}
-          onSubmit={(values: Values, { setSubmitting }) => {
-            alert(JSON.stringify(values, null, 2));
-            close();
-            setSubmitting(false);
-          }}
-        >
-          {({
-            values,
-            errors,
-            touched,
-            handleBlur,
-            handleSubmit,
-            handleChange,
-            isValid,
-          }) => (
-            <>
-              <form
-                className="form"
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  handleSubmit();
-                }}
-              >
-                <div className="form__group form__group--fw">
-                  <div className="form__input-container">
-                    <Input
-                      hideLabel
-                      label="name"
-                      type="text"
-                      name="name"
-                      size="sm"
-                      placeholder="Name*"
-                      value={values.name}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      hasError={!!(errors.name && touched.name)}
-                      error={values.name}
-                    />
-                  </div>
+    <Modal title="New Leave Requestx" close={close}>
+      <Formik
+        initialValues={{
+          name: "",
+          lastName: "",
+          email: "",
+        }}
+        validateOnMount
+        validationSchema={RequestSchema}
+        onSubmit={(values: Values, { setSubmitting }) => {
+          alert(JSON.stringify(values, null, 2));
+          close();
+          setSubmitting(false);
+        }}
+      >
+        {({
+          values,
+          errors,
+          touched,
+          handleBlur,
+          handleSubmit,
+          handleChange,
+          isValid,
+        }) => (
+          <div className={className}>
+            <form
+              className="form"
+              onSubmit={(e) => {
+                e.preventDefault();
+                handleSubmit();
+              }}
+            >
+              <div className="form__group form__group--fw">
+                <div className="form__input-container">
+                  <Input
+                    hideLabel
+                    label="name"
+                    type="text"
+                    name="name"
+                    size="sm"
+                    placeholder="Name*"
+                    value={values.name}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    hasError={!!(errors.name && touched.name)}
+                    error={values.name}
+                  />
                 </div>
+              </div>
 
-                <div className="form__group form__group--fw">
-                  <div className="form__input-container">
-                    <Input
-                      hideLabel
-                      label="email"
-                      type="text"
-                      name="email"
-                      size="sm"
-                      placeholder="email*"
-                      value={values.email}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      hasError={!!(errors.email && touched.email)}
-                      error={values.email}
-                    />
-                  </div>
+              <div className="form__group form__group--fw">
+                <div className="form__input-container">
+                  <Input
+                    hideLabel
+                    label="email"
+                    type="text"
+                    name="email"
+                    size="sm"
+                    placeholder="email*"
+                    value={values.email}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    hasError={!!(errors.email && touched.email)}
+                    error={values.email}
+                  />
                 </div>
-                <Actions
-                  invalid={!isValid}
-                  onCancel={() => close()}
-                  onCreate={handleSubmit}
-                />
-              </form>
-            </>
-          )}
-        </Formik>
-      </Modal>
-    </div>
+              </div>
+              <Actions
+                invalid={!isValid}
+                onCancel={() => close()}
+                onCreate={handleSubmit}
+              />
+            </form>
+          </div>
+        )}
+      </Formik>
+    </Modal>
   );
 };
 
