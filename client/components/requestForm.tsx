@@ -1,7 +1,6 @@
 import Modal from "./modal";
 import styled from "styled-components";
-import { Form, Formik, FormikHelpers } from "formik";
-import Button from "./Button";
+import { Formik } from "formik";
 import Input from "./Input";
 import * as Yup from "yup";
 import Actions from "./Actions";
@@ -50,57 +49,54 @@ const RequestForm = ({ close, className }: FormProps) => {
             isValid,
           }) => (
             <>
-              <div className="body">
-                <form
-                  className="form"
-                  onSubmit={(e) => {
-                    e.preventDefault();
-                    handleSubmit();
-                  }}
-                >
-                  <div className="form__group form__group--fw">
-                    <div className="form__input-container">
-                      <Input
-                        hideLabel
-                        label="name"
-                        type="text"
-                        name="name"
-                        size="sm"
-                        placeholder="Name*"
-                        value={values.name}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        hasError={!!(errors.name && touched.name)}
-                        error={values.name}
-                      />
-                    </div>
+              <form
+                className="form"
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  handleSubmit();
+                }}
+              >
+                <div className="form__group form__group--fw">
+                  <div className="form__input-container">
+                    <Input
+                      hideLabel
+                      label="name"
+                      type="text"
+                      name="name"
+                      size="sm"
+                      placeholder="Name*"
+                      value={values.name}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      hasError={!!(errors.name && touched.name)}
+                      error={values.name}
+                    />
                   </div>
+                </div>
 
-                  <div className="form__group form__group--fw">
-                    <div className="form__input-container">
-                      <Input
-                        hideLabel
-                        label="email"
-                        type="text"
-                        name="email"
-                        size="sm"
-                        placeholder="email*"
-                        value={values.email}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        hasError={!!(errors.email && touched.email)}
-                        error={values.email}
-                      />
-                    </div>
+                <div className="form__group form__group--fw">
+                  <div className="form__input-container">
+                    <Input
+                      hideLabel
+                      label="email"
+                      type="text"
+                      name="email"
+                      size="sm"
+                      placeholder="email*"
+                      value={values.email}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      hasError={!!(errors.email && touched.email)}
+                      error={values.email}
+                    />
                   </div>
-                </form>
-              </div>
-
-              <Actions
-                invalid={!isValid}
-                onCancel={() => close()}
-                onCreate={handleSubmit}
-              />
+                </div>
+                <Actions
+                  invalid={!isValid}
+                  onCancel={() => close()}
+                  onCreate={handleSubmit}
+                />
+              </form>
             </>
           )}
         </Formik>
@@ -113,21 +109,6 @@ RequestForm.defaultProps = {
   className: "",
 };
 const StyledRequestForm = styled(RequestForm)`
-  .body {
-    display: flex;
-    width: 100%;
-    @include breakpoint(medium) {
-      flex-wrap: wrap;
-      flex-direction: column-reverse;
-    }
-  }
-  .form {
-    flex-grow: 1;
-    margin-left: 15px;
-    @include breakpoint(medium) {
-      margin: 0 0 20px 0;
-    }
-  }
   .form__input-container {
     &:nth-child(1) {
       margin: 0 4% 30px 0;
@@ -143,9 +124,6 @@ const StyledRequestForm = styled(RequestForm)`
     @media screen and (max-width: 600) {
       display: flex;
     }
-  }
-  ${Button} {
-    float: left;
   }
 `;
 export default StyledRequestForm;
