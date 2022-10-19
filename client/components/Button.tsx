@@ -4,6 +4,7 @@ import styled from "styled-components";
 
 export interface ButtonProps {
   className?: string;
+  text?: string;
   href?: string;
   onClick?: React.MouseEventHandler;
   primary?: boolean;
@@ -22,6 +23,7 @@ export interface ButtonProps {
 
 const Button = ({
   href,
+  text,
   children,
   className,
   type = "button",
@@ -32,8 +34,14 @@ const Button = ({
   if (href) {
     return (
       <a href={href}>
-        <button className={className} type="button" onClick={onClick} id={id}>
-          {children}
+        <button
+          className={className}
+          type="button"
+          onClick={onClick}
+          id={id}
+          disabled={disabled}
+        >
+          {children || text}
         </button>
       </a>
     );
@@ -82,6 +90,11 @@ const StyledButton = styled(Button)`
     transform: none;
     transition: transform 0s;
   }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.25;
+  }
   ${(props) =>
     props.primary &&
     `
@@ -125,7 +138,7 @@ const StyledButton = styled(Button)`
   ${(props) =>
     props.darkSolid &&
     `
-      background: '#23262d';
+      background: #23262d;
       color: white;
       &:hover {
           text-shadow: 0 0 4px rgba(255,255,255, .6);
@@ -135,10 +148,10 @@ const StyledButton = styled(Button)`
   ${(props) =>
     props.darkOutline &&
     `
-      box-shadow: inset 0 0 0 2px  '#23262d';
-      color: '#23262d';
+      box-shadow: inset 0 0 0 2px  #23262d;
+      color: #23262d;
       &:hover {
-          background:  '#23262d';
+          background:  #23262d;
           color: white;
           text-shadow: 0 0 4px rgba(255,255,255, .6);
       }
