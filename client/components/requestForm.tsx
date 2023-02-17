@@ -13,8 +13,8 @@ interface FormProps {
 
 interface Values {
   requestType: string;
-  lastName: string;
-  email: string;
+  startDate: string;
+  endDate: string;
 }
 
 const RequestSchema = Yup.object().shape({
@@ -28,8 +28,8 @@ const RequestForm = ({ close, className }: FormProps) => {
       <Formik
         initialValues={{
           requestType: "annualLeave",
-          lastName: "",
-          email: "",
+          startDate: "",
+          endDate: "",
         }}
         validateOnMount
         validationSchema={RequestSchema}
@@ -39,15 +39,7 @@ const RequestForm = ({ close, className }: FormProps) => {
           setSubmitting(false);
         }}
       >
-        {({
-          values,
-          errors,
-          touched,
-          handleBlur,
-          handleSubmit,
-          handleChange,
-          isValid,
-        }) => (
+        {({ handleSubmit, isValid }) => (
           <div className={className}>
             <form
               className="form"
@@ -68,24 +60,14 @@ const RequestForm = ({ close, className }: FormProps) => {
 
               <div className="form__group form__group--fw">
                 <div className="form__input-container">
+                  <label>Start Date</label>
                   <Field name="startDate" as={StyledFormDatePicker} />
                 </div>
               </div>
               <div className="form__group form__group--fw">
                 <div className="form__input-container">
-                  <Input
-                    hideLabel
-                    label="email"
-                    type="text"
-                    name="endtDate"
-                    size="sm"
-                    placeholder="End Date*"
-                    value={values.email}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    hasError={!!(errors.email && touched.email)}
-                    error={values.email}
-                  />
+                  <label>End Date</label>
+                  <Field name="endDate" as={StyledFormDatePicker} />
                 </div>
               </div>
               <Actions

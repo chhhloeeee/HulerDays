@@ -60,7 +60,6 @@ const StyledActions = styled(Actions)`
   button {
     position: absolute;
     margin-top: 40%;
-    height: 40px;
     bottom: 0;
     right: 0;
     :first-child {

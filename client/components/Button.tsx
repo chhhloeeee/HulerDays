@@ -64,6 +64,7 @@ const Button = ({
 const StyledButton = styled(Button)`
   white-space: nowrap;
   font-size: 18px;
+  height: 48px;
   font-family: inherit;
   font-weight: 600;
   display: inline-flex;
