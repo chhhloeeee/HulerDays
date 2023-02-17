@@ -23,7 +23,7 @@ const RequestSchema = Yup.object().shape({
 
 const RequestForm = ({ close, className }: FormProps) => {
   return (
-    <Modal title="New Leave Requestx" close={close}>
+    <Modal title="New Leave Request" close={close}>
       <Formik
         initialValues={{
           name: "",
@@ -81,7 +81,7 @@ const RequestForm = ({ close, className }: FormProps) => {
                     type="text"
                     name="email"
                     size="sm"
-                    placeholder="email*"
+                    placeholder="Email*"
                     value={values.email}
                     onChange={handleChange}
                     onBlur={handleBlur}
@@ -118,6 +118,7 @@ const StyledRequestForm = styled(RequestForm)`
   }
   input {
     display: block;
+    font-family: sofia-pro, sans-serif;
 
     @media screen and (max-width: 600) {
       display: flex;

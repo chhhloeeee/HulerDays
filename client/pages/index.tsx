@@ -34,7 +34,7 @@ const Home = ({ className }: HomeProps) => {
             Welcome to <strong>HulerDays</strong>
           </h1>
           <div className="head">
-            <p>Days to take: </p>
+            <p>Days Remaining: </p>
           </div>
         </main>
         <Grid />
