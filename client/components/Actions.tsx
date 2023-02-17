@@ -59,8 +59,9 @@ const StyledActions = styled(Actions)`
 
   button {
     position: absolute;
-    margin-top: 30%;
-    bottom: 0.5rem;
+    margin-top: 40%;
+    height: 40px;
+    bottom: 0;
     right: 0;
     :first-child {
       margin-right: 20%;

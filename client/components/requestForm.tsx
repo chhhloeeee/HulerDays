@@ -1,9 +1,10 @@
 import Modal from "./modal";
 import styled from "styled-components";
-import { Formik } from "formik";
+import { Field, Formik } from "formik";
 import Input from "./Input";
 import * as Yup from "yup";
 import Actions from "./Actions";
+import StyledFormDatePicker from "./DatePicker";
 
 interface FormProps {
   close: () => void;
@@ -11,7 +12,7 @@ interface FormProps {
 }
 
 interface Values {
-  name: string;
+  requestType: string;
   lastName: string;
   email: string;
 }
@@ -26,7 +27,7 @@ const RequestForm = ({ close, className }: FormProps) => {
     <Modal title="New Leave Request" close={close}>
       <Formik
         initialValues={{
-          name: "",
+          requestType: "annualLeave",
           lastName: "",
           email: "",
         }}
@@ -57,31 +58,28 @@ const RequestForm = ({ close, className }: FormProps) => {
             >
               <div className="form__group form__group--fw">
                 <div className="form__input-container">
-                  <Input
-                    hideLabel
-                    label="name"
-                    type="text"
-                    name="name"
-                    size="sm"
-                    placeholder="Name*"
-                    value={values.name}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    hasError={!!(errors.name && touched.name)}
-                    error={values.name}
-                  />
+                  <label>Request Type</label>
+                  <Field as="select" name="requestType">
+                    <option value="annualLeave">Annual Leave</option>
+                    <option value="sickness">Sickness</option>
+                  </Field>
                 </div>
               </div>
 
+              <div className="form__group form__group--fw">
+                <div className="form__input-container">
+                  <Field name="startDate" as={StyledFormDatePicker} />
+                </div>
+              </div>
               <div className="form__group form__group--fw">
                 <div className="form__input-container">
                   <Input
                     hideLabel
                     label="email"
                     type="text"
-                    name="email"
+                    name="endtDate"
                     size="sm"
-                    placeholder="Email*"
+                    placeholder="End Date*"
                     value={values.email}
                     onChange={handleChange}
                     onBlur={handleBlur}
