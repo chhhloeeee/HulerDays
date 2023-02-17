@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { motion, AnimatePresence } from "framer-motion";
 import RequestForm from "./requestForm";
 import { useState } from "react";
+import Link from "next/link";
 
 interface GridProps {
   className?: string;
@@ -21,9 +22,9 @@ const Grid = ({ className }: GridProps) => {
         <motion.div className="card" onClick={() => setIsCreate(true)}>
           <Image
             src="https://cdn.huler.io/v2/wp-content/uploads/2022/06/14085410/Lifestyle9.jpg"
-            alt="calendar"
-            width="271.11"
-            height="271.11"
+            alt="beach"
+            width={271.11}
+            height={271.11}
           />
           <div>
             <h2>Request Leave &rarr;</h2>
@@ -33,41 +34,41 @@ const Grid = ({ className }: GridProps) => {
           {isCreate && <RequestForm close={handleClose} />}
         </AnimatePresence>
 
-        <a className="card" href="/manage">
+        <Link className="card" href="/manage">
           <Image
             src="https://cdn.huler.io/v2/wp-content/uploads/2022/06/14090345/Office12.jpg"
-            alt="calendar"
-            width="271.11"
-            height="271.11"
+            alt="paperworkr"
+            width={271.11}
+            height={271.11}
           />
           <div>
             <h2>Manage Requests &rarr;</h2>
           </div>
-        </a>
+        </Link>
 
-        <a className="card" href="/calendar">
+        <Link className="card" href="/calendar">
           <Image
             src="https://cdn.huler.io/v2/wp-content/uploads/2022/06/14090344/Office11.jpg"
             alt="calendar"
-            width="271.11"
-            height="271.11"
+            width={271.11}
+            height={271.11}
           />
           <div>
             <h2>Calendar View &rarr;</h2>
           </div>
-        </a>
+        </Link>
 
-        <a className="card" href="/policies">
+        <Link className="card" href="/policies">
           <Image
             src="https://cdn.huler.io/v2/wp-content/uploads/2022/06/14090343/Office10.jpg"
-            alt="calendar"
-            width="271.11"
-            height="271.11"
+            alt="policies"
+            width={271.11}
+            height={271.11}
           />
           <div>
             <h2>Policies &rarr;</h2>
           </div>
-        </a>
+        </Link>
       </div>
     </div>
   );
