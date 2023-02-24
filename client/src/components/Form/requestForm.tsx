@@ -1,10 +1,9 @@
-import Modal from "./modal";
+import Modal from "../modal";
 import styled from "styled-components";
 import { Field, Formik } from "formik";
-import Input from "./Input";
 import * as Yup from "yup";
-import Actions from "./Actions";
-import StyledFormDatePicker from "./DatePicker";
+import Actions from "../Actions";
+import StyledFormDatePicker from "../DatePicker";
 import AdminFormSelectUnderline from "./AdminFormSelectUnderline";
 
 interface FormProps {

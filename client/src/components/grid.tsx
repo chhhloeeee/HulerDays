@@ -1,7 +1,7 @@
 import Image from "next/image";
 import styled from "styled-components";
 import { motion, AnimatePresence } from "framer-motion";
-import RequestForm from "./requestForm";
+import RequestForm from "./Form/requestForm";
 import { useState } from "react";
 import Link from "next/link";
 
