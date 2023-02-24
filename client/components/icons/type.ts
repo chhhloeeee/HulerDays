@@ -10,3 +10,8 @@ export default interface IconType {
   name?: string;
   alt?: string;
 }
+
+export interface SelectOption {
+  label: string;
+  value: string;
+}

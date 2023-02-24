@@ -60,7 +60,6 @@ const StyledHome = styled(Home)`
     position: absolute;
     right: 0;
     margin-right: 10px;
-    top: 15px;
     background: transparent;
     border: none;
     cursor: pointer;

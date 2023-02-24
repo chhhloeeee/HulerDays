@@ -5,6 +5,7 @@ import Input from "./Input";
 import * as Yup from "yup";
 import Actions from "./Actions";
 import StyledFormDatePicker from "./DatePicker";
+import AdminFormSelectUnderline from "./AdminFormSelectUnderline";
 
 interface FormProps {
   close: () => void;
@@ -39,7 +40,7 @@ const RequestForm = ({ close, className }: FormProps) => {
           setSubmitting(false);
         }}
       >
-        {({ handleSubmit, isValid }) => (
+        {({ handleSubmit, isValid, values, setFieldValue }) => (
           <div className={className}>
             <form
               className="form"
@@ -50,24 +51,38 @@ const RequestForm = ({ close, className }: FormProps) => {
             >
               <div className="form__group form__group--fw">
                 <div className="form__input-container">
-                  <label>Request Type</label>
-                  <Field as="select" name="requestType">
-                    <option value="annualLeave">Annual Leave</option>
-                    <option value="sickness">Sickness</option>
-                  </Field>
+                  <AdminFormSelectUnderline
+                    options={[
+                      { value: "", label: "None selected" },
+                      { value: "annualLeave", label: "Annual Leave" },
+                      { value: "sickness", label: "Sickness" },
+                    ]}
+                    placeholder="Select option"
+                    label="Request Type"
+                    value={values.requestType}
+                    setValue={(val: string) =>
+                      setFieldValue("requestType", val)
+                    }
+                  />
                 </div>
               </div>
 
               <div className="form__group form__group--fw">
                 <div className="form__input-container">
-                  <label>Start Date</label>
-                  <Field name="startDate" as={StyledFormDatePicker} />
+                  <Field
+                    name="startDate"
+                    label="Start Date"
+                    as={StyledFormDatePicker}
+                  />
                 </div>
               </div>
               <div className="form__group form__group--fw">
                 <div className="form__input-container">
-                  <label>End Date</label>
-                  <Field name="endDate" as={StyledFormDatePicker} />
+                  <Field
+                    name="endDate"
+                    label="End Date"
+                    as={StyledFormDatePicker}
+                  />
                 </div>
               </div>
               <Actions

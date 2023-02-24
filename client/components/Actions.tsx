@@ -38,7 +38,6 @@ const StyledActions = styled(Actions)`
   width: 100%;
   display: flex;
   justify-content: flex-end;
-  margin-top: 38px;
   @media screen and (max-width: 750) {
     margin-bottom: 0;
   }
@@ -59,8 +58,7 @@ const StyledActions = styled(Actions)`
 
   button {
     position: absolute;
-    margin-top: 40%;
-    bottom: 0;
+    bottom: 10px;
     right: 0;
     :first-child {
       margin-right: 20%;
