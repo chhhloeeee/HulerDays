@@ -3,6 +3,7 @@
 import React, { useRef, useEffect, RefObject } from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
+import Icon from "./icons";
 
 export interface ModalProps {
   className?: string;
@@ -65,7 +66,7 @@ const Modal = ({
               aria-label="Go Back"
               onClick={close}
             >
-              close
+              <Icon name="close" />
             </button>
             {title && title}
           </h1>
