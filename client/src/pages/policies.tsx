@@ -1,3 +1,4 @@
+import { scrollStyling } from "src/styles/mixins";
 import styled from "styled-components";
 import AboutTwo from "../components/background/AboutTwo";
 import Button from "../components/Button";
@@ -26,6 +27,7 @@ const Policies = ({ className }: PolicyProps) => {
             Around September time, you’ll receive an update on how much holiday
             each of your team has left to book.
           </p>
+          <br />
           <strong>Staff employed during covid-19 (2020)</strong>
           <p>
             In line with government guidance, staff employed throughout 2020 who
@@ -89,26 +91,11 @@ const StyledPolicies = styled(Policies)`
     margin-bottom: 2rem;
     overflow-y: scroll;
     padding-right: 5px;
+    ${scrollStyling};
 
-    ::-webkit-scrollbar {
-      width: 7px;
-    }
-
-    ::-webkit-scrollbar-track {
-      background: #f1f1f1;
-      border-radius: 5px;
-    }
-
-    ::-webkit-scrollbar-thumb {
-      background: #888;
-      border-radius: 5px;
-    }
-
-    ::-webkit-scrollbar-thumb:hover {
-      background: #555;
-    }
     p {
       text-align: left;
+      line-height: 2em;
     }
   }
 `;

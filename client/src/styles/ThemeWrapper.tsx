@@ -14,7 +14,11 @@ export const ThemeContext = createContext({
 });
 
 const ThemeHandler = ({ children }: { children: React.ReactNode }) => {
-  const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
+  const [theme, setTheme] = useState(
+    typeof window !== "undefined"
+      ? window.localStorage.getItem("theme")
+      : "light"
+  );
   const dynamicTheme = { ...baseTheme, mode: theme };
   const switchTheme = (newTheme: "dark" | "light") => {
     setTheme(newTheme);
