@@ -1,17 +1,18 @@
+/* eslint-disable react/jsx-key */
+import Icon from "../icons";
 import { AnimatePresence } from "framer-motion";
 import { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
-import AdminFormSelectOptions from "./AdminFormSelectOptions";
-import Icon from "../icons";
-import AdminFormSelectUnderlineOptionButton from "./AdminFormSelectOptionButton";
 import { SelectOption } from "../icons/type";
+import AdminFormSelectUnderlineOptionButton from "./AdminFormSelectOptionButton";
+import AdminFormSelectOptions from "./AdminFormSelectOptions";
 import AdminFormSelectUnderlineButton from "./AdminFormSelectUnderlineButton";
 
 interface AdminFormSelectUnderlineProps {
   className?: string;
   options: SelectOption[];
   label: string;
-  placeholder: string;
+  placeholder?: string;
   value: string;
   setValue: (val: string) => void;
 }
@@ -56,7 +57,6 @@ const AdminFormSelectUnderline = ({
               </li>
             )}
             {options.map((option) => (
-              // eslint-disable-next-line react/jsx-key
               <li>
                 <AdminFormSelectUnderlineOptionButton
                   active={value === option.value}

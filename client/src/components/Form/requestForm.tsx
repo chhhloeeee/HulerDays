@@ -52,11 +52,9 @@ const RequestForm = ({ close, className }: FormProps) => {
               <AdminFormColumns>
                 <AdminFormSelectUnderline
                   options={[
-                    { value: "", label: "None selected" },
                     { value: "annualLeave", label: "Annual Leave" },
                     { value: "sickness", label: "Sickness" },
                   ]}
-                  placeholder="Select option"
                   label="Request Type"
                   value={values.requestType}
                   setValue={(val: string) => setFieldValue("requestType", val)}
