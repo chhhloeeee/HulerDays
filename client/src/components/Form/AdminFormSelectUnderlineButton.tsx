@@ -13,7 +13,7 @@ const AdminFormSelectUnderlineButton = styled.button<AdminFormSelectUnderlineBut
   color: var(--contrast);
   padding: 10px 0;
   width: 100%;
-  transition: 0.25s ease;
+  transition: ${(props) => props.theme.transitions.default};
   text-align: left;
   cursor: pointer;
   position: relative;

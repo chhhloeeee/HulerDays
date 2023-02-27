@@ -13,7 +13,7 @@ const AdminFormSelectRoundedOptionButton = styled.button<AdminFormSelectRoundedO
   font-size: 14px;
   letter-spacing: 0px;
   font-weight: 600;
-  transition: 0.25s ease;
+  transition: ${(props) => props.theme.transitions.default};
   width: 100%;
   border-radius: 10px;
   text-align: left;
@@ -25,7 +25,7 @@ const AdminFormSelectRoundedOptionButton = styled.button<AdminFormSelectRoundedO
     width: 12px;
     flex-shrink: 0;
     border-radius: 10px;
-    transition: 0.25s ease;
+    transition: ${(props) => props.theme.transitions.default};
     border: 2px solid #414049;
     margin-right: 10px;
     box-sizing: border-box;
