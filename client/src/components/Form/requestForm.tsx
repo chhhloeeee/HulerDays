@@ -14,12 +14,11 @@ interface FormProps {
 
 interface Values {
   requestType: string;
-  startDate: string;
-  endDate: string;
+  startDate: Date;
+  endDate: Date;
 }
 
 const RequestSchema = Yup.object().shape({
-  name: Yup.string().required("Required"),
   lastName: Yup.string().required("Required"),
 });
 
@@ -29,8 +28,8 @@ const RequestForm = ({ close, className }: FormProps) => {
       <Formik
         initialValues={{
           requestType: "annualLeave",
-          startDate: "",
-          endDate: "",
+          startDate: new Date(),
+          endDate: new Date(),
         }}
         validateOnMount
         validationSchema={RequestSchema}
@@ -60,24 +59,22 @@ const RequestForm = ({ close, className }: FormProps) => {
                   setValue={(val: string) => setFieldValue("requestType", val)}
                 />
 
-                <Field
-                  name="startDate"
+                <StyledFormDatePicker
                   label="Start Date"
-                  as={StyledFormDatePicker}
+                  placeholder="Select a start date"
+                  value={values.startDate}
+                  setValue={(val: Date) => setFieldValue("startDate", val)}
                 />
 
-                <Field
-                  name="endDate"
+                <StyledFormDatePicker
                   label="End Date"
-                  as={StyledFormDatePicker}
+                  placeholder="Select an end date"
+                  value={values.endDate}
+                  setValue={(val: Date) => setFieldValue("endDate", val)}
                 />
               </AdminFormColumns>
 
-              <Actions
-                invalid={!isValid}
-                onCancel={() => close()}
-                onCreate={handleSubmit}
-              />
+              <Actions onCancel={() => close()} onCreate={handleSubmit} />
             </form>
           </div>
         )}

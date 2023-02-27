@@ -156,6 +156,7 @@ const StyledModal = styled(Modal)<StyledModalProps>`
 
     button {
       margin-right: 42px;
+      cursor: pointer;
       svg {
         width: 16px;
         height: 16px;

@@ -54,6 +54,7 @@ const StyledFormDatePicker = styled(FormDatePicker)`
     padding: 10px 0;
     width: 100%;
     transition: 0.25s ease;
+    cursor: pointer;
 
     &:focus {
       outline: none;

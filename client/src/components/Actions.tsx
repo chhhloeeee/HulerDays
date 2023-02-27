@@ -38,6 +38,8 @@ const StyledActions = styled(Actions)`
   width: 100%;
   display: flex;
   justify-content: flex-end;
+  position: absolute;
+  right: 1rem;
   @media screen and (max-width: 750) {
     margin-bottom: 0;
   }
@@ -56,12 +58,9 @@ const StyledActions = styled(Actions)`
     }
   `}
 
-  button {
-    position: absolute;
-    bottom: 10px;
-    right: 0;
+  ${Button} {
     :first-child {
-      margin-right: 20%;
+      margin-right: 1rem;
     }
   }
 `;

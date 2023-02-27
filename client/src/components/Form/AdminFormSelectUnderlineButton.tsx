@@ -5,7 +5,6 @@ interface AdminFormSelectUnderlineButtonProps {
 }
 
 const AdminFormSelectUnderlineButton = styled.button<AdminFormSelectUnderlineButtonProps>`
-  border: none;
   background: none;
   border-bottom: 1px solid #414049;
   font-size: 16px;
