@@ -28,9 +28,7 @@ const HeadContainer = ({ className }: HeadProps) => {
           <Icon name="logout" />
         </button>
         <main>
-          <h1>
-            Welcome to <strong>HulerDays</strong>
-          </h1>
+          <h1>Welcome to HulerDays</h1>
           <div className="head">
             <p>Days Remaining: </p>
           </div>
