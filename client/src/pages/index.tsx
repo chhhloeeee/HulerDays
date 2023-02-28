@@ -8,11 +8,9 @@ import Logo from "src/components/Logo";
 const Login = () => {
   return (
     <div>
-      <ContentWrapper>
-        <Logo />
-        <LoginForm />
-        <Footer />
-      </ContentWrapper>
+      <Logo />
+      <LoginForm />
+      <Footer />
     </div>
   );
 };
