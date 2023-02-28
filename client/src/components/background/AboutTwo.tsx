@@ -42,7 +42,7 @@ const StyledAboutTwo = styled(AboutTwo)`
   width: 150vw;
   bottom: -2%;
   left: -25vw;
-  z-index: -1;
+  z-index: ${(props) => props.theme.zLayers.behind};
   transform: rotate(10deg);
 
   @media (min-width: 500) {
