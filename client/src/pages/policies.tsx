@@ -44,7 +44,7 @@ const Policies = ({ className }: PolicyProps) => {
             sell up to 5 days back to the company.
           </p>
         </figure>
-        <Button primaryOutline href="/">
+        <Button primaryOutline href="/home">
           Back
         </Button>
       </ContainerWrapper>
