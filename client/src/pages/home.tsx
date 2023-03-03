@@ -4,6 +4,7 @@ import ContentWrapper from "src/components/ContentWrapper";
 import styled from "styled-components";
 import Logo from "src/components/Logo";
 import Icon from "src/components/icons";
+import Button from "src/components/Button";
 
 interface HomeProps {
   className?: string;
@@ -13,14 +14,14 @@ const Home = ({ className }: HomeProps) => {
   return (
     <div className={className}>
       <ContentWrapper>
-        <div className="container">
+        <div>
           <Logo />
-          <button type="button">
+          <Button className="logout">
             <Icon name="logout" />
-          </button>
+          </Button>
           <main>
             <h1>Welcome to HulerDays</h1>
-            <div className="head">
+            <div>
               <p>Days Remaining: </p>
             </div>
           </main>
@@ -33,7 +34,7 @@ const Home = ({ className }: HomeProps) => {
 };
 
 const StyledHome = styled(Home)`
-  button {
+  .logout {
     position: absolute;
     right: 2rem;
     top: 2rem;
@@ -52,6 +53,19 @@ const StyledHome = styled(Home)`
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    div {
+      font-size: 1.5rem;
+      background: #fff;
+      border: 1px solid #fff;
+      border-radius: 15px;
+      width: 400px;
+      margin-bottom: 3rem;
+      box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+        rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+      p {
+        margin: 1rem 2rem 1rem;
+      }
+    }
   }
 
   h1 {
@@ -63,20 +77,6 @@ const StyledHome = styled(Home)`
     font-size: 4rem;
     color: #fb6666;
     text-align: center;
-  }
-
-  .head {
-    font-size: 1.5rem;
-    background: #fff;
-    border: 1px solid #fff;
-    border-radius: 15px;
-    width: 400px;
-    margin-bottom: 3rem;
-    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
-      rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
-    p {
-      margin: 1rem 2rem 1rem;
-    }
   }
 `;
 export default StyledHome;
