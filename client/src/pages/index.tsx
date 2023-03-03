@@ -8,7 +8,6 @@ import Logo from "src/components/Logo";
 const Login = () => {
   return (
     <div>
-      <Logo />
       <LoginForm />
       <Footer />
     </div>
