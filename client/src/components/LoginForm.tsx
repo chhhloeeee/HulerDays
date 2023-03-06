@@ -1,4 +1,5 @@
 import { Formik } from "formik";
+import { useRouter } from "next/router";
 import styled from "styled-components";
 import AboutTwo from "./background/AboutTwo";
 import Button from "./Button";
@@ -14,6 +15,7 @@ interface Values {
 }
 
 const LoginForm = ({ className }: LoginFormProps) => {
+  const router = useRouter();
   return (
     <div className={className}>
       <Logo />
@@ -26,8 +28,10 @@ const LoginForm = ({ className }: LoginFormProps) => {
           }}
           validateOnMount
           onSubmit={(values: Values, { setSubmitting, resetForm }) => {
+            console.log("here");
             //handleChangePassword(values, setSubmitting);
-            setSubmitting(true);
+            router.push("/home");
+            setSubmitting(false);
             setTimeout(() => {
               resetForm();
             }, 400);
@@ -61,12 +65,12 @@ const LoginForm = ({ className }: LoginFormProps) => {
                   required
                 />
               </form>
+              <Button primary type="submit" onClick={() => handleSubmit()}>
+                Login
+              </Button>
             </div>
           )}
         </Formik>
-        <Button primary href="/home">
-          Login
-        </Button>
       </div>
       <AboutTwo />
     </div>
