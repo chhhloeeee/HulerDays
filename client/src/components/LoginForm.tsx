@@ -16,21 +16,22 @@ interface Values {
   password: string;
 }
 
-const LoginForm = ({ className }: LoginFormProps) => {
-  const FormWrapper = styled.div`
-    position: relative;
-    width: 700px;
-    height: 300px;
-    margin: auto;
-    border-radius: 15px;
+const FormWrapper = styled.div`
+  position: relative;
+  width: 700px;
+  height: 300px;
+  margin: auto;
+  border-radius: 15px;
 
-    z-index: ${(props) => props.theme.zLayers.default};
-    button {
-      position: absolute;
-      top: 90%;
-      left: 40%;
-    }
-  `;
+  z-index: ${(props) => props.theme.zLayers.default};
+  button {
+    position: absolute;
+    top: 90%;
+    left: 40%;
+  }
+`;
+
+const LoginForm = ({ className }: LoginFormProps) => {
   const LoginSchema = Yup.object().shape({
     password: Yup.string()
       .min(8, "Your Password must be longer than 8 characters")
