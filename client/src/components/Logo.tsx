@@ -19,6 +19,9 @@ const Logo = ({ className }: LogoProps) => {
 };
 
 const StyledLogo = styled(Logo)`
+  position: absolute;
+  left: 2rem;
+  top: 1rem;
   Image {
     width: 100px;
     height: 50px;

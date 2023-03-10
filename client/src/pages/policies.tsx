@@ -4,6 +4,7 @@ import AboutTwo from "../components/background/AboutTwo";
 import Button from "../components/Button";
 import ContainerWrapper from "../components/containerWrapper";
 import Footer from "../components/footer";
+import Logo from "../components/Logo";
 
 interface PolicyProps {
   className?: string;
@@ -11,6 +12,7 @@ interface PolicyProps {
 const Policies = ({ className }: PolicyProps) => {
   return (
     <div className={className}>
+      <Logo />
       <h1>Policies</h1>
       <ContainerWrapper>
         <figure>

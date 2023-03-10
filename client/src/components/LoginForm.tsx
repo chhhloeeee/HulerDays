@@ -133,12 +133,6 @@ const StyledLoginForm = styled(LoginForm)`
     text-align: center;
   }
 
-  ${Logo} {
-    position: absolute;
-    left: 2rem;
-    top: 1rem;
-  }
-
   ${AboutTwo} {
     z-index: 0;
     transform: rotate(170deg);
