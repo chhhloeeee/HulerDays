@@ -11,8 +11,8 @@ interface PolicyProps {
 const Policies = ({ className }: PolicyProps) => {
   return (
     <div className={className}>
+      <h1>Policies</h1>
       <ContainerWrapper>
-        <h1>Policies</h1>
         <figure>
           <strong>Overview</strong>
           <p>
@@ -44,10 +44,10 @@ const Policies = ({ className }: PolicyProps) => {
             sell up to 5 days back to the company.
           </p>
         </figure>
-        <Button primaryOutline href="/home">
-          Back
-        </Button>
       </ContainerWrapper>
+      <Button secondary href="/home">
+        Back
+      </Button>
       <AboutTwo />
       <Footer />
     </div>
@@ -62,14 +62,14 @@ const StyledPolicies = styled(Policies)`
   position: absolute;
   top: 0;
   width: 100%;
-  min-height: 100vh;
+  height: 100vh;
   z-index: -5;
   overflow: hidden;
 
   h1 {
     margin: 0;
     position: relative;
-    top: 2rem;
+    top: 3rem;
     padding-bottom: 2rem;
     line-height: 1.15;
     font-size: 3.5rem;
@@ -78,13 +78,14 @@ const StyledPolicies = styled(Policies)`
   }
   button {
     position: absolute;
-    left: 2rem;
-    bottom: 2rem;
+    left: 3rem;
+    bottom: 6rem;
+    box-shadow: inset 0 0 0 2px #fb6666;
   }
   figure {
     position: relative;
     width: 70%;
-    height: 50%;
+    height: 85%;
     margin: auto;
     text-align: center;
     top: 3rem;
