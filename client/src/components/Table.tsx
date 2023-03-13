@@ -1,6 +1,14 @@
 import { useState, useEffect } from "react";
 
-const Table = ({ headers, rows, onRefresh, id, className }) => {
+interface TableProps {
+  headers: string[];
+  rows: [];
+  id: string;
+  onRefresh: any;
+  className: string;
+}
+
+const Table = ({ headers, rows, id, onRefresh, className }: TableProps) => {
   const [pageNumber, setPageNumber] = useState(1);
   const [autoScroll, setAutoScroll] = useState(true);
   const [intervalID, setIntervalID] = useState(null);
@@ -46,7 +54,7 @@ const Table = ({ headers, rows, onRefresh, id, className }) => {
         <tbody>
           {rows.slice((pageNumber - 1) * 10, pageNumber * 10).map((row) => (
             <tr key={id}>
-              {row.map((cell) => (
+              {[row].map((cell) => (
                 <td key={id}>{cell} </td>
               ))}
             </tr>
