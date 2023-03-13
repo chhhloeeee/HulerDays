@@ -1,18 +1,14 @@
-import Grid from "../components/grid";
-import Footer from "../components/footer";
-import HeadContainer from "src/components/HeadContainer";
-import ContentWrapper from "src/components/ContentWrapper";
+import Footer from "src/components/footer";
+import LoginForm from "src/components/LoginForm";
+import Logo from "src/components/Logo";
 
-const Home = () => {
+const Login = () => {
   return (
     <div>
-      <ContentWrapper>
-        <HeadContainer />
-        <Grid />
-        <Footer />
-      </ContentWrapper>
+      <LoginForm />
+      <Footer />
     </div>
   );
 };
 
-export default Home;
+export default Login;

@@ -33,10 +33,11 @@ const RequestForm = ({ close, className }: FormProps) => {
         }}
         validateOnMount
         validationSchema={RequestSchema}
-        onSubmit={(values: Values, { setSubmitting }) => {
+        onSubmit={(values: Values, { setSubmitting, resetForm }) => {
           alert(JSON.stringify(values, null, 2));
           close();
           setSubmitting(false);
+          resetForm();
         }}
       >
         {({ handleSubmit, isValid, values, setFieldValue }) => (
