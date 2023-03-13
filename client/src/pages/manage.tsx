@@ -1,6 +1,8 @@
 /* eslint-disable react/jsx-key */
 import { useState } from "react";
 import Button from "src/components/Button";
+import ContentWrapper from "src/components/ContentWrapper";
+import Footer from "src/components/footer";
 import Icon from "src/components/icons";
 import Logo from "src/components/Logo";
 import { APILoader } from "src/components/table/ApiLoader";
@@ -14,27 +16,25 @@ interface ManageRequestProps {
 const ManageRequest = ({ className }: ManageRequestProps) => {
   return (
     <div className={className}>
-      <Logo />
-      <h1>Manage Leave Requests</h1>
-      <APILoader
-        url={"http://localhost:8080/api/v1/requests"}
-        Component={RequestsTable}
-      />
-      <Button primary href="/home">
-        Back
-      </Button>
+      <ContentWrapper>
+        <Logo />
+        <h1>Manage Leave Requests</h1>
+        <APILoader
+          url={"http://localhost:8080/api/v1/requests"}
+          Component={RequestsTable}
+        />
+        <Button primary href="/home">
+          Back
+        </Button>
+        <Footer />
+      </ContentWrapper>
     </div>
   );
 };
 
-//USerTable function displays all users in a table
 function RequestsTable({ data }) {
   const [users, setUsers] = useState(data);
   console.log(data);
-
-  // if (data === undefined) {
-  //   return <h1>No Data Found</h1>;
-  // }
 
   let userList = users.sort((a, b) => {
     if (a.userID < b.userID) {

@@ -13,6 +13,7 @@ const Logo = ({ className }: LogoProps) => {
         alt="hulerLogo"
         width="100"
         height="50"
+        priority
       />
     </div>
   );
