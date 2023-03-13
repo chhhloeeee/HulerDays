@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Image from "next/image";
-import Computer from "../images/computer-man.png";
 
 interface APILoaderProps {
   url: string;
@@ -18,11 +17,12 @@ const NoDataDiv = styled.div`
   text-align: center;
   h1 {
     color: black !important;
+    top: 0 !important;
   }
   h2 {
     position: relative;
     text-align: center;
-    top: 3rem;
+    top: 1rem;
   }
 `;
 
@@ -50,7 +50,12 @@ export const APILoader = ({ url, Component, reloadWith }: APILoaderProps) => {
   if (error) {
     return (
       <NoDataDiv>
-        <Image src={Computer} alt="computer-man" width={450} height={271.11} />
+        <Image
+          src="https://cdn.huler.io/v2/wp-content/uploads/2022/06/14090350/Office15.jpg"
+          alt="computer-man"
+          width={271.11}
+          height={271.11}
+        />
         <h1>Sorry!</h1>
         <h2>Looks like you havent made a request yet</h2>
       </NoDataDiv>
