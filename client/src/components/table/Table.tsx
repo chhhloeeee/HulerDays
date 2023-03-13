@@ -3,9 +3,9 @@ import { useState, useEffect } from "react";
 interface TableProps {
   headers: string[];
   rows: [];
-  id: string;
-  onRefresh: any;
-  className: string;
+  id?: string;
+  onRefresh?: any;
+  className?: string;
 }
 
 const Table = ({ headers, rows, id, onRefresh, className }: TableProps) => {

@@ -1,5 +1,10 @@
+/* eslint-disable react/jsx-key */
+import { useState } from "react";
 import Button from "src/components/Button";
+import Icon from "src/components/icons";
 import Logo from "src/components/Logo";
+import { APILoader } from "src/components/table/ApiLoader";
+import Table from "src/components/table/Table";
 import styled from "styled-components";
 
 interface ManageRequestProps {
@@ -11,12 +16,83 @@ const ManageRequest = ({ className }: ManageRequestProps) => {
     <div className={className}>
       <Logo />
       <h1>Manage Leave Requests</h1>
+      <APILoader
+        url={"http://localhost:8080/api/v1/requests"}
+        Component={RequestsTable}
+      />
       <Button primary href="/home">
         Back
       </Button>
     </div>
   );
 };
+
+//USerTable function displays all users in a table
+function RequestsTable({ data }) {
+  const [users, setUsers] = useState(data);
+  console.log(data);
+
+  // if (data === undefined) {
+  //   return <h1>No Data Found</h1>;
+  // }
+
+  let userList = users.sort((a, b) => {
+    if (a.userID < b.userID) {
+      return -1;
+    }
+    if (a.userID > b.userID) {
+      return 1;
+    }
+    return 0;
+  });
+  const deleteUserCall = async (userID) => {
+    return await fetch("http://localhost:8080/api/v1/users/" + userID, {
+      method: "DELETE",
+    });
+  };
+
+  const deleteUser = (userID) => {
+    const array = [...userList];
+    for (let i = 0; i < array.length; i++) {
+      if (userID === array[i].userID) {
+        let promise = deleteUserCall(userID);
+        promise
+          .then((response) => {
+            if (!response.ok) {
+              alert("Something went wrong");
+              return;
+            }
+            alert("Delete Success");
+            array.splice(i, 1);
+
+            setUsers(array);
+            return;
+          })
+          .catch((error) => {
+            alert("Internal Server Error");
+            return;
+          });
+      }
+    }
+    return;
+  };
+  return (
+    <Table
+      headers={["Request Type", "Start Date", "End Date", "Status", "Action"]}
+      rows={userList.map((service) => [
+        service.requestType,
+        service.startDate,
+        service.endDate,
+        service.status,
+        <div>
+          <Button onClick={() => deleteUser(service.userID)}>
+            <Icon name="remove" />
+          </Button>
+        </div>,
+      ])}
+    />
+  );
+}
 
 const StyledManageRequest = styled(ManageRequest)`
   h1 {

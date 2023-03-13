@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from "react";
 
-export const APILoader = ({ url, Component, reloadWith }) => {
+interface APILoaderProps {
+  url: string;
+  Component: any;
+  reloadWith?: any;
+}
+
+export const APILoader = ({ url, Component, reloadWith }: APILoaderProps) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [response, setResponse] = useState(null);
   const [error, setError] = useState(null);
