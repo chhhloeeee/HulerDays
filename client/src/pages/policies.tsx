@@ -60,7 +60,7 @@ Policies.defaultProps = {
   className: "",
 };
 const StyledPolicies = styled(Policies)`
-  background: #fff;
+  background: var(--background);
   position: absolute;
   top: 0;
   width: 100%;

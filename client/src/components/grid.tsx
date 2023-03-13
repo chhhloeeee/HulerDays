@@ -99,6 +99,7 @@ const StyledGrid = styled(Grid)`
     box-shadow: 0px 10px 40px #00000040;
     color: #ffff;
     cursor: pointer;
+
     img {
       border-radius: 15px;
     }

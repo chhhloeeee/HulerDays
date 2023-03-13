@@ -12,12 +12,15 @@ const NoDataDiv = styled.div`
   position: relative;
   top: 5rem;
   width: 40%;
-  height: 250px;
+  background: #fff;
+  border-radius: 15px;
+  box-shadow: 0px 10px 40px #00000040;
+  height: 450px;
   margin: auto;
   text-align: center;
   h1 {
     color: black !important;
-    top: 0 !important;
+    top: -1rem !important;
   }
   h2 {
     position: relative;
