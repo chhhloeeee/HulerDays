@@ -7,8 +7,8 @@ import (
 func Connect() *sql.DB {
 	dbDriver := "mysql"
 	dbUser := "root"
-	dbPass := ""
-	dbName := "goblog"
+	dbPass := "ChloeBaker1!"
+	dbName := "HulerSchema"
 
 	db, err := sql.Open(dbDriver, dbUser+":"+dbPass+"@/"+dbName)
 	if err != nil {
