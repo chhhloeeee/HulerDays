@@ -55,20 +55,18 @@ func InsertUser(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err)
 	}
-
 	email := r.FormValue("email")
 	password := r.FormValue("password")
 	holiday := r.FormValue("holiday")
 	isManager := r.FormValue("isManager")
 	managerId := r.FormValue("managerId")
 
-	_, err = db.Exec("INSERT INTO users(email, password, holiday, isManager, managerId) VALUES (?,?,?,?,?)", email, password, holiday, isManager, managerId)
+	_, err = db.Exec("INSERT INTO users(email, password, holiday, isManager, managerId) VALUES(?, ?, ?, ?, ?)", email, password, holiday, isManager, managerId)
 
 	if err != nil {
 		log.Print(err)
 		return
 	}
-
 	response.Status = 200
 	response.Message = "Insert data successfully"
 	fmt.Print("Insert data to database")
