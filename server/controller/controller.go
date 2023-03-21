@@ -75,3 +75,66 @@ func InsertUser(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	json.NewEncoder(w).Encode(response)
 }
+
+// UpdateUser = Update User API
+func UpdateUser(w http.ResponseWriter, r *http.Request) {
+	var response model.UserResponse
+
+	db := config.Connect()
+	defer db.Close()
+
+	err := r.ParseMultipartForm(4096)
+
+	if err != nil {
+		panic(err)
+	}
+	id := r.FormValue("id")
+	email := r.FormValue("email")
+	password := r.FormValue("password")
+	holiday := r.FormValue("holiday")
+	isManager := r.FormValue("isManager")
+	managerId := r.FormValue("managerId")
+
+	_, err = db.Exec("UPDATE users SET email=?, password=?, holiday=?, isManager=?, managerId=? WHERE id=?", email, password, holiday, isManager, managerId, id)
+
+	if err != nil {
+		log.Print(err)
+	}
+
+	response.Status = 200
+	response.Message = "Update data successfully"
+	fmt.Print("Update data successfully")
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(response)
+}
+
+// DeleteUser = Delete user API
+func DeleteUser(w http.ResponseWriter, r *http.Request) {
+	var response model.UserResponse
+
+	db := config.Connect()
+	defer db.Close()
+
+	err := r.ParseMultipartForm(4096)
+
+	if err != nil {
+		panic(err)
+	}
+
+	id := r.FormValue("id")
+
+	_, err = db.Exec("DELETE FROM employee WHERE id=?", id)
+
+	if err != nil {
+		log.Print(err)
+		return
+	}
+
+	response.Status = 200
+	response.Message = "Delete data successfully"
+	fmt.Print("Delete data successfully")
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(response)
+}
