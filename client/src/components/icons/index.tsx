@@ -2,7 +2,8 @@ import React, { FC } from "react";
 import ChevronReactSelect from "./ChevronReactSelect";
 import Close from "./Close";
 import Logout from "./Logout";
-import Remove from "./Remove";
+import Delete from "./Delete";
+import Edit from "./Edit";
 
 interface IconProps {
   name: string;
@@ -16,8 +17,10 @@ const Icon: FC<IconProps> = ({ name }: IconProps) => {
       return <Close />;
     case "chevron-react-select":
       return <ChevronReactSelect />;
-    case "remove":
-      return <Remove />;
+    case "delete":
+      return <Delete />;
+    case "edit":
+      return <Edit />;
     default:
       return <div />;
   }

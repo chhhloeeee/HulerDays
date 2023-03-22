@@ -81,15 +81,18 @@ function RequestsTable({ data }) {
   };
   return (
     <Table
-      headers={["Request Type", "Start Date", "End Date", "Status", "Action"]}
+      headers={["Request Type", "Start Date", "End Date", "Status", "Actions"]}
       rows={leaveList.map((service) => [
         service.requestType,
         service.startDate,
         service.endDate,
         service.status,
         <div>
-          <Button className="logout">
-            <Icon name="remove" />
+          <Button onClick={() => deleteLeave(service.leaveId)}>
+            <Icon name="delete" />
+          </Button>
+          <Button>
+            <Icon name="edit" />
           </Button>
         </div>,
       ])}
@@ -116,10 +119,11 @@ const StyledManageRequest = styled(ManageRequest)`
   }
 
   table {
+    max-height: 500px;
     svg {
       fill: black;
-      width: 25px;
-      height: 25px;
+      width: 15px;
+      height: 15px;
     }
   }
 `;

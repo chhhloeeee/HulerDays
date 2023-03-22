@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { scrollStyling } from "src/styles/mixins";
 import styled from "styled-components";
+import AdminTableFooter from "./TableFooter";
 
 interface TableProps {
   headers: string[];
@@ -31,11 +32,13 @@ const Table = ({ headers, rows, id, className }: TableProps) => {
           ))}
         </tbody>
       </table>
-      <Pagination
-        listLength={rows.length}
-        onClick={setPageNumber}
-        pageNumber={pageNumber}
-      />
+      <AdminTableFooter>
+        <Pagination
+          listLength={rows.length}
+          onClick={setPageNumber}
+          pageNumber={pageNumber}
+        />
+      </AdminTableFooter>
     </div>
   );
 };
@@ -130,22 +133,13 @@ export const Pagination = ({ pageNumber, listLength, onClick }) => {
       }
     }
   }
-  return (
-    <div
-      style={{
-        flexDirection: "row",
-        display: "flex",
-        justifyContent: "center",
-      }}
-    >
-      {pageNumbers}
-    </div>
-  );
+  return <div>{pageNumbers}</div>;
 };
 
 const StyledTable = styled(Table)`
   width: 100%;
   overflow-x: scroll;
+  min-height: 70%;
   ${scrollStyling}
   > table {
     min-width: 100%;
@@ -170,20 +164,6 @@ const StyledTable = styled(Table)`
       white-space: nowrap;
     }
 
-    // Not last child because this will be the 'actions' column, modal needs overflow
-    td:not(:last-child) {
-      text-overflow: ellipsis;
-      overflow: hidden;
-      max-width: 600px;
-
-      @media (max-width: ${(props) => props.theme.breakpoints.xxLarge}) {
-        max-width: 400px;
-      }
-      @media (max-width: ${(props) => props.theme.breakpoints.xLarge}) {
-        max-width: 250px;
-      }
-    }
-
     td,
     th {
       padding: 28px 10px;
@@ -199,6 +179,7 @@ const StyledTable = styled(Table)`
         padding-right: 20px;
         border-top-right-radius: 10px;
         border-bottom-right-radius: 10px;
+        max-width: 200px;
       }
     }
 
