@@ -19,11 +19,13 @@ const ManageRequest = ({ className }: ManageRequestProps) => {
       <ContentWrapper>
         <Logo />
         <h1>Manage Leave Requests</h1>
-        <APILoader
-          // TODO: add get API for specific users
-          url={"http://localhost:1234/getRequests"}
-          Component={RequestsTable}
-        />
+        <div>
+          <APILoader
+            // TODO: add get API for specific users
+            url={"http://localhost:1234/getRequests"}
+            Component={RequestsTable}
+          />
+        </div>
         <span>
           <Button primary href="/home">
             Back
@@ -110,6 +112,11 @@ const StyledManageRequest = styled(ManageRequest)`
     font-size: 3.5rem;
     color: #fb6666;
     text-align: center;
+  }
+
+  div:nth-of-type(2) {
+    margin: 45px;
+    flex-grow: 1;
   }
 
   span button {

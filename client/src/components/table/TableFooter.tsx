@@ -16,6 +16,13 @@ const AdminTableFooter = styled.div`
     left: 0;
     padding: 20px 25px;
   }
+
+  span {
+    background-color: white;
+    font-size: 15px;
+    border-radius: 15px;
+    padding: 15px 25px;
+  }
 `;
 
 export default AdminTableFooter;

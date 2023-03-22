@@ -49,14 +49,7 @@ export const Pagination = ({ pageNumber, listLength, onClick }) => {
   if (noOfPages < 10) {
     for (let i = 1; i <= noOfPages; i++) {
       if (i === pageNumber) {
-        pageNumbers.push(
-          <span
-            style={{ backgroundColor: "grey", fontSize: "15px" }}
-            onClick={() => onClick(i)}
-          >
-            {i}
-          </span>
-        );
+        pageNumbers.push(<span onClick={() => onClick(i)}>{i}</span>);
       } else {
         pageNumbers.push(<span onClick={() => onClick(i)}>{i}</span>);
       }
@@ -64,11 +57,7 @@ export const Pagination = ({ pageNumber, listLength, onClick }) => {
   } else {
     // Always print first page button
     if (pageNumber === 1) {
-      pageNumbers.push(
-        <span style={{ backgroundColor: "grey" }} onClick={() => onClick(1)}>
-          1
-        </span>
-      );
+      pageNumbers.push(<span onClick={() => onClick(1)}>1</span>);
     } else {
       pageNumbers.push(<span onClick={() => onClick(1)}>1</span>);
     }
@@ -91,12 +80,7 @@ export const Pagination = ({ pageNumber, listLength, onClick }) => {
     //Print current page number button as long as it not the first or last page
     if (pageNumber !== 1 && pageNumber !== noOfPages) {
       pageNumbers.push(
-        <span
-          style={{ backgroundColor: "grey" }}
-          onClick={() => onClick(pageNumber)}
-        >
-          {pageNumber}
-        </span>
+        <span onClick={() => onClick(pageNumber)}>{pageNumber}</span>
       );
     }
     //print next number button if pageNumber < lastPage - 3
@@ -119,12 +103,7 @@ export const Pagination = ({ pageNumber, listLength, onClick }) => {
     if (noOfPages > 1) {
       if (pageNumber === noOfPages) {
         pageNumbers.push(
-          <span
-            style={{ backgroundColor: "grey" }}
-            onClick={() => onClick(noOfPages)}
-          >
-            {noOfPages}
-          </span>
+          <span onClick={() => onClick(noOfPages)}>{noOfPages}</span>
         );
       } else {
         pageNumbers.push(
@@ -139,7 +118,6 @@ export const Pagination = ({ pageNumber, listLength, onClick }) => {
 const StyledTable = styled(Table)`
   width: 100%;
   overflow-x: scroll;
-  min-height: 70%;
   ${scrollStyling}
   > table {
     min-width: 100%;
@@ -179,7 +157,7 @@ const StyledTable = styled(Table)`
         padding-right: 20px;
         border-top-right-radius: 10px;
         border-bottom-right-radius: 10px;
-        max-width: 200px;
+        max-width: 150px;
       }
     }
 
