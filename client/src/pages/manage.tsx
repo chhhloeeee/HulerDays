@@ -20,7 +20,8 @@ const ManageRequest = ({ className }: ManageRequestProps) => {
         <Logo />
         <h1>Manage Leave Requests</h1>
         <APILoader
-          url={"http://localhost:8080/api/v1/requests"}
+          // TODO: create get API for specific users
+          url={"http://localhost:1234/getRequests"}
           Component={RequestsTable}
         />
         <Button primary href="/home">
@@ -33,29 +34,29 @@ const ManageRequest = ({ className }: ManageRequestProps) => {
 };
 
 function RequestsTable({ data }) {
-  const [users, setUsers] = useState(data);
+  const [leave, setLeave] = useState(data);
   console.log(data);
 
-  let userList = users.sort((a, b) => {
-    if (a.userID < b.userID) {
+  let leaveList = leave.sort((a, b) => {
+    if (a.leaveID < b.leaveID) {
       return -1;
     }
-    if (a.userID > b.userID) {
+    if (a.leaveID > b.leaveID) {
       return 1;
     }
     return 0;
   });
-  const deleteUserCall = async (userID) => {
-    return await fetch("http://localhost:8080/api/v1/users/" + userID, {
+  const deleteUserCall = async (leaveID) => {
+    return await fetch("http://localhost:1234/deleteRequest/" + leaveID, {
       method: "DELETE",
     });
   };
 
-  const deleteUser = (userID) => {
-    const array = [...userList];
+  const deleteLeave = (leaveID) => {
+    const array = [...leaveList];
     for (let i = 0; i < array.length; i++) {
-      if (userID === array[i].userID) {
-        let promise = deleteUserCall(userID);
+      if (leaveID === array[i].userID) {
+        let promise = deleteUserCall(leaveID);
         promise
           .then((response) => {
             if (!response.ok) {
@@ -65,7 +66,7 @@ function RequestsTable({ data }) {
             alert("Delete Success");
             array.splice(i, 1);
 
-            setUsers(array);
+            setLeave(array);
             return;
           })
           .catch((error) => {
@@ -79,13 +80,13 @@ function RequestsTable({ data }) {
   return (
     <Table
       headers={["Request Type", "Start Date", "End Date", "Status", "Action"]}
-      rows={userList.map((service) => [
+      rows={leaveList.map((service) => [
         service.requestType,
         service.startDate,
         service.endDate,
         service.status,
         <div>
-          <Button onClick={() => deleteUser(service.userID)}>
+          <Button onClick={() => deleteLeave(service.leaveID)}>
             <Icon name="remove" />
           </Button>
         </div>,
