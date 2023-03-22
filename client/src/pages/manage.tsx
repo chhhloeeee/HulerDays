@@ -86,8 +86,8 @@ function RequestsTable({ data }) {
       headers={["Request Type", "Start Date", "End Date", "Status", "Actions"]}
       rows={leaveList.map((service) => [
         service.requestType,
-        service.startDate,
-        service.endDate,
+        service.startDate.toLocaleDateString(),
+        service.endDate.toLocaleDateString(),
         service.status,
         <div>
           <Button onClick={() => deleteLeave(service.leaveId)}>

@@ -16,19 +16,37 @@ interface Values {
 }
 
 const RequestForm = ({ close }: FormProps) => {
+  var date = new Date();
+
+  const postRequest = async (values) => {
+    //e.preventDefault();
+    const response = await fetch("http://localhost:1234/addRequest", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(values),
+    });
+    console.log(response);
+    if (!response.ok) {
+      alert("Something went wrong");
+      return;
+    }
+    alert("Loan created");
+    close();
+  };
   return (
     <Modal title="New Leave Request" close={close}>
       <Formik
         initialValues={{
           requestType: "annualLeave",
-          startDate: new Date(),
-          endDate: new Date(),
+          startDate: date,
+          endDate: date,
         }}
         validateOnMount
         onSubmit={(values: Values, { setSubmitting, resetForm }) => {
-          alert("create pressed");
-          close();
-          setSubmitting(false);
+          postRequest(values);
+          //close();
           setTimeout(() => {
             resetForm();
           }, 400);
