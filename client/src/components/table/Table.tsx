@@ -1,46 +1,14 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 interface TableProps {
   headers: string[];
   rows: [];
   id?: string;
-  onRefresh?: any;
   className?: string;
 }
 
-const Table = ({ headers, rows, id, onRefresh, className }: TableProps) => {
+const Table = ({ headers, rows, id, className }: TableProps) => {
   const [pageNumber, setPageNumber] = useState(1);
-  const [autoScroll, setAutoScroll] = useState(true);
-  const [intervalID, setIntervalID] = useState(null);
-  const [refresh, setRefresh] = useState(false);
-
-  const autoScrollFunc = () => {
-    if (autoScroll === false) {
-      return;
-    }
-    let interval = setInterval(() => {
-      let noOfPages = Math.ceil(rows.length / 10);
-      setPageNumber((page) => {
-        if (page + 1 > noOfPages) {
-          setRefresh(true);
-          return 1;
-        }
-        return page + 1;
-      });
-    }, 4000);
-    setIntervalID(interval);
-  };
-  useEffect(autoScrollFunc, [autoScroll]);
-
-  function setScroll() {
-    setAutoScroll(!autoScroll);
-    clearInterval(intervalID);
-    setIntervalID(null);
-  }
-
-  if (refresh === true && onRefresh) {
-    return onRefresh();
-  }
   return (
     <div className={className}>
       <table id={id}>
@@ -66,18 +34,6 @@ const Table = ({ headers, rows, id, onRefresh, className }: TableProps) => {
         onClick={setPageNumber}
         pageNumber={pageNumber}
       />
-      <div className="parent inline-flex-parent">
-        <input
-          className="child"
-          type="checkbox"
-          checked={autoScroll}
-          onChange={setScroll}
-        />
-        <label className="child" style={{ color: "black", fontSize: "20px" }}>
-          {" "}
-          Auto scroll
-        </label>
-      </div>
     </div>
   );
 };
@@ -177,9 +133,10 @@ export const Pagination = ({ pageNumber, listLength, onClick }) => {
       style={{
         flexDirection: "row",
         display: "flex",
-        width: "100%",
+        width: "80%",
         justifyContent: "center",
         backgroundColor: "white",
+        margin: "auto",
       }}
     >
       {pageNumbers}
@@ -187,32 +144,4 @@ export const Pagination = ({ pageNumber, listLength, onClick }) => {
   );
 };
 
-let myVar;
-export function ScrollingClicked() {
-  if ((document.getElementById("autoScroll") as HTMLInputElement).checked) {
-    clearInterval(myVar);
-
-    clearInterval(myVar);
-    myVar = setInterval(scrollFunc, 5000);
-  } else {
-    clearInterval(myVar);
-  }
-}
-
-function scrollFunc() {
-  var t;
-  var timer;
-  let ctr = 0;
-
-  var info = t.pageNumber.info();
-  if (ctr < info.pages - 1) {
-    t.page("next").draw("page");
-    ctr = ctr + 1;
-  } else {
-    t.page("first").draw("page");
-    //StatusPage();
-    ctr = 0;
-  }
-  timer = 5000;
-}
 export default Table;

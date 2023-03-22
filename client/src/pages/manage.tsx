@@ -20,7 +20,7 @@ const ManageRequest = ({ className }: ManageRequestProps) => {
         <Logo />
         <h1>Manage Leave Requests</h1>
         <APILoader
-          // TODO: create get API for specific users
+          // TODO: add get API for specific users
           url={"http://localhost:1234/getRequests"}
           Component={RequestsTable}
         />
@@ -34,8 +34,8 @@ const ManageRequest = ({ className }: ManageRequestProps) => {
 };
 
 function RequestsTable({ data }) {
-  const [leave, setLeave] = useState(data);
-  console.log(data);
+  const [leave, setLeave] = useState(data.Data);
+  console.log(data.Data);
 
   let leaveList = leave.sort((a, b) => {
     if (a.leaveID < b.leaveID) {
@@ -100,7 +100,7 @@ const StyledManageRequest = styled(ManageRequest)`
     margin: 0;
     position: relative;
     top: 3rem;
-    padding-bottom: 2rem;
+    padding-bottom: 6rem;
     line-height: 1.15;
     font-size: 3.5rem;
     color: #fb6666;
