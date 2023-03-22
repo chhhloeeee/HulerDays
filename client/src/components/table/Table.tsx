@@ -1,8 +1,10 @@
 import { useState } from "react";
+import { scrollStyling } from "src/styles/mixins";
+import styled from "styled-components";
 
 interface TableProps {
   headers: string[];
-  rows: [];
+  rows: any[]; //Has to be any to avoid the row map err
   id?: string;
   className?: string;
 }
@@ -22,7 +24,7 @@ const Table = ({ headers, rows, id, className }: TableProps) => {
         <tbody>
           {rows.slice((pageNumber - 1) * 10, pageNumber * 10).map((row) => (
             <tr key={id}>
-              {[row].map((cell) => (
+              {row.map((cell) => (
                 <td key={id}>{cell} </td>
               ))}
             </tr>
@@ -133,10 +135,7 @@ export const Pagination = ({ pageNumber, listLength, onClick }) => {
       style={{
         flexDirection: "row",
         display: "flex",
-        width: "80%",
         justifyContent: "center",
-        backgroundColor: "white",
-        margin: "auto",
       }}
     >
       {pageNumbers}
@@ -144,4 +143,68 @@ export const Pagination = ({ pageNumber, listLength, onClick }) => {
   );
 };
 
-export default Table;
+const StyledTable = styled(Table)`
+  width: 100%;
+  overflow-x: scroll;
+  ${scrollStyling}
+  > table {
+    min-width: 100%;
+    color: var(--contrast);
+
+    th {
+      min-height: 60px;
+      text-align: left;
+      font-size: 14px;
+      white-space: nowrap;
+      > svg {
+        fill: currentColor;
+        opacity: 0.5;
+        height: 16px;
+        width: auto;
+      }
+    }
+
+    td {
+      font-size: 16px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    // Not last child because this will be the 'actions' column, modal needs overflow
+    td:not(:last-child) {
+      text-overflow: ellipsis;
+      overflow: hidden;
+      max-width: 600px;
+
+      @media (max-width: ${(props) => props.theme.breakpoints.xxLarge}) {
+        max-width: 400px;
+      }
+      @media (max-width: ${(props) => props.theme.breakpoints.xLarge}) {
+        max-width: 250px;
+      }
+    }
+
+    td,
+    th {
+      padding: 28px 10px;
+      vertical-align: middle;
+
+      &:first-child {
+        padding-left: 20px;
+        border-top-left-radius: 10px;
+        border-bottom-left-radius: 10px;
+      }
+
+      &:last-child {
+        padding-right: 20px;
+        border-top-right-radius: 10px;
+        border-bottom-right-radius: 10px;
+      }
+    }
+
+    tbody tr:hover {
+      background: var(--table-row-background-hover);
+    }
+  }
+`;
+export default StyledTable;

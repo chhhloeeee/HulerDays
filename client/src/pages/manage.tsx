@@ -24,9 +24,11 @@ const ManageRequest = ({ className }: ManageRequestProps) => {
           url={"http://localhost:1234/getRequests"}
           Component={RequestsTable}
         />
-        <Button primary href="/home">
-          Back
-        </Button>
+        <span>
+          <Button primary href="/home">
+            Back
+          </Button>
+        </span>
         <Footer />
       </ContentWrapper>
     </div>
@@ -86,7 +88,7 @@ function RequestsTable({ data }) {
         service.endDate,
         service.status,
         <div>
-          <Button onClick={() => deleteLeave(service.leaveID)}>
+          <Button className="logout">
             <Icon name="remove" />
           </Button>
         </div>,
@@ -106,10 +108,19 @@ const StyledManageRequest = styled(ManageRequest)`
     color: #fb6666;
     text-align: center;
   }
-  button {
+
+  span button {
     position: absolute;
     left: 3rem;
     bottom: 6rem;
+  }
+
+  table {
+    svg {
+      fill: black;
+      width: 25px;
+      height: 25px;
+    }
   }
 `;
 export default StyledManageRequest;
