@@ -207,8 +207,8 @@ func AllRequests(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(response)
 }
 
-// GetRequestById = Select Request by Id API
-func GetRequestbyId(w http.ResponseWriter, r *http.Request) {
+// GetRequestByLeaveId = Select Request by Id API
+func GetRequestbyLeaveId(w http.ResponseWriter, r *http.Request) {
 	var requests model.Requests
 	var response model.RequestsResponse
 	var arrRequests []model.Requests
@@ -242,8 +242,8 @@ func GetRequestbyId(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(response)
 }
 
-// GetRequestByUser = Select Request by User Id API
-func GetRequestbyUser(w http.ResponseWriter, r *http.Request) {
+// GetRequestByUserId = Select Request by Id API
+func GetRequestbyUserId(w http.ResponseWriter, r *http.Request) {
 	var requests model.Requests
 	var response model.RequestsResponse
 	var arrRequests []model.Requests
@@ -251,7 +251,9 @@ func GetRequestbyUser(w http.ResponseWriter, r *http.Request) {
 	db := config.Connect()
 	defer db.Close()
 
-	rows, err := db.Query("SELECT leaveId, startDate, endDate, userId, status, requestType from holiday WHERE userId=?")
+	userId := r.FormValue("userId")
+
+	rows, err := db.Query("SELECT leaveId, startDate, endDate, userId, status, requestType from holiday WHERE userId=?", userId)
 
 	if err != nil {
 		log.Print(err)

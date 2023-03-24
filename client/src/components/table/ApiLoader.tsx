@@ -60,7 +60,7 @@ export const APILoader = ({ url, Component, reloadWith }: APILoaderProps) => {
           height={271.11}
         />
         <h1>Sorry!</h1>
-        <h2>Looks like you havent made a request yet</h2>
+        <h2>Looks like theres no data yet</h2>
       </NoDataDiv>
     );
   }
