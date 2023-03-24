@@ -5,12 +5,14 @@ import styled from "styled-components";
 import Logo from "src/components/Logo";
 import Icon from "src/components/icons";
 import Button from "src/components/Button";
+import { APILoader } from "src/components/table/ApiLoader";
 
 interface HomeProps {
   className?: string;
 }
 
 const Home = ({ className }: HomeProps) => {
+  const userId = 1;
   return (
     <div className={className}>
       <ContentWrapper>
@@ -22,7 +24,10 @@ const Home = ({ className }: HomeProps) => {
           <main>
             <h1>Welcome to HulerDays</h1>
             <div>
-              <h2>DAYS</h2>
+              <APILoader
+                url={"http://localhost:1234/getUserById?id=" + userId}
+                Component={countDown}
+              />
               <p>Days Remaining</p>
             </div>
           </main>
@@ -33,7 +38,10 @@ const Home = ({ className }: HomeProps) => {
     </div>
   );
 };
-
+function countDown({ data }) {
+  const days = data.Data[0].holiday;
+  return <h2>{days}</h2>;
+}
 const StyledHome = styled(Home)`
   .logout {
     position: absolute;
