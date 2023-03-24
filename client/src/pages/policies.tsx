@@ -14,8 +14,8 @@ const Policies = ({ className }: PolicyProps) => {
     <div className={className}>
       <Logo />
       <h1>Policies</h1>
-      <ContainerWrapper>
-        <figure>
+      <div>
+        <div>
           <strong>Overview</strong>
           <p>
             Our holiday year runs from 1st January to 31st December, the
@@ -45,12 +45,14 @@ const Policies = ({ className }: PolicyProps) => {
             exchange these for the equivalent monetary value will be able to
             sell up to 5 days back to the company.
           </p>
-        </figure>
-      </ContainerWrapper>
+        </div>
+      </div>
       <Button secondary href="/home">
         Back
       </Button>
+
       <AboutTwo />
+
       <Footer />
     </div>
   );
@@ -64,9 +66,9 @@ const StyledPolicies = styled(Policies)`
   position: absolute;
   top: 0;
   width: 100%;
-  height: 100vh;
+  height: 100%;
   z-index: -5;
-  overflow: hidden;
+  overflow-x: hidden;
 
   h1 {
     margin: 0;
@@ -79,26 +81,35 @@ const StyledPolicies = styled(Policies)`
     text-align: center;
   }
   button {
-    position: absolute;
+    position: relative;
     left: 3rem;
-    bottom: 6rem;
+    bottom: -6rem;
     box-shadow: inset 0 0 0 2px #fb6666;
   }
-  figure {
+  div:nth-of-type(2) {
     position: relative;
-    width: 70%;
-    height: 85%;
+    background: #fff;
+    top: 5rem;
+    width: 60%;
+    height: 60%;
     margin: auto;
-    text-align: center;
-    top: 3rem;
-    margin-bottom: 2rem;
-    overflow-y: scroll;
-    padding-right: 5px;
-    ${scrollStyling};
+    border-radius: 5px;
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+      rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    div {
+      width: 70%;
+      max-height: 85%;
+      text-align: center;
+      overflow-y: scroll;
+      ${scrollStyling};
 
-    p {
-      text-align: left;
-      line-height: 2em;
+      p {
+        text-align: left;
+        line-height: 2em;
+      }
     }
   }
 `;

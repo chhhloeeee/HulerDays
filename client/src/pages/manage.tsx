@@ -120,9 +120,9 @@ const StyledManageRequest = styled(ManageRequest)`
   }
 
   span button {
-    position: absolute;
+    position: relative;
     left: 3rem;
-    bottom: 6rem;
+    bottom: 4rem;
   }
 
   table {
