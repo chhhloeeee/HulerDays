@@ -32,7 +32,7 @@ const RequestForm = ({ close }: FormProps) => {
         values.startDate.toLocaleDateString("en-gb")
       );
       formData.append("endDate", values.endDate.toLocaleDateString("en-gb"));
-      formData.append("userId", "1");
+      formData.append("userId", "2");
       formData.append("status", "Pending");
     }
 
@@ -62,7 +62,7 @@ const RequestForm = ({ close }: FormProps) => {
     <Modal title="New Leave Request" close={close}>
       <Formik
         initialValues={{
-          requestType: "annualLeave",
+          requestType: "Annual Leave",
           startDate: date,
           endDate: date,
         }}

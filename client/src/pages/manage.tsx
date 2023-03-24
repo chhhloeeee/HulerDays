@@ -14,6 +14,7 @@ interface ManageRequestProps {
 }
 
 const ManageRequest = ({ className }: ManageRequestProps) => {
+  const userId = 2;
   return (
     <div className={className}>
       <ContentWrapper>
@@ -21,8 +22,7 @@ const ManageRequest = ({ className }: ManageRequestProps) => {
         <h1>Manage Leave Requests</h1>
         <div>
           <APILoader
-            // TODO: add get API for specific users
-            url={"http://localhost:1234/getRequests"}
+            url={"http://localhost:1234/getRequestByUserId?userId=" + userId}
             Component={RequestsTable}
           />
         </div>
@@ -39,6 +39,7 @@ const ManageRequest = ({ className }: ManageRequestProps) => {
 
 function RequestsTable({ data }) {
   const [leave, setLeave] = useState(data.Data);
+  console.log(leave);
 
   let leaveList = leave.sort((a, b) => {
     if (a.leaveID < b.leaveID) {
