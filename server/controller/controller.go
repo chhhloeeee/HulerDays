@@ -53,7 +53,9 @@ func GetUserById(w http.ResponseWriter, r *http.Request) {
 	db := config.Connect()
 	defer db.Close()
 
-	rows, err := db.Query("SELECT id, email, password, holiday, isManager, managerId from users WHERE id=?")
+	id := r.FormValue("id")
+
+	rows, err := db.Query("SELECT id, email, password, holiday, isManager, managerId from users WHERE id=?", id)
 
 	if err != nil {
 		log.Print(err)
@@ -214,7 +216,9 @@ func GetRequestbyId(w http.ResponseWriter, r *http.Request) {
 	db := config.Connect()
 	defer db.Close()
 
-	rows, err := db.Query("SELECT leaveId, startDate, endDate, userId, status, requestType from holiday WHERE leaveId=?")
+	leaveId := r.FormValue("leaveId")
+
+	rows, err := db.Query("SELECT leaveId, startDate, endDate, userId, status, requestType from holiday WHERE leaveId=?", leaveId)
 
 	if err != nil {
 		log.Print(err)
