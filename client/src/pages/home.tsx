@@ -5,12 +5,14 @@ import styled from "styled-components";
 import Logo from "src/components/Logo";
 import Icon from "src/components/icons";
 import Button from "src/components/Button";
+import { APILoader } from "src/components/table/ApiLoader";
 
 interface HomeProps {
   className?: string;
 }
 
 const Home = ({ className }: HomeProps) => {
+  const userId = 1;
   return (
     <div className={className}>
       <ContentWrapper>
@@ -22,7 +24,11 @@ const Home = ({ className }: HomeProps) => {
           <main>
             <h1>Welcome to HulerDays</h1>
             <div>
-              <p>Days Remaining: </p>
+              <APILoader
+                url={"http://localhost:1234/getUserById?id=" + userId}
+                Component={countDown}
+              />
+              <p>Days Remaining</p>
             </div>
           </main>
         </div>
@@ -32,7 +38,10 @@ const Home = ({ className }: HomeProps) => {
     </div>
   );
 };
-
+function countDown({ data }) {
+  const days = data.Data[0].holiday;
+  return <h2>{days}</h2>;
+}
 const StyledHome = styled(Home)`
   .logout {
     position: absolute;
@@ -53,17 +62,29 @@ const StyledHome = styled(Home)`
     flex-direction: column;
     justify-content: center;
     align-items: center;
+
     div {
       font-size: 1.5rem;
-      background: #fff;
-      border: 1px solid #fff;
-      border-radius: 15px;
-      width: 400px;
+      width: 200px;
       margin-bottom: 3rem;
-      box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
-        rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+      background: #fff;
+      box-shadow:
+    /* The top layer shadow */ 0 1px 1px rgba(0, 0, 0, 0.15),
+        /* The second layer */ 0 10px 0 -5px #eee,
+        /* The second layer shadow */ 0 10px 1px -4px rgba(0, 0, 0, 0.15),
+        /* The third layer */ 0 20px 0 -10px #eee,
+        /* The third layer shadow */ 0 20px 1px -9px rgba(0, 0, 0, 0.15);
+      /* Padding for demo purposes */
+      padding: 30px;
+      h2 {
+        text-align: center;
+        font-size: larger;
+      }
       p {
+        text-align: center;
         margin: 1rem 2rem 1rem;
+        color: black;
+        font-weight: bold;
       }
     }
   }

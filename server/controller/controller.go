@@ -11,7 +11,7 @@ import (
 	"github.com/HulerDays/config"
 )
 
-// AllUsers = Select Leave API
+// AllUsers = Select User API
 func AllUsers(w http.ResponseWriter, r *http.Request) {
 	var users model.Users
 	var response model.UserResponse
@@ -21,6 +21,41 @@ func AllUsers(w http.ResponseWriter, r *http.Request) {
 	defer db.Close()
 
 	rows, err := db.Query("SELECT id, email, password, holiday, isManager, managerId from users")
+
+	if err != nil {
+		log.Print(err)
+	}
+
+	for rows.Next() {
+		err = rows.Scan(&users.Id, &users.Email, &users.Password, &users.Holiday, &users.IsManager, &users.ManagerId)
+		if err != nil {
+			log.Fatal(err.Error())
+		} else {
+			arrUsers = append(arrUsers, users)
+		}
+	}
+
+	response.Status = 200
+	response.Message = "Success"
+	response.Data = arrUsers
+
+	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	json.NewEncoder(w).Encode(response)
+}
+
+// GetUserById = Select User by Id API
+func GetUserById(w http.ResponseWriter, r *http.Request) {
+	var users model.Users
+	var response model.UserResponse
+	var arrUsers []model.Users
+
+	db := config.Connect()
+	defer db.Close()
+
+	id := r.FormValue("id")
+
+	rows, err := db.Query("SELECT id, email, password, holiday, isManager, managerId from users WHERE id=?", id)
 
 	if err != nil {
 		log.Print(err)
@@ -149,6 +184,76 @@ func AllRequests(w http.ResponseWriter, r *http.Request) {
 	defer db.Close()
 
 	rows, err := db.Query("SELECT leaveId, startDate, endDate, userId, status, requestType from holiday")
+
+	if err != nil {
+		log.Print(err)
+	}
+
+	for rows.Next() {
+		err = rows.Scan(&requests.LeaveId, &requests.StartDate, &requests.EndDate, &requests.UserId, &requests.Status, &requests.RequestType)
+		if err != nil {
+			log.Fatal(err.Error())
+		} else {
+			arrRequests = append(arrRequests, requests)
+		}
+	}
+
+	response.Status = 200
+	response.Message = "Success"
+	response.Data = arrRequests
+
+	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	json.NewEncoder(w).Encode(response)
+}
+
+// GetRequestByLeaveId = Select Request by Id API
+func GetRequestbyLeaveId(w http.ResponseWriter, r *http.Request) {
+	var requests model.Requests
+	var response model.RequestsResponse
+	var arrRequests []model.Requests
+
+	db := config.Connect()
+	defer db.Close()
+
+	leaveId := r.FormValue("leaveId")
+
+	rows, err := db.Query("SELECT leaveId, startDate, endDate, userId, status, requestType from holiday WHERE leaveId=?", leaveId)
+
+	if err != nil {
+		log.Print(err)
+	}
+
+	for rows.Next() {
+		err = rows.Scan(&requests.LeaveId, &requests.StartDate, &requests.EndDate, &requests.UserId, &requests.Status, &requests.RequestType)
+		if err != nil {
+			log.Fatal(err.Error())
+		} else {
+			arrRequests = append(arrRequests, requests)
+		}
+	}
+
+	response.Status = 200
+	response.Message = "Success"
+	response.Data = arrRequests
+
+	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	json.NewEncoder(w).Encode(response)
+}
+
+// GetRequestByUserId = Select Request by Id API
+func GetRequestbyUserId(w http.ResponseWriter, r *http.Request) {
+	var requests model.Requests
+	var response model.RequestsResponse
+	var arrRequests []model.Requests
+
+	db := config.Connect()
+	defer db.Close()
+
+	userId := r.FormValue("userId")
+
+	rows, err := db.Query("SELECT leaveId, startDate, endDate, userId, status, requestType from holiday WHERE userId=?", userId)
 
 	if err != nil {
 		log.Print(err)

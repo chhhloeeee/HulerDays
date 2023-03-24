@@ -1,7 +1,5 @@
 import Modal from "../modal";
-import styled from "styled-components";
-import { Field, Formik } from "formik";
-import * as Yup from "yup";
+import { Formik } from "formik";
 import Actions from "../Actions";
 import StyledFormDatePicker from "../DatePicker";
 import AdminFormSelectUnderline from "./AdminFormSelectUnderline";
@@ -9,7 +7,6 @@ import AdminFormColumns from "./AdminFormColumns";
 
 interface FormProps {
   close: () => void;
-  className?: string;
 }
 
 interface Values {
@@ -18,74 +15,100 @@ interface Values {
   endDate: Date;
 }
 
-const RequestSchema = Yup.object().shape({
-  lastName: Yup.string().required("Required"),
-});
+const RequestForm = ({ close }: FormProps) => {
+  var date = new Date();
 
-const RequestForm = ({ close, className }: FormProps) => {
+  const btn = document.querySelector("button");
+
+  const postRequest = async (values) => {
+    const XHR = new XMLHttpRequest();
+    const formData = new FormData();
+
+    // Push our data into our FormData object
+    for (const [] of Object.entries(values)) {
+      formData.append("requestType", values.requestType);
+      formData.append(
+        "startDate",
+        values.startDate.toLocaleDateString("en-gb")
+      );
+      formData.append("endDate", values.endDate.toLocaleDateString("en-gb"));
+      formData.append("userId", "2");
+      formData.append("status", "Pending");
+    }
+
+    // Define what happens on successful data submission
+    XHR.addEventListener("load", (e) => {
+      alert("Yeah! Data sent and response loaded.");
+      close();
+    });
+
+    // Define what happens in case of an error
+    XHR.addEventListener("error", (e) => {
+      alert("Oops! Something went wrong.");
+    });
+
+    // Set up our request
+    XHR.open("POST", "http://localhost:1234/addRequest");
+
+    // Send our FormData object; HTTP headers are set automatically
+    XHR.send(formData);
+  };
+
+  btn.addEventListener("click", () => {
+    postRequest({ test: "ok" });
+  });
+
   return (
     <Modal title="New Leave Request" close={close}>
       <Formik
         initialValues={{
-          requestType: "annualLeave",
-          startDate: new Date(),
-          endDate: new Date(),
+          requestType: "Annual Leave",
+          startDate: date,
+          endDate: date,
         }}
         validateOnMount
-        validationSchema={RequestSchema}
         onSubmit={(values: Values, { setSubmitting, resetForm }) => {
-          alert(JSON.stringify(values, null, 2));
-          close();
+          postRequest(values);
           setSubmitting(false);
-          resetForm();
+          setTimeout(() => {
+            resetForm();
+          }, 400);
         }}
       >
-        {({ handleSubmit, isValid, values, setFieldValue }) => (
-          <div className={className}>
-            <form
-              className="form"
-              onSubmit={(e) => {
-                e.preventDefault();
-                handleSubmit();
-              }}
-            >
-              <AdminFormColumns>
-                <AdminFormSelectUnderline
-                  options={[
-                    { value: "annualLeave", label: "Annual Leave" },
-                    { value: "sickness", label: "Sickness" },
-                  ]}
-                  label="Request Type"
-                  value={values.requestType}
-                  setValue={(val: string) => setFieldValue("requestType", val)}
-                />
+        {({ handleSubmit, values, setFieldValue }) => (
+          <>
+            <AdminFormColumns>
+              <AdminFormSelectUnderline
+                options={[
+                  { value: "Annual Leave", label: "Annual Leave" },
+                  { value: "Sickness", label: "Sickness" },
+                ]}
+                label="Request Type"
+                value={values.requestType}
+                setValue={(val: string) => setFieldValue("requestType", val)}
+              />
 
-                <StyledFormDatePicker
-                  label="Start Date"
-                  placeholder="Select a start date"
-                  value={values.startDate}
-                  setValue={(val: Date) => setFieldValue("startDate", val)}
-                />
+              <StyledFormDatePicker
+                label="Start Date"
+                placeholder="Select a start date"
+                value={values.startDate}
+                setValue={(val: Date) => setFieldValue("startDate", val)}
+              />
 
-                <StyledFormDatePicker
-                  label="End Date"
-                  placeholder="Select an end date"
-                  value={values.endDate}
-                  setValue={(val: Date) => setFieldValue("endDate", val)}
-                />
-              </AdminFormColumns>
+              <StyledFormDatePicker
+                label="End Date"
+                placeholder="Select an end date"
+                value={values.endDate}
+                setValue={(val: Date) => setFieldValue("endDate", val)}
+              />
+            </AdminFormColumns>
 
-              <Actions onCancel={() => close()} onCreate={handleSubmit} />
-            </form>
-          </div>
+            <Actions onCancel={() => close()} onCreate={handleSubmit} />
+          </>
         )}
       </Formik>
     </Modal>
   );
 };
 
-RequestForm.defaultProps = {
-  className: "",
-};
-const StyledRequestForm = styled(RequestForm)``;
-export default StyledRequestForm;
+export default RequestForm;

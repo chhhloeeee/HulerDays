@@ -33,7 +33,7 @@ const Button = ({
 }: ButtonProps) => {
   if (href) {
     return (
-      <a href={href}>
+      <a href={href} style={{ textDecoration: "none" }}>
         <button
           className={className}
           type="button"
