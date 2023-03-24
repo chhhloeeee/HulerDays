@@ -23,7 +23,7 @@ const Table = ({ headers, rows, id, className }: TableProps) => {
           </tr>
         </thead>
         <tbody>
-          {rows.slice((pageNumber - 1) * 10, pageNumber * 10).map((row) => (
+          {rows.slice((pageNumber - 1) * 5, pageNumber * 5).map((row) => (
             <tr key={id}>
               {row.map((cell) => (
                 <td key={id}>{cell} </td>
@@ -44,7 +44,7 @@ const Table = ({ headers, rows, id, className }: TableProps) => {
 };
 
 export const Pagination = ({ pageNumber, listLength, onClick }) => {
-  let noOfPages = Math.ceil(listLength / 10);
+  let noOfPages = Math.ceil(listLength / 5);
   let pageNumbers = [];
   if (noOfPages < 10) {
     for (let i = 1; i <= noOfPages; i++) {
@@ -116,7 +116,6 @@ export const Pagination = ({ pageNumber, listLength, onClick }) => {
 };
 
 const StyledTable = styled(Table)`
-  width: 100%;
   overflow-x: scroll;
   ${scrollStyling}
   > table {
@@ -157,7 +156,7 @@ const StyledTable = styled(Table)`
         padding-right: 20px;
         border-top-right-radius: 10px;
         border-bottom-right-radius: 10px;
-        max-width: 150px;
+        width: 150px;
       }
     }
 

@@ -39,7 +39,6 @@ const ManageRequest = ({ className }: ManageRequestProps) => {
 
 function RequestsTable({ data }) {
   const [leave, setLeave] = useState(data.Data);
-  console.log(data.Data);
 
   let leaveList = leave.sort((a, b) => {
     if (a.leaveID < b.leaveID) {
@@ -50,6 +49,7 @@ function RequestsTable({ data }) {
     }
     return 0;
   });
+
   const deleteUserCall = async (leaveID) => {
     return await fetch("http://localhost:1234/deleteRequest/" + leaveID, {
       method: "DELETE",
@@ -86,8 +86,8 @@ function RequestsTable({ data }) {
       headers={["Request Type", "Start Date", "End Date", "Status", "Actions"]}
       rows={leaveList.map((service) => [
         service.requestType,
-        service.startDate.toLocaleDateString(),
-        service.endDate.toLocaleDateString(),
+        service.startDate,
+        service.endDate,
         service.status,
         <div>
           <Button onClick={() => deleteLeave(service.leaveId)}>
@@ -107,7 +107,7 @@ const StyledManageRequest = styled(ManageRequest)`
     margin: 0;
     position: relative;
     top: 3rem;
-    padding-bottom: 6rem;
+    padding-bottom: 3rem;
     line-height: 1.15;
     font-size: 3.5rem;
     color: #fb6666;

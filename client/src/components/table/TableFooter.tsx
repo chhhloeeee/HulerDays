@@ -18,10 +18,13 @@ const AdminTableFooter = styled.div`
   }
 
   span {
-    background-color: white;
     font-size: 15px;
-    border-radius: 15px;
+
     padding: 15px 25px;
+
+    &:hover {
+      text-decoration: underline;
+    }
   }
 `;
 

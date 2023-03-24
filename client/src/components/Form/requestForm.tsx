@@ -18,23 +18,46 @@ interface Values {
 const RequestForm = ({ close }: FormProps) => {
   var date = new Date();
 
+  const btn = document.querySelector("button");
+
   const postRequest = async (values) => {
-    //e.preventDefault();
-    const response = await fetch("http://localhost:1234/addRequest", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(values),
-    });
-    console.log(response);
-    if (!response.ok) {
-      alert("Something went wrong");
-      return;
+    const XHR = new XMLHttpRequest();
+    const formData = new FormData();
+
+    // Push our data into our FormData object
+    for (const [] of Object.entries(values)) {
+      formData.append("requestType", values.requestType);
+      formData.append(
+        "startDate",
+        values.startDate.toLocaleDateString("en-gb")
+      );
+      formData.append("endDate", values.endDate.toLocaleDateString("en-gb"));
+      formData.append("userId", "1");
+      formData.append("status", "Pending");
     }
-    alert("Loan created");
-    close();
+
+    // Define what happens on successful data submission
+    XHR.addEventListener("load", (e) => {
+      alert("Yeah! Data sent and response loaded.");
+      close();
+    });
+
+    // Define what happens in case of an error
+    XHR.addEventListener("error", (e) => {
+      alert("Oops! Something went wrong.");
+    });
+
+    // Set up our request
+    XHR.open("POST", "http://localhost:1234/addRequest");
+
+    // Send our FormData object; HTTP headers are set automatically
+    XHR.send(formData);
   };
+
+  btn.addEventListener("click", () => {
+    postRequest({ test: "ok" });
+  });
+
   return (
     <Modal title="New Leave Request" close={close}>
       <Formik
@@ -46,7 +69,7 @@ const RequestForm = ({ close }: FormProps) => {
         validateOnMount
         onSubmit={(values: Values, { setSubmitting, resetForm }) => {
           postRequest(values);
-          //close();
+          setSubmitting(false);
           setTimeout(() => {
             resetForm();
           }, 400);
@@ -57,8 +80,8 @@ const RequestForm = ({ close }: FormProps) => {
             <AdminFormColumns>
               <AdminFormSelectUnderline
                 options={[
-                  { value: "annualLeave", label: "Annual Leave" },
-                  { value: "sickness", label: "Sickness" },
+                  { value: "Annual Leave", label: "Annual Leave" },
+                  { value: "Sickness", label: "Sickness" },
                 ]}
                 label="Request Type"
                 value={values.requestType}
