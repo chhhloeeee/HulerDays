@@ -2,6 +2,7 @@
 import { useState } from "react";
 import Button from "src/components/Button";
 import ContentWrapper from "src/components/ContentWrapper";
+import StyledErrorRequest from "src/components/ErrorRequest";
 import Footer from "src/components/footer";
 import Icon from "src/components/icons";
 import Logo from "src/components/Logo";
@@ -40,6 +41,10 @@ const ManageRequest = ({ className }: ManageRequestProps) => {
 function RequestsTable({ data }) {
   const [leave, setLeave] = useState(data.Data);
   console.log(leave);
+
+  if (leave === null) {
+    return <StyledErrorRequest />;
+  }
 
   let leaveList = leave.sort((a, b) => {
     if (a.leaveID < b.leaveID) {

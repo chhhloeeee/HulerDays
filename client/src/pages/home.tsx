@@ -12,7 +12,7 @@ interface HomeProps {
 }
 
 const Home = ({ className }: HomeProps) => {
-  const userId = 1;
+  const userId = 2;
   return (
     <div className={className}>
       <ContentWrapper>
