@@ -11,7 +11,7 @@ const ErrorRequest = ({ className }: ErrorProps) => {
       <div>
         <Image src={Calendar} alt="calendar" width={271.11} height={271.11} />
         <h1>Sorry!</h1>
-        <h2>Looks like you havent made a request yet</h2>
+        <h2>Looks like there are no requests yet</h2>
       </div>
     </div>
   );
