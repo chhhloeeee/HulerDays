@@ -13,6 +13,9 @@ const Policies = ({ className }: PolicyProps) => {
   return (
     <div className={className}>
       <Logo />
+      <Button secondary href="/home">
+        Back
+      </Button>
       <h1>Policies</h1>
       <div>
         <div>
@@ -47,9 +50,6 @@ const Policies = ({ className }: PolicyProps) => {
           </p>
         </div>
       </div>
-      <Button secondary href="/home">
-        Back
-      </Button>
 
       <AboutTwo />
 
@@ -82,9 +82,9 @@ const StyledPolicies = styled(Policies)`
   }
   button {
     position: relative;
-    left: 3rem;
-    bottom: -6rem;
-    box-shadow: inset 0 0 0 2px #fb6666;
+    top: 7rem;
+    z-index: ${(props) => props.theme.zLayers.overlay};
+    left: 2rem;
   }
   div:nth-of-type(2) {
     position: relative;

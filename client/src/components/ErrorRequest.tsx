@@ -34,7 +34,6 @@ const StyledErrorRequest = styled(ErrorRequest)`
   h2 {
     position: relative;
     text-align: center;
-    top: 1rem;
   }
 `;
 export default StyledErrorRequest;

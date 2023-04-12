@@ -63,7 +63,7 @@ const StyledHome = styled(Home)`
     justify-content: center;
     align-items: center;
 
-    div {
+    > div {
       font-size: 1.5rem;
       width: 200px;
       margin-bottom: 3rem;

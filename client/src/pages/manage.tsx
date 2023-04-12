@@ -19,6 +19,11 @@ const ManageRequest = ({ className }: ManageRequestProps) => {
     <div className={className}>
       <ContentWrapper>
         <Logo />
+        <span>
+          <Button primary href="/home">
+            Back
+          </Button>
+        </span>
         <h1>Manage Leave Requests</h1>
         <div>
           <APILoader
@@ -26,11 +31,6 @@ const ManageRequest = ({ className }: ManageRequestProps) => {
             Component={RequestsTable}
           />
         </div>
-        <span>
-          <Button primary href="/home">
-            Back
-          </Button>
-        </span>
         <Footer />
       </ContentWrapper>
     </div>
@@ -121,9 +121,9 @@ const StyledManageRequest = styled(ManageRequest)`
   }
 
   span button {
+    z-index: ${(props) => props.theme.zLayers.overlay};
     position: relative;
-    left: 3rem;
-    bottom: 4rem;
+    top: 5.8rem;
   }
 
   table {

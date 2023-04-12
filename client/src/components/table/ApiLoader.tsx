@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
-import styled from "styled-components";
-import Image from "next/image";
+import StyledErrorRequest from "../ErrorRequest";
+import { useRouter } from "next/router";
 
 interface APILoaderProps {
   url: string;
@@ -13,6 +13,7 @@ export const APILoader = ({ url, Component, reloadWith }: APILoaderProps) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [response, setResponse] = useState(null);
   const [error, setError] = useState(null);
+  const router = useRouter();
 
   const fetchData = () => {
     fetch(url)
@@ -31,7 +32,10 @@ export const APILoader = ({ url, Component, reloadWith }: APILoaderProps) => {
     return <h1>Loading...</h1>;
   }
   if (error) {
-    return <h2>No Data</h2>;
+    const isManageRequest = router.pathname.includes("/manage");
+    return (
+      <div>{isManageRequest ? <StyledErrorRequest /> : <h2>No Data</h2>}</div>
+    );
   }
   return <Component data={response} />;
 };
