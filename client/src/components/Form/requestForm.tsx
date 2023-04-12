@@ -4,6 +4,7 @@ import Actions from "../Actions";
 import StyledFormDatePicker from "../DatePicker";
 import AdminFormSelectUnderline from "./AdminFormSelectUnderline";
 import AdminFormColumns from "./AdminFormColumns";
+import { useRouter } from "next/router";
 
 interface FormProps {
   close: () => void;
@@ -17,6 +18,7 @@ interface Values {
 
 const RequestForm = ({ close }: FormProps) => {
   var date = new Date();
+  const router = useRouter();
 
   const btn = document.querySelector("button");
 
@@ -38,8 +40,7 @@ const RequestForm = ({ close }: FormProps) => {
 
     // Define what happens on successful data submission
     XHR.addEventListener("load", (e) => {
-      alert("Yeah! Data sent and response loaded.");
-      close();
+      router.push("/manage");
     });
 
     // Define what happens in case of an error

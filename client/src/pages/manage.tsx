@@ -2,6 +2,7 @@
 import { useState } from "react";
 import Button from "src/components/Button";
 import ContentWrapper from "src/components/ContentWrapper";
+import StyledErrorRequest from "src/components/ErrorRequest";
 import Footer from "src/components/footer";
 import Icon from "src/components/icons";
 import Logo from "src/components/Logo";
@@ -19,6 +20,11 @@ const ManageRequest = ({ className }: ManageRequestProps) => {
     <div className={className}>
       <ContentWrapper>
         <Logo />
+        <span>
+          <Button primary href="/home">
+            Back
+          </Button>
+        </span>
         <h1>Manage Leave Requests</h1>
         <div>
           <APILoader
@@ -26,11 +32,6 @@ const ManageRequest = ({ className }: ManageRequestProps) => {
             Component={RequestsTable}
           />
         </div>
-        <span>
-          <Button primary href="/home">
-            Back
-          </Button>
-        </span>
         <Footer />
       </ContentWrapper>
     </div>
@@ -40,6 +41,10 @@ const ManageRequest = ({ className }: ManageRequestProps) => {
 function RequestsTable({ data }) {
   const [leave, setLeave] = useState(data.Data);
   console.log(leave);
+
+  if (leave === null) {
+    return <StyledErrorRequest />;
+  }
 
   let leaveList = leave.sort((a, b) => {
     if (a.leaveID < b.leaveID) {
@@ -121,9 +126,9 @@ const StyledManageRequest = styled(ManageRequest)`
   }
 
   span button {
+    z-index: ${(props) => props.theme.zLayers.overlay};
     position: relative;
-    left: 3rem;
-    bottom: 4rem;
+    top: 5.8rem;
   }
 
   table {
