@@ -1,4 +1,5 @@
 /* eslint-disable react/jsx-key */
+import { AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import Button from "src/components/Button";
 import ContentWrapper from "src/components/ContentWrapper";
@@ -40,7 +41,6 @@ const ManageRequest = ({ className }: ManageRequestProps) => {
 
 function RequestsTable({ data }) {
   const [leave, setLeave] = useState(data.Data);
-  console.log(leave);
 
   if (leave === null) {
     return <StyledErrorRequest />;
@@ -98,9 +98,6 @@ function RequestsTable({ data }) {
         <div>
           <Button onClick={() => deleteLeave(service.leaveId)}>
             <Icon name="delete" />
-          </Button>
-          <Button>
-            <Icon name="edit" />
           </Button>
         </div>,
       ])}
