@@ -98,7 +98,7 @@ const StyledModal = styled(Modal)<StyledModalProps>`
   width: 100%;
   height: 100%;
   backdrop-filter: blur(30px);
-  z-index: 1;
+  z-index: ${(props) => props.theme.zLayers.modal};
   display: flex;
   overflow: auto;
   overflow-x: hidden;

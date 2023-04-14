@@ -2,7 +2,6 @@ import { scrollStyling } from "src/styles/mixins";
 import styled from "styled-components";
 import AboutTwo from "../components/background/AboutTwo";
 import Button from "../components/Button";
-import ContainerWrapper from "../components/containerWrapper";
 import Footer from "../components/footer";
 import Logo from "../components/Logo";
 
@@ -13,7 +12,7 @@ const Policies = ({ className }: PolicyProps) => {
   return (
     <div className={className}>
       <Logo />
-      <Button secondary href="/home">
+      <Button primary href="/home">
         Back
       </Button>
       <h1>Policies</h1>
@@ -68,7 +67,11 @@ const StyledPolicies = styled(Policies)`
   width: 100%;
   height: 100%;
   z-index: -5;
-  overflow-x: hidden;
+  overflow: hidden;
+
+  ${AboutTwo} {
+    transform: rotate(350deg);
+  }
 
   h1 {
     margin: 0;
@@ -82,7 +85,7 @@ const StyledPolicies = styled(Policies)`
   }
   button {
     position: relative;
-    top: 7rem;
+    top: 6.3rem;
     z-index: ${(props) => props.theme.zLayers.overlay};
     left: 2rem;
   }

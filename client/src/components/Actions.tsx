@@ -40,6 +40,7 @@ const StyledActions = styled(Actions)`
   justify-content: flex-end;
   position: absolute;
   right: 1rem;
+  bottom: 1rem;
   @media screen and (max-width: 750) {
     margin-bottom: 0;
   }

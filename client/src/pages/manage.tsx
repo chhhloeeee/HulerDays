@@ -142,7 +142,7 @@ const StyledManageRequest = styled(ManageRequest)`
   span button {
     z-index: ${(props) => props.theme.zLayers.overlay};
     position: relative;
-    top: 5.8rem;
+    top: 6.3rem;
   }
 
   table {
