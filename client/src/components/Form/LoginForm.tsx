@@ -1,10 +1,10 @@
 import { Formik } from "formik";
 import { useRouter } from "next/router";
 import styled from "styled-components";
-import AboutTwo from "./background/AboutTwo";
-import Button from "./Button";
-import Logo from "./Logo";
-import { Error } from "./form/Error";
+import AboutTwo from "../background/AboutTwo";
+import Button from "../Button";
+import Logo from "../Logo";
+import { Error } from "./Error";
 import * as Yup from "yup";
 
 interface LoginFormProps {
