@@ -1,9 +1,11 @@
 /* eslint-disable react/jsx-key */
+import { AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import Button from "src/components/Button";
 import ContentWrapper from "src/components/ContentWrapper";
 import StyledErrorRequest from "src/components/ErrorRequest";
 import Footer from "src/components/footer";
+import EditRequestForm from "src/components/form/EditRequestForm";
 import Icon from "src/components/icons";
 import Logo from "src/components/Logo";
 import { APILoader } from "src/components/table/ApiLoader";
@@ -40,6 +42,11 @@ const ManageRequest = ({ className }: ManageRequestProps) => {
 
 function RequestsTable({ data }) {
   const [leave, setLeave] = useState(data.Data);
+  const [isCreate, setIsCreate] = useState(false);
+
+  const handleClose = () => {
+    setIsCreate(false);
+  };
 
   if (leave === null) {
     return <StyledErrorRequest />;
@@ -98,6 +105,17 @@ function RequestsTable({ data }) {
           <Button onClick={() => deleteLeave(service.leaveId)}>
             <Icon name="delete" />
           </Button>
+          <Button onClick={() => setIsCreate(true)}>
+            <Icon name="edit" />
+          </Button>
+          <AnimatePresence>
+            {isCreate && (
+              <EditRequestForm
+                reqType={service.requestType}
+                close={handleClose}
+              />
+            )}
+          </AnimatePresence>
         </div>,
       ])}
     />
