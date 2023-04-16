@@ -69,18 +69,6 @@ const Grid = ({ className }: GridProps) => {
             <h2>Policies &rarr;</h2>
           </div>
         </Link>
-
-        <Link className="card" href="/teamRequests">
-          <Image
-            src="https://cdn.huler.io/v2/wp-content/uploads/2022/06/14090341/Office9.jpg"
-            alt="planner"
-            width={271.11}
-            height={271.11}
-          />
-          <div>
-            <h2>Team Requests &rarr;</h2>
-          </div>
-        </Link>
       </div>
     </div>
   );
