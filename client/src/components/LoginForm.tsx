@@ -32,13 +32,18 @@ const FormWrapper = styled.div`
 `;
 
 const LoginForm = ({ className }: LoginFormProps) => {
+  const router = useRouter();
+
   const LoginSchema = Yup.object().shape({
     password: Yup.string()
       .min(8, "Your Password must be longer than 8 characters")
       .required("Required"),
     email: Yup.string().email("Invalid email").required("Required"),
   });
-  const router = useRouter();
+
+  //const handleLogin = () => {
+  //}
+
   return (
     <div className={className}>
       <Logo />
@@ -53,7 +58,7 @@ const LoginForm = ({ className }: LoginFormProps) => {
           validateOnMount
           onSubmit={(values: Values, { setSubmitting, resetForm }) => {
             console.log("here");
-            //handleChangePassword(values, setSubmitting);
+            //handleLogin(values, setSubmitting);
             router.push("/home");
             setSubmitting(false);
             setTimeout(() => {
