@@ -16,6 +16,8 @@ const Grid = ({ className }: GridProps) => {
     setIsCreate(false);
   };
 
+  //Create isAdmin prop
+
   return (
     <div className={className}>
       <div className="grid">
@@ -69,7 +71,7 @@ const Grid = ({ className }: GridProps) => {
             <h2>Policies &rarr;</h2>
           </div>
         </Link>
-
+        {/* add conditional render */}
         <Link className="card" href="/teamRequests">
           <Image
             src="https://cdn.huler.io/v2/wp-content/uploads/2022/06/14090341/Office9.jpg"
