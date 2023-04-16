@@ -29,7 +29,9 @@ const TeamRequest = ({ className }: ManageRequestProps) => {
         <div>
           {/* New API needed - find users with manager ID that matches the userID of manager logged in */}
           <APILoader
-            url={"http://localhost:1234/getRequestByUserId?userId=" + userId}
+            url={
+              "http://localhost:1234/getRequestByManagerId?managerId=" + userId
+            }
             Component={RequestsTable}
           />
         </div>
