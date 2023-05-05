@@ -2,10 +2,13 @@ package controller
 
 import (
 	"encoding/json"
+	"fmt"
+	"io/ioutil"
 	"net/http"
 
 	"github.com/HulerDays/config"
 	"github.com/HulerDays/model"
+	"github.com/gorilla/mux"
 )
 
 func GetUsers(w http.ResponseWriter, r *http.Request) {
@@ -32,6 +35,100 @@ func GetUsers(w http.ResponseWriter, r *http.Request) {
 		users = append(users, user)
 	}
 	json.NewEncoder(w).Encode(users)
+}
+
+func CreateUser(w http.ResponseWriter, r *http.Request) {
+
+	db := config.Connect()
+	defer db.Close()
+
+	stmt, err := db.Prepare("INSERT INTO users(email, password, holiday, isManager, managerId) VALUES(?, ?, ?, ?, ?)")
+	if err != nil {
+		panic(err.Error())
+	}
+	body, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		panic(err.Error())
+	}
+	keyVal := make(map[string]any)
+	json.Unmarshal(body, &keyVal)
+	email := keyVal["email"]
+	password := keyVal["password"]
+	holiday := keyVal["holiday"]
+	isManager := keyVal["isManager"]
+	managerId := keyVal["managerId"]
+	_, err = stmt.Exec(email, password, holiday, isManager, managerId)
+	if err != nil {
+		panic(err.Error())
+	}
+	fmt.Fprintf(w, "New user was created")
+}
+
+func GetUser(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	params := mux.Vars(r)
+
+	db := config.Connect()
+	defer db.Close()
+
+	result, err := db.Query("SELECT id, email, password, holiday, isManager, managerId FROM users WHERE id = ?", params["id"])
+	if err != nil {
+		panic(err.Error())
+	}
+	defer result.Close()
+	var user model.User
+	for result.Next() {
+		err := result.Scan(&user.Id, &user.Email, &user.Password, &user.Holiday, &user.IsManager, &user.ManagerId)
+		if err != nil {
+			panic(err.Error())
+		}
+	}
+	json.NewEncoder(w).Encode(user)
+}
+
+func UpdateUser(w http.ResponseWriter, r *http.Request) {
+	params := mux.Vars(r)
+
+	db := config.Connect()
+	defer db.Close()
+
+	stmt, err := db.Prepare("UPDATE users SET email = ?, password = ?, holiday = ?, isManager = ?, managerId = ? WHERE id = ?")
+	if err != nil {
+		panic(err.Error())
+	}
+	body, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		panic(err.Error())
+	}
+	keyVal := make(map[string]any)
+	json.Unmarshal(body, &keyVal)
+	newEmail := keyVal["email"]
+	newPassword := keyVal["password"]
+	newHoliday := keyVal["holiday"]
+	newIsManager := keyVal["isManager"]
+	newManagerId := keyVal["managerId"]
+	_, err = stmt.Exec(newEmail, newPassword, newHoliday, newIsManager, newManagerId, params["id"])
+	if err != nil {
+		panic(err.Error())
+	}
+	fmt.Fprintf(w, "Post with ID = %s was updated", params["id"])
+}
+
+func DeleteUser(w http.ResponseWriter, r *http.Request) {
+	params := mux.Vars(r)
+
+	db := config.Connect()
+	defer db.Close()
+
+	stmt, err := db.Prepare("DELETE FROM users WHERE id = ?")
+	if err != nil {
+		panic(err.Error())
+	}
+	_, err = stmt.Exec(params["id"])
+	if err != nil {
+		panic(err.Error())
+	}
+	fmt.Fprintf(w, "Post with ID = %s was deleted", params["id"])
 }
 
 // // AllUsers = Select User API

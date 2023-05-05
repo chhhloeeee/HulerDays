@@ -1,7 +1,6 @@
 package main
 
 import (
-	"database/sql"
 	"net/http"
 
 	_ "github.com/go-sql-driver/mysql"
@@ -10,18 +9,15 @@ import (
 	"github.com/HulerDays/controller"
 )
 
-var db *sql.DB
-var err error
-
 func main() {
 
 	router := mux.NewRouter()
 
 	router.HandleFunc("/users", controller.GetUsers).Methods("GET")
-	router.HandleFunc("/users", controller.AddUsers).Methods("POST")
-	router.HandleFunc("/users/{id}", controller.GetUser).Methods("GET")
-	router.HandleFunc("/users/{id}", controller.UpdateUser).Methods("PUT")
-	router.HandleFunc("/users/{id}", controller.DeleteUser).Methods("DELETE")
+	router.HandleFunc("/createUser", controller.CreateUser).Methods("POST")
+	router.HandleFunc("/getUser/{id}", controller.GetUser).Methods("GET")
+	router.HandleFunc("/updateUser/{id}", controller.UpdateUser).Methods("PUT")
+	router.HandleFunc("/deleteUser/{id}", controller.DeleteUser).Methods("DELETE")
 
 	// http.HandleFunc("/users", controller.ReturnAllUsers)
 	// router.HandleFunc("/getUsers", controller.AllUsers).Methods("GET")
