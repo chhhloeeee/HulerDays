@@ -1,18 +1,18 @@
 package model
 
-type Users struct {
-	Id        int    `form:"id" json:"id"`
-	Email     string `form:"email" json:"email"`
-	Password  string `form:"password" json:"password"`
-	Holiday   int    `form:"holiday" json:"holiday"`
-	IsManager bool   `form:"isManager" json:"isManager"`
-	ManagerId int    `form:"managerID" json:"managerId"`
+type User struct {
+	Id        string `json:"id"`
+	Email     string `json:"email"`
+	Password  string `json:"password"`
+	Holiday   int    `json:"holiday"`
+	IsManager bool   `json:"isManager"`
+	ManagerId int    `json:"managerId"`
 }
 
 type UserResponse struct {
 	Status  int    `json:"status"`
 	Message string `json:"message"`
-	Data    []Users
+	Data    []User
 }
 
 type Requests struct {
