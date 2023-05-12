@@ -88,6 +88,10 @@ const StyledCalendarView = styled(CalendarView)`
 
   span {
     padding-top: 5rem;
+    span:nth-of-type(2) {
+      font-size: 30px;
+      font-weight: bold;
+    }
   }
 `;
 export default StyledCalendarView;
