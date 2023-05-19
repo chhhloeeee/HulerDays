@@ -55,10 +55,11 @@ function RequestsTable({ data }) {
     return 0;
   });
 
-  const deleteLeave = async (values) => {
+  const deleteLeave = async (values, e) => {
     console.log(values);
     const XHR = new XMLHttpRequest();
     const formData = new FormData();
+    e.preventDefault();
 
     for (const [] of Object.entries(values)) {
       formData.append("leaveId", values.leaveID);
@@ -83,7 +84,7 @@ function RequestsTable({ data }) {
     XHR.send(formData);
   };
   return (
-    <form onSubmit={deleteLeave} encType="multipart/form-data" action="">
+    <form onSubmit={(e) => deleteLeave} encType="multipart/form-data" action="">
       <Table
         headers={[
           "Request Type",
