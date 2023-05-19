@@ -75,6 +75,8 @@ function RequestsTable({ data }) {
     XHR.open("DELETE", "http://localhost:1234/deleteRequest");
 
     // Send our FormData object; HTTP headers are set automatically
+
+    XHR.setRequestHeader("Content-Type", "multipart/form-data");
     XHR.send(formData);
   };
   return (
