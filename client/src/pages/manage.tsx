@@ -88,11 +88,9 @@ function RequestsTable({ data }) {
         service.endDate,
         service.status,
         <div>
-          <form encType="multipart/form-data" action="">
-            <Button onClick={() => deleteLeave(service.leaveId)}>
-              <Icon name="delete" />
-            </Button>
-          </form>
+          <Button onClick={() => deleteLeave(service.leaveId)}>
+            <Icon name="delete" />
+          </Button>
         </div>,
       ])}
     />
