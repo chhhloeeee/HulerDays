@@ -55,11 +55,14 @@ function RequestsTable({ data }) {
     return 0;
   });
 
-  const deleteLeave = async (leaveID) => {
+  const deleteLeave = async (values) => {
+    console.log(values);
     const XHR = new XMLHttpRequest();
     const formData = new FormData();
 
-    formData.append("leaveId", leaveID);
+    for (const [] of Object.entries(values)) {
+      formData.append("leaveId", values.leaveID);
+    }
 
     // Define what happens on successful data submission
     XHR.addEventListener("load", (e) => {
@@ -80,20 +83,28 @@ function RequestsTable({ data }) {
     XHR.send(formData);
   };
   return (
-    <Table
-      headers={["Request Type", "Start Date", "End Date", "Status", "Actions"]}
-      rows={leaveList.map((service) => [
-        service.requestType,
-        service.startDate,
-        service.endDate,
-        service.status,
-        <div>
-          <Button onClick={() => deleteLeave(service.leaveId)}>
-            <Icon name="delete" />
-          </Button>
-        </div>,
-      ])}
-    />
+    <form onSubmit={deleteLeave} encType="multipart/form-data" action="">
+      <Table
+        headers={[
+          "Request Type",
+          "Start Date",
+          "End Date",
+          "Status",
+          "Actions",
+        ]}
+        rows={leaveList.map((service) => [
+          service.requestType,
+          service.startDate,
+          service.endDate,
+          service.status,
+          <div>
+            <Button type="submit">
+              <Icon name="delete" />
+            </Button>
+          </div>,
+        ])}
+      />
+    </form>
   );
 }
 
