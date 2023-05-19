@@ -55,24 +55,27 @@ function RequestsTable({ data }) {
     return 0;
   });
 
-  const deleteLeave = (leaveID) => {
-    console.log(leaveID);
-    var data = new FormData();
-    data.append("leaveId", leaveID);
+  const deleteLeave = async (leaveID) => {
+    const XHR = new XMLHttpRequest();
+    const formData = new FormData();
 
-    var xhr = new XMLHttpRequest();
-    xhr.withCredentials = true;
+    formData.append("leaveId", leaveID);
 
-    xhr.addEventListener("readystatechange", function () {
-      if (this.readyState === 4) {
-        console.log(this.responseText);
-      }
+    // Define what happens on successful data submission
+    XHR.addEventListener("load", (e) => {
+      return;
     });
 
-    xhr.open("DELETE", "http://localhost:1234/deleteRequest");
+    // Define what happens in case of an error
+    XHR.addEventListener("error", (e) => {
+      alert("Oops! Something went wrong.");
+    });
 
-    xhr.send(data);
-    return;
+    // Set up our request
+    XHR.open("DELETE", "http://localhost:1234/deleteRequest");
+
+    // Send our FormData object; HTTP headers are set automatically
+    XHR.send(formData);
   };
   return (
     <Table
@@ -83,9 +86,11 @@ function RequestsTable({ data }) {
         service.endDate,
         service.status,
         <div>
-          <Button onClick={() => deleteLeave(service.leaveId)}>
-            <Icon name="delete" />
-          </Button>
+          <form encType="multipart/form-data" action="">
+            <Button onClick={() => deleteLeave(service.leaveId)}>
+              <Icon name="delete" />
+            </Button>
+          </form>
         </div>,
       ])}
     />
