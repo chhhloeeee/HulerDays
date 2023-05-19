@@ -55,35 +55,23 @@ function RequestsTable({ data }) {
     return 0;
   });
 
-  const deleteUserCall = async (leaveID) => {
-    return await fetch("http://localhost:1234/deleteRequest/" + leaveID, {
-      method: "DELETE",
-    });
-  };
-
   const deleteLeave = (leaveID) => {
-    const array = [...leaveList];
-    for (let i = 0; i < array.length; i++) {
-      if (leaveID === array[i].userID) {
-        let promise = deleteUserCall(leaveID);
-        promise
-          .then((response) => {
-            if (!response.ok) {
-              alert("Something went wrong");
-              return;
-            }
-            alert("Delete Success");
-            array.splice(i, 1);
+    console.log(leaveID);
+    var data = new FormData();
+    data.append("leaveId", leaveID);
 
-            setLeave(array);
-            return;
-          })
-          .catch((error) => {
-            alert("Internal Server Error");
-            return;
-          });
+    var xhr = new XMLHttpRequest();
+    xhr.withCredentials = true;
+
+    xhr.addEventListener("readystatechange", function () {
+      if (this.readyState === 4) {
+        console.log(this.responseText);
       }
-    }
+    });
+
+    xhr.open("DELETE", "http://localhost:1234/deleteRequest");
+
+    xhr.send(data);
     return;
   };
   return (

@@ -357,7 +357,7 @@ func DeleteRequest(w http.ResponseWriter, r *http.Request) {
 
 	leaveId := r.FormValue("leaveId")
 
-	_, err = db.Exec("DELETE FROM holidays WHERE leaveId=?", leaveId)
+	_, err = db.Exec("DELETE FROM holiday WHERE leaveId=?", leaveId)
 
 	if err != nil {
 		log.Print(err)
