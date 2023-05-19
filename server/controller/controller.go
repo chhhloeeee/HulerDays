@@ -159,7 +159,7 @@ func DeleteUser(w http.ResponseWriter, r *http.Request) {
 
 	id := r.FormValue("id")
 
-	_, err = db.Exec("DELETE FROM employee WHERE id=?", id)
+	_, err = db.Exec("DELETE FROM users WHERE id=?", id)
 
 	if err != nil {
 		log.Print(err)
