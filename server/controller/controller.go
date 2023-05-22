@@ -370,7 +370,7 @@ func DeleteRequest(w http.ResponseWriter, r *http.Request) {
 			log.Print(err)
 			return
 		}
-		return
+
 	}
 
 	response.Status = 200

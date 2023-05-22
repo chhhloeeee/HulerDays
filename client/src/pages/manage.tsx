@@ -1,4 +1,5 @@
 /* eslint-disable react/jsx-key */
+import router from "next/router";
 import { useState } from "react";
 import Button from "src/components/Button";
 import ContentWrapper from "src/components/ContentWrapper";
@@ -55,57 +56,41 @@ function RequestsTable({ data }) {
     return 0;
   });
 
-  const deleteLeave = async (values, e) => {
-    console.log(values);
-    const XHR = new XMLHttpRequest();
+  const deleteLeave = async (leaveID) => {
     const formData = new FormData();
-    e.preventDefault();
-
-    for (const [] of Object.entries(values)) {
-      formData.append("leaveId", values.leaveID);
-    }
-
-    // Define what happens on successful data submission
-    XHR.addEventListener("load", (e) => {
-      return;
-    });
-
-    // Define what happens in case of an error
-    XHR.addEventListener("error", (e) => {
-      alert("Oops! Something went wrong.");
-    });
-
-    // Set up our request
-    XHR.open("DELETE", "http://localhost:1234/deleteRequest");
-
-    // Send our FormData object; HTTP headers are set automatically
-
-    XHR.setRequestHeader("Content-Type", "multipart/form-data");
-    XHR.send(formData);
+    formData.append("leaveId", leaveID);
+    fetch("http://localhost:1234/deleteRequest", {
+      method: "DELETE",
+      body: formData,
+    })
+      .then((response) => {
+        router.push("/manage");
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+        alert("Oops! Something went wrong.");
+      });
   };
+
   return (
-    <form onSubmit={(e) => deleteLeave} encType="multipart/form-data" action="">
-      <Table
-        headers={[
-          "Request Type",
-          "Start Date",
-          "End Date",
-          "Status",
-          "Actions",
-        ]}
-        rows={leaveList.map((service) => [
-          service.requestType,
-          service.startDate,
-          service.endDate,
-          service.status,
-          <div>
-            <Button type="submit">
-              <Icon name="delete" />
-            </Button>
-          </div>,
-        ])}
-      />
-    </form>
+    <Table
+      headers={["Request Type", "Start Date", "End Date", "Status", "Actions"]}
+      rows={leaveList.map((service) => [
+        service.requestType,
+        service.startDate,
+        service.endDate,
+        service.status,
+        <div>
+          <Button onClick={() => deleteLeave(service.leaveId)}>
+            <Icon name="delete" />
+          </Button>
+          <Button>
+            <Icon name="edit" />
+          </Button>
+        </div>,
+      ])}
+    />
   );
 }
 
