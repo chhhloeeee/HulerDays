@@ -65,60 +65,17 @@ function RequestsTable({ data }) {
   //   });
   // };
 
-  const deleteRequest = async (leaveID) => {
-    const XHR = new XMLHttpRequest();
+  const deleteLeave = async (leaveID) => {
     const formData = new FormData();
-    console.log(leaveID);
-
-    // Push our data into our FormData object
     formData.append("leaveId", leaveID);
-
-    // Define what happens on successful data submission
-    XHR.addEventListener("load", (e) => {
-      router.push("/manage");
-    });
-
-    // Define what happens in case of an error
-    XHR.addEventListener("error", (e) => {
-      alert("Oops! Something went wrong.");
-    });
-
-    // Set up our request
-    XHR.open("DELETE", "http://localhost:1234/deleteRequest");
-
-    // Send our FormData object; HTTP headers are set automatically
-    XHR.send(formData);
+    fetch('http://localhost:1234/deleteRequest', { method: 'DELETE', body: formData })
+      .then((response) => {
+        router.push("/manage");
+      }).catch((error) => {
+        alert("Oops! Something went wrong.");
+      });
   };
 
-  btn.addEventListener("click", () => {
-    deleteRequest({ test: "ok" });
-  });
-
-  const deleteLeave = (leaveID: number) => {
-    const array = [...leaveList];
-    for (let i = 0; i < array.length; i++) {
-      if (leaveID === array[i].leaveId) {
-        deleteRequest(leaveID);
-        // let promise = deleteUserCall(leaveID);
-        // promise
-        //   .then((response) => {
-        //     if (!response.ok) {
-        //       alert("Something went wrong");
-        //       return;
-        //     }
-        //     alert("Delete Success");
-        //     array.splice(i, 1);
-        //     setLeave(array);
-        //     return;
-        //   })
-        //   .catch((error) => {
-        //     alert("Internal Server Error");
-        //     return;
-        //   });
-      }
-    }
-    return;
-  };
   return (
     <Table
       headers={["Request Type", "Start Date", "End Date", "Status", "Actions"]}
