@@ -64,11 +64,10 @@ function RequestsTable({ data }) {
       body: formData,
     })
       .then((response) => {
-        router.push("/manage");
-        console.log(response);
+        alert("Delete Successful!");
+        window.location.reload();
       })
       .catch((error) => {
-        console.log(error);
         alert("Oops! Something went wrong.");
       });
   };

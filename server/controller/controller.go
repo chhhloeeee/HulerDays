@@ -350,7 +350,7 @@ func DeleteRequest(w http.ResponseWriter, r *http.Request) {
 
 	var response model.RequestsResponse
 
-	if r.Method == "OPTIONS" {
+	if r.Method == "DELETE" {
 		w.WriteHeader(http.StatusOK)
 
 		db := config.Connect()
