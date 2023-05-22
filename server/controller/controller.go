@@ -141,6 +141,7 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 	fmt.Print("Update data successfully")
 
 	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	json.NewEncoder(w).Encode(response)
 }
 
@@ -159,7 +160,7 @@ func DeleteUser(w http.ResponseWriter, r *http.Request) {
 
 	id := r.FormValue("id")
 
-	_, err = db.Exec("DELETE FROM employee WHERE id=?", id)
+	_, err = db.Exec("DELETE FROM users WHERE id=?", id)
 
 	if err != nil {
 		log.Print(err)
@@ -171,6 +172,7 @@ func DeleteUser(w http.ResponseWriter, r *http.Request) {
 	fmt.Print("Delete data successfully")
 
 	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	json.NewEncoder(w).Encode(response)
 }
 
@@ -339,29 +341,36 @@ func UpdateRequest(w http.ResponseWriter, r *http.Request) {
 	fmt.Print("Update data successfully")
 
 	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	json.NewEncoder(w).Encode(response)
 }
 
 // DeleteRequest = Delete Request API
 func DeleteRequest(w http.ResponseWriter, r *http.Request) {
+
 	var response model.RequestsResponse
 
-	db := config.Connect()
-	defer db.Close()
+	if r.Method == "DELETE" {
+		w.WriteHeader(http.StatusOK)
 
-	err := r.ParseMultipartForm(4096)
+		db := config.Connect()
+		defer db.Close()
 
-	if err != nil {
-		panic(err)
-	}
+		err := r.ParseMultipartForm(4096)
 
-	leaveId := r.FormValue("leaveId")
+		if err != nil {
+			panic(err)
+		}
 
-	_, err = db.Exec("DELETE FROM holidays WHERE leaveId=?", leaveId)
+		leaveId := r.FormValue("leaveId")
 
-	if err != nil {
-		log.Print(err)
-		return
+		_, err = db.Exec("DELETE FROM holiday WHERE leaveId=?", leaveId)
+
+		if err != nil {
+			log.Print(err)
+			return
+		}
+
 	}
 
 	response.Status = 200
@@ -369,5 +378,6 @@ func DeleteRequest(w http.ResponseWriter, r *http.Request) {
 	fmt.Print("Delete data successfully")
 
 	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
 	json.NewEncoder(w).Encode(response)
 }
