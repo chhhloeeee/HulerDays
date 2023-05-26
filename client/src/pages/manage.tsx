@@ -5,6 +5,7 @@ import Button from "src/components/Button";
 import ContentWrapper from "src/components/ContentWrapper";
 import StyledErrorRequest from "src/components/ErrorRequest";
 import Footer from "src/components/footer";
+import EditRequestForm from "src/components/form/EditRequestForm";
 import EditRequestModal from "src/components/form/EditRequestModal";
 import Icon from "src/components/icons";
 import Logo from "src/components/Logo";
@@ -43,10 +44,16 @@ const ManageRequest = ({ className }: ManageRequestProps) => {
 function RequestsTable({ data }) {
   const [leave, setLeave] = useState(data.Data);
   const [isCreate, setIsCreate] = useState(false);
+  const [requestType, setRequestType] = useState("");
 
-  const handleClose = () => {
-    setIsCreate(false);
+  const handleOpen = (requestType) => {
+    setRequestType(requestType);
+    setIsCreate(true);
   };
+
+  // const handleClose = () => {
+  //   setIsCreate(false);
+  // };
 
   if (leave === null) {
     return <StyledErrorRequest />;
@@ -94,25 +101,38 @@ function RequestsTable({ data }) {
     return;
   };
   return (
-    <Table
-      headers={["Request Type", "Start Date", "End Date", "Status", "Actions"]}
-      rows={leaveList.map((service) => [
-        service.requestType,
-        service.startDate,
-        service.endDate,
-        service.status,
-        <div>
-          <Button onClick={() => deleteLeave(service.leaveId)}>
-            <Icon name="delete" />
-          </Button>
-          <Button onClick={() => setIsCreate(true)}>
-            <Icon name="edit" />
-          </Button>
-
-          {isCreate && <EditRequestModal cancel={() => setIsCreate(false)} />}
-        </div>,
-      ])}
-    />
+    <>
+      <Table
+        headers={[
+          "Request Type",
+          "Start Date",
+          "End Date",
+          "Status",
+          "Actions",
+        ]}
+        rows={leaveList.map((service) => [
+          service.requestType,
+          service.startDate,
+          service.endDate,
+          service.status,
+          <div>
+            <Button onClick={() => deleteLeave(service.leaveId)}>
+              <Icon name="delete" />
+            </Button>
+            <Button onClick={() => handleOpen(service.requestType)}>
+              <Icon name="edit" />
+            </Button>
+          </div>,
+        ])}
+      />
+      {isCreate && (
+        // <EditRequestForm reqType={requestType} close={handleClose} />
+        <EditRequestModal
+          reqType={requestType}
+          cancel={() => setIsCreate(false)}
+        />
+      )}
+    </>
   );
 }
 

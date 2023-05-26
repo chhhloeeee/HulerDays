@@ -15,39 +15,41 @@ interface Values {
 
 const EditRequestForm = ({ close, reqType }: FormProps) => {
   return (
-    <Modal title="Edit Leave Request" close={close}>
-      <Formik
-        initialValues={{
-          requestType: reqType,
-        }}
-        validateOnMount
-        onSubmit={(values: Values, { setSubmitting, resetForm }) => {
-          //postRequest(values);
-          setSubmitting(false);
-          setTimeout(() => {
-            resetForm();
-          }, 400);
-        }}
-      >
-        {({ handleSubmit, values, setFieldValue }) => (
-          <>
-            <AdminFormColumns>
-              <AdminFormSelectUnderline
-                options={[
-                  { value: "Annual Leave", label: "Annual Leave" },
-                  { value: "Sickness", label: "Sickness" },
-                ]}
-                label="Request Type"
-                value={values.requestType}
-                setValue={(val: string) => setFieldValue("requestType", val)}
-              />
-            </AdminFormColumns>
+    <div>
+      <Modal title="Edit Leave Request" close={close}>
+        <Formik
+          initialValues={{
+            requestType: reqType,
+          }}
+          validateOnMount
+          onSubmit={(values: Values, { setSubmitting, resetForm }) => {
+            //postRequest(values);
+            setSubmitting(false);
+            setTimeout(() => {
+              resetForm();
+            }, 400);
+          }}
+        >
+          {({ handleSubmit, values, setFieldValue }) => (
+            <>
+              <AdminFormColumns>
+                <AdminFormSelectUnderline
+                  options={[
+                    { value: "Annual Leave", label: "Annual Leave" },
+                    { value: "Sickness", label: "Sickness" },
+                  ]}
+                  label="Request Type"
+                  value={values.requestType}
+                  setValue={(val: string) => setFieldValue("requestType", val)}
+                />
+              </AdminFormColumns>
 
-            <Actions onCancel={() => close()} onCreate={handleSubmit} />
-          </>
-        )}
-      </Formik>
-    </Modal>
+              <Actions onCancel={() => close()} onCreate={handleSubmit} />
+            </>
+          )}
+        </Formik>
+      </Modal>
+    </div>
   );
 };
 

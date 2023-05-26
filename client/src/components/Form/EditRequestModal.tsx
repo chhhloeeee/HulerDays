@@ -2,16 +2,23 @@
 import { useEffect, useRef, useCallback, MouseEvent, ReactNode } from "react";
 import styled from "styled-components";
 import Button from "../Button";
+import AdminFormColumns from "./AdminFormColumns";
+import AdminFormSelectUnderline from "./AdminFormSelectUnderline";
+import { Formik } from "formik";
 
 interface ConfirmationDialogProps {
   className?: string;
-
+  reqType: string;
   cancel: (event: MouseEvent) => void;
+}
+
+interface Values {
+  requestType: string;
 }
 
 const EditRequestModal = ({
   className,
-
+  reqType,
   cancel,
 }: ConfirmationDialogProps) => {
   const modalRef = useRef<HTMLDivElement>(null);
@@ -38,9 +45,46 @@ const EditRequestModal = ({
       <div ref={modalRef}>
         <div>
           <h1>Edit Request Type</h1>
-          <p>Placeholder message</p>
-          {cancel && <Button primaryOutline text="Cancel" onClick={cancel} />}
-          {/* {confirm && <Button text="Confirm" onClick={confirm} />} */}
+
+          <Formik
+            initialValues={{
+              requestType: reqType,
+            }}
+            validateOnMount
+            onSubmit={(values: Values, { setSubmitting, resetForm }) => {
+              //postRequest(values);
+              setSubmitting(false);
+              setTimeout(() => {
+                resetForm();
+              }, 400);
+            }}
+          >
+            {({ handleSubmit, values, setFieldValue }) => (
+              <>
+                <AdminFormColumns>
+                  <AdminFormSelectUnderline
+                    options={[
+                      { value: "Annual Leave", label: "Annual Leave" },
+                      { value: "Sickness", label: "Sickness" },
+                    ]}
+                    label="Request Type"
+                    value={values.requestType}
+                    setValue={(val: string) =>
+                      setFieldValue("requestType", val)
+                    }
+                  />
+                </AdminFormColumns>
+
+                <Button primaryOutline onClick={cancel}>
+                  Cancel
+                </Button>
+
+                <Button primary type="submit" onClick={() => handleSubmit}>
+                  Confirm
+                </Button>
+              </>
+            )}
+          </Formik>
         </div>
       </div>
     </div>
@@ -57,8 +101,8 @@ const StyledEditRequestModal = styled(
   width: 100%;
   height: 100%;
   position: fixed;
-  top: 0;
-  left: 0;
+  top: -5rem;
+  left: -2.8rem;
   backdrop-filter: blur(4px);
   background: var(--modal-container);
   z-index: ${(props) => props.theme.zLayers.important};
@@ -83,16 +127,12 @@ const StyledEditRequestModal = styled(
     ${(props) =>
       props.primaryTitle &&
       `
-      svg, h1 {
+      h1 {
         color: var(--primary-color);
         fill: var(--primary-color);
       }
       `}
 
-    svg {
-      width: 20px;
-      margin-bottom: 5px;
-    }
     h1 {
       width: 100%;
       text-align: center;
