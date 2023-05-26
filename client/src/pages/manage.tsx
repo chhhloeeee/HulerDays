@@ -5,7 +5,7 @@ import Button from "src/components/Button";
 import ContentWrapper from "src/components/ContentWrapper";
 import StyledErrorRequest from "src/components/ErrorRequest";
 import Footer from "src/components/footer";
-import EditRequestForm from "src/components/form/EditRequestForm";
+import EditRequestModal from "src/components/form/EditRequestModal";
 import Icon from "src/components/icons";
 import Logo from "src/components/Logo";
 import { APILoader } from "src/components/table/ApiLoader";
@@ -108,14 +108,8 @@ function RequestsTable({ data }) {
           <Button onClick={() => setIsCreate(true)}>
             <Icon name="edit" />
           </Button>
-          <AnimatePresence>
-            {isCreate && (
-              <EditRequestForm
-                reqType={service.requestType}
-                close={handleClose}
-              />
-            )}
-          </AnimatePresence>
+
+          {isCreate && <EditRequestModal cancel={() => setIsCreate(false)} />}
         </div>,
       ])}
     />
