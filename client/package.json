@@ -12,11 +12,12 @@
     "formik": "^2.2.9",
     "framer-motion": "^7.6.1",
     "next": "^13.1.6",
+    "prettier": "^2.8.8",
     "react": "^18.2.0",
     "react-datepicker": "^4.10.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.8.2",
-    "styled-components": "^5.3.6",
+    "styled-components": "^5.3.11",
     "yup": "^1.0.2"
   },
   "devDependencies": {
