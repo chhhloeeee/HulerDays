@@ -6,7 +6,7 @@ import AdminFormColumns from "./AdminFormColumns";
 import AdminFormSelectUnderline from "./AdminFormSelectUnderline";
 import { Formik } from "formik";
 
-interface ConfirmationDialogProps {
+interface EditRequestModalProps {
   className?: string;
   reqType: string;
   cancel: (event: MouseEvent) => void;
@@ -20,7 +20,7 @@ const EditRequestModal = ({
   className,
   reqType,
   cancel,
-}: ConfirmationDialogProps) => {
+}: EditRequestModalProps) => {
   const modalRef = useRef<HTMLDivElement>(null);
 
   // Handle click outside of the modal
@@ -91,67 +91,63 @@ const EditRequestModal = ({
   );
 };
 
-interface StyledConfirmationDialogProps {
+interface StyledEditRequestModalProps {
   primaryTitle?: boolean;
 }
 
 const StyledEditRequestModal = styled(
   EditRequestModal
-)<StyledConfirmationDialogProps>`
+)<StyledEditRequestModalProps>`
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
-  position: fixed;
-  top: -5rem;
-  left: -2.8rem;
-  backdrop-filter: blur(4px);
-  background: var(--modal-container);
-  z-index: ${(props) => props.theme.zLayers.important};
-  > div {
-    width: 500px;
-    min-height: 300px;
-    background-color: var(--modal-inner);
-    color: #fff;
-    border-radius: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    left: 0;
-    right: 0;
-    position: absolute;
-    margin: 0 auto;
-    padding: 20px;
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-    ${(props) =>
-      props.primaryTitle &&
-      `
-      h1 {
-        color: var(--primary-color);
-        fill: var(--primary-color);
-      }
-      `}
+  backdrop-filter: blur(30px);
+  z-index: ${(props) => props.theme.zLayers.modal};
+  display: flex;
+  overflow: auto;
+  overflow-x: hidden;
 
-    h1 {
-      width: 100%;
-      text-align: center;
-      font-size: 24px;
-      margin-bottom: 10px;
-    }
-    p {
-      width: 100%;
-      margin-bottom: 20px;
-    }
-    ${Button} {
-      margin: 5px !important;
-      min-width: 100px;
+  ::-webkit-scrollbar {
+    width: 9px;
+  }
+
+  scrollbar-width: 9px;
+
+  > div {
+    background: #fff;
+    max-width: 750px;
+    width: 100%;
+    margin: auto;
+    border-radius: 10px;
+    position: relative;
+    padding: 60px;
+
+    &.itemForm {
+      width: 886px;
     }
   }
 
-  @media (max-width: ${(props) => props.theme.breakpoints.medium}) {
-    > div {
-      width: calc(100% - 40px);
+  > div > h1 {
+    position: absolute;
+    top: -50px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 24px;
+    text-align: center;
+    width: 100%;
+
+    button {
+      margin-right: 42px;
+      cursor: pointer;
+      svg {
+        width: 16px;
+        height: 16px;
+        * {
+          fill: black;
+        }
+      }
     }
   }
 `;
