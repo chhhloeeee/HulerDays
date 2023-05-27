@@ -48,6 +48,27 @@ const EditRequestModal = ({
 
   const postUpdate = async (values) => {
     console.log(values);
+    var formdata = new FormData();
+    formdata.append("leaveId", values.leaveId);
+    formdata.append("requestType", values.requestType);
+
+    var requestOptions = {
+      method: "PUT",
+      body: formdata,
+      redirect: "follow" as RequestRedirect,
+    };
+
+    fetch(
+      "http://localhost:1234/updateRequest?leaveId=" +
+        values.leaveId +
+        "&requestType=" +
+        values.requestType,
+      requestOptions
+    )
+      .then((response) => response.text())
+      .then((result) => console.log(result))
+      .catch((error) => console.log("error", error));
+    cancel;
   };
 
   return (
@@ -73,7 +94,6 @@ const EditRequestModal = ({
           validateOnMount
           onSubmit={(values: Values, { setSubmitting, resetForm }) => {
             postUpdate(values);
-
             setSubmitting(false);
             setTimeout(() => {
               resetForm();
