@@ -134,10 +134,6 @@ const StyledModal = styled(Modal)<StyledModalProps>`
     ${(props) => props.minHeight && `min-height: 650px;`}
 
     ${(props) => props.wide && `max-width: 950px;`}
-    
-    &.itemForm {
-      width: 886px;
-    }
   }
 
   > div > h1 {

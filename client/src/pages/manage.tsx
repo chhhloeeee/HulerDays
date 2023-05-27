@@ -45,9 +45,11 @@ function RequestsTable({ data }) {
   const [leave, setLeave] = useState(data.Data);
   const [isCreate, setIsCreate] = useState(false);
   const [requestType, setRequestType] = useState("");
+  const [leaveId, setLeaveId] = useState("");
 
-  const handleOpen = (requestType) => {
+  const handleOpen = (requestType, leaveId) => {
     setRequestType(requestType);
+    setLeaveId(leaveId);
     setIsCreate(true);
   };
 
@@ -119,7 +121,9 @@ function RequestsTable({ data }) {
             <Button onClick={() => deleteLeave(service.leaveId)}>
               <Icon name="delete" />
             </Button>
-            <Button onClick={() => handleOpen(service.requestType)}>
+            <Button
+              onClick={() => handleOpen(service.requestType, service.leaveId)}
+            >
               <Icon name="edit" />
             </Button>
           </div>,
@@ -129,6 +133,7 @@ function RequestsTable({ data }) {
         // <EditRequestForm reqType={requestType} close={handleClose} />
         <EditRequestModal
           reqType={requestType}
+          id={Number(leaveId)}
           cancel={() => setIsCreate(false)}
         />
       )}

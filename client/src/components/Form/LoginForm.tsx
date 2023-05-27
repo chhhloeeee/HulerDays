@@ -52,7 +52,6 @@ const LoginForm = ({ className }: LoginFormProps) => {
           validationSchema={LoginSchema}
           validateOnMount
           onSubmit={(values: Values, { setSubmitting, resetForm }) => {
-            console.log("here");
             //handleChangePassword(values, setSubmitting);
             router.push("/home");
             setSubmitting(false);

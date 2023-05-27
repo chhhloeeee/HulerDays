@@ -5,23 +5,29 @@ import Button from "../Button";
 import AdminFormColumns from "./AdminFormColumns";
 import AdminFormSelectUnderline from "./AdminFormSelectUnderline";
 import { Formik } from "formik";
+import Icon from "../icons";
 
 interface EditRequestModalProps {
   className?: string;
   reqType: string;
+  id: number;
   cancel: (event: MouseEvent) => void;
 }
 
 interface Values {
   requestType: string;
+  leaveId: number;
 }
 
 const EditRequestModal = ({
   className,
   reqType,
+  id,
   cancel,
 }: EditRequestModalProps) => {
   const modalRef = useRef<HTMLDivElement>(null);
+  console.log(id, "leaveid");
+  console.log(reqType);
 
   // Handle click outside of the modal
   const handleClick = useCallback(
@@ -40,64 +46,83 @@ const EditRequestModal = ({
     return () => document.removeEventListener("mousedown", handleClick);
   }, [handleClick]);
 
+  const postUpdate = async (values) => {
+    console.log(values);
+  };
+
   return (
     <div className={className}>
       <div ref={modalRef}>
-        <div>
-          <h1>Edit Request Type</h1>
-
-          <Formik
-            initialValues={{
-              requestType: reqType,
-            }}
-            validateOnMount
-            onSubmit={(values: Values, { setSubmitting, resetForm }) => {
-              //postRequest(values);
-              setSubmitting(false);
-              setTimeout(() => {
-                resetForm();
-              }, 400);
-            }}
+        <h1>
+          <button
+            type="button"
+            className="icon-button"
+            aria-label="Go Back"
+            onClick={cancel}
           >
-            {({ handleSubmit, values, setFieldValue }) => (
-              <>
-                <AdminFormColumns>
-                  <AdminFormSelectUnderline
-                    options={[
-                      { value: "Annual Leave", label: "Annual Leave" },
-                      { value: "Sickness", label: "Sickness" },
-                    ]}
-                    label="Request Type"
-                    value={values.requestType}
-                    setValue={(val: string) =>
-                      setFieldValue("requestType", val)
-                    }
-                  />
-                </AdminFormColumns>
+            <Icon name="close" />
+          </button>
+          Edit Request Type
+        </h1>
 
-                <Button primaryOutline onClick={cancel}>
+        <Formik
+          initialValues={{
+            requestType: reqType,
+            leaveId: id,
+          }}
+          validateOnMount
+          onSubmit={(values: Values, { setSubmitting, resetForm }) => {
+            postUpdate(values);
+
+            setSubmitting(false);
+            setTimeout(() => {
+              resetForm();
+            }, 400);
+          }}
+        >
+          {({ handleSubmit, values, setFieldValue }) => (
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                handleSubmit();
+              }}
+            >
+              <AdminFormColumns>
+                <input
+                  name="id"
+                  type="hidden"
+                  value={values.leaveId}
+                  readOnly
+                />
+                <AdminFormSelectUnderline
+                  options={[
+                    { value: "Annual Leave", label: "Annual Leave" },
+                    { value: "Sickness", label: "Sickness" },
+                  ]}
+                  label="Request Type"
+                  value={values.requestType}
+                  setValue={(val: string) => setFieldValue("requestType", val)}
+                />
+              </AdminFormColumns>
+
+              <div>
+                <Button darkOutline type="button" onClick={cancel}>
                   Cancel
                 </Button>
 
-                <Button primary type="submit" onClick={() => handleSubmit}>
+                <Button primary type="submit" onClick={() => handleSubmit()}>
                   Confirm
                 </Button>
-              </>
-            )}
-          </Formik>
-        </div>
+              </div>
+            </form>
+          )}
+        </Formik>
       </div>
     </div>
   );
 };
 
-interface StyledEditRequestModalProps {
-  primaryTitle?: boolean;
-}
-
-const StyledEditRequestModal = styled(
-  EditRequestModal
-)<StyledEditRequestModalProps>`
+const StyledEditRequestModal = styled(EditRequestModal)`
   position: fixed;
   top: 0;
   left: 0;
@@ -108,6 +133,7 @@ const StyledEditRequestModal = styled(
   display: flex;
   overflow: auto;
   overflow-x: hidden;
+  margin: 0 !important;
 
   ::-webkit-scrollbar {
     width: 9px;
@@ -124,8 +150,23 @@ const StyledEditRequestModal = styled(
     position: relative;
     padding: 60px;
 
-    &.itemForm {
-      width: 886px;
+    div + div {
+      width: 100%;
+      display: flex;
+      justify-content: flex-end;
+      position: absolute;
+      right: 1rem;
+      bottom: 1rem;
+
+      margin: 0 !important;
+      @media screen and (max-width: 750) {
+        margin-bottom: 0;
+      }
+      ${Button} {
+        :first-child {
+          margin-right: 1rem;
+        }
+      }
     }
   }
 
