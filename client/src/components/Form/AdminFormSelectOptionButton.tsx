@@ -1,4 +1,4 @@
-import styled, { css } from "styled-components";
+import styled, { css } from 'styled-components';
 
 interface AdminFormSelectRoundedOptionButtonProps {
   active?: boolean;
@@ -19,7 +19,7 @@ const AdminFormSelectRoundedOptionButton = styled.button<AdminFormSelectRoundedO
   text-align: left;
   word-break: break-word;
   &:before {
-    content: "";
+    content: '';
     display: block;
     height: 12px;
     width: 12px;

@@ -1,8 +1,8 @@
 /* eslint-disable react/no-danger */
-import { useEffect, useRef, useCallback, MouseEvent, ReactNode } from "react";
-import styled from "styled-components";
-import Button from "../Button";
-import Icon from "../icons";
+import { useEffect, useRef, useCallback, MouseEvent, ReactNode } from 'react';
+import styled from 'styled-components';
+import Button from '../Button';
+import Icon from '../icons';
 
 interface ConfirmationDialogProps {
   className?: string;
@@ -15,16 +15,7 @@ interface ConfirmationDialogProps {
   cancel: (event: MouseEvent) => void;
 }
 
-const ConfirmationDialog = ({
-  className,
-  title,
-  message,
-  confirm,
-  cancel,
-  confirmText,
-  cancelText,
-  icon,
-}: ConfirmationDialogProps) => {
+const ConfirmationDialog = ({ className, title, message, confirm, cancel, confirmText, cancelText, icon }: ConfirmationDialogProps) => {
   const modalRef = useRef<HTMLDivElement>(null);
 
   // Handle click outside of the modal
@@ -34,14 +25,14 @@ const ConfirmationDialog = ({
       // outside click
       if (cancel) cancel(e);
     },
-    [cancel]
+    [cancel],
   );
 
   useEffect(() => {
     // add when mounted
-    document.addEventListener("mousedown", handleClick);
+    document.addEventListener('mousedown', handleClick);
     // return function to be called when unmounted
-    return () => document.removeEventListener("mousedown", handleClick);
+    return () => document.removeEventListener('mousedown', handleClick);
   }, [handleClick]);
 
   return (
@@ -63,9 +54,7 @@ interface StyledConfirmationDialogProps {
   primaryTitle?: boolean;
 }
 
-const StyledConfirmationDialog = styled(
-  ConfirmationDialog
-)<StyledConfirmationDialogProps>`
+const StyledConfirmationDialog = styled(ConfirmationDialog)<StyledConfirmationDialogProps>`
   width: 100%;
   height: 100%;
   position: fixed;

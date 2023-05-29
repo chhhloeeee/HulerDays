@@ -1,10 +1,10 @@
-import { createGlobalStyle } from "styled-components";
-import { darkVariables, lightVariables, sharedVariables } from "./variables";
-import { ThemeType } from "./baseTheme";
-import { scrollStyling } from "./mixins";
-import animations from "./animations";
-import reset from "./reset";
-import typography from "./typography";
+import { createGlobalStyle } from 'styled-components';
+import { darkVariables, lightVariables, sharedVariables } from './variables';
+import { ThemeType } from './baseTheme';
+import { scrollStyling } from './mixins';
+import animations from './animations';
+import reset from './reset';
+import typography from './typography';
 
 const GlobalStyles = createGlobalStyle<{ theme: ThemeType }>`
 	${reset}
@@ -14,7 +14,7 @@ const GlobalStyles = createGlobalStyle<{ theme: ThemeType }>`
 	:root {
 		${sharedVariables}
 
-		${(props) => (props.theme.mode === "dark" ? darkVariables : lightVariables)}
+		${(props) => (props.theme.mode === 'dark' ? darkVariables : lightVariables)}
 	}
 
 	body,

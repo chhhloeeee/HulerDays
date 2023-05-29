@@ -1,9 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable array-callback-return */
-import React, { useRef, useEffect, RefObject } from "react";
-import styled from "styled-components";
-import { motion } from "framer-motion";
-import Icon from "./icons";
+import React, { useRef, useEffect, RefObject } from 'react';
+import styled from 'styled-components';
+import { motion } from 'framer-motion';
+import Icon from './icons';
 
 export interface ModalProps {
   className?: string;
@@ -14,13 +14,7 @@ export interface ModalProps {
   excludeFromCloseClick?: RefObject<HTMLElement>[];
 }
 
-const Modal = ({
-  className,
-  children,
-  close,
-  title,
-  excludeFromCloseClick,
-}: ModalProps) => {
+const Modal = ({ className, children, close, title, excludeFromCloseClick }: ModalProps) => {
   const modalRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     // Handle click outside of the modal
@@ -31,28 +25,21 @@ const Modal = ({
       // Loop through exclude ref array and check if the click is in there
       if (excludeFromCloseClick && excludeFromCloseClick.length > 0) {
         excludeFromCloseClick.map((el: RefObject<HTMLElement>) => {
-          if (el.current && el.current.contains(e.target as Node))
-            shouldClose = false;
+          if (el.current && el.current.contains(e.target as Node)) shouldClose = false;
         });
       }
-      if (modalRef.current && modalRef.current.contains(e.target as Node))
-        shouldClose = false;
+      if (modalRef.current && modalRef.current.contains(e.target as Node)) shouldClose = false;
       if (shouldClose) close();
     };
     // add when mounted
-    document.addEventListener("mousedown", handleClick);
+    document.addEventListener('mousedown', handleClick);
     // return function to be called when unmounted
-    return () => document.removeEventListener("mousedown", handleClick);
+    return () => document.removeEventListener('mousedown', handleClick);
   }, [close]);
 
   return (
     <>
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        className={className}
-      >
+      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className={className}>
         <motion.div
           initial={{ opacity: 0, translateY: 30 }}
           animate={{ opacity: 1, translateY: 0 }}
@@ -60,13 +47,8 @@ const Modal = ({
           ref={modalRef}
         >
           <h1>
-            <button
-              type="button"
-              className="icon-button"
-              aria-label="Go Back"
-              onClick={close}
-            >
-              <Icon name="close" />
+            <button type='button' className='icon-button' aria-label='Go Back' onClick={close}>
+              <Icon name='close' />
             </button>
             {title && title}
           </h1>
@@ -78,7 +60,7 @@ const Modal = ({
 };
 
 Modal.defaultProps = {
-  className: "",
+  className: '',
   bottomNav: null,
 };
 

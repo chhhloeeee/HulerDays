@@ -1,8 +1,8 @@
-import { Formik } from "formik";
-import AdminFormColumns from "./AdminFormColumns";
-import AdminFormSelectUnderline from "./AdminFormSelectUnderline";
-import Modal from "../modal";
-import Actions from "../Actions";
+import { Formik } from 'formik';
+import AdminFormColumns from './AdminFormColumns';
+import AdminFormSelectUnderline from './AdminFormSelectUnderline';
+import Modal from '../modal';
+import Actions from '../Actions';
 
 interface FormProps {
   close: () => void;
@@ -19,30 +19,24 @@ const EditRequestForm = ({ close, reqType, id }: FormProps) => {
   const postUpdate = async (values) => {
     console.log(values);
     var formdata = new FormData();
-    formdata.append("leaveId", values.leaveId);
-    formdata.append("requestType", values.requestType);
+    formdata.append('leaveId', values.leaveId);
+    formdata.append('requestType', values.requestType);
 
     var requestOptions = {
-      method: "PUT",
+      method: 'PUT',
       body: formdata,
-      redirect: "follow" as RequestRedirect,
+      redirect: 'follow' as RequestRedirect,
     };
 
-    fetch(
-      "http://localhost:1234/updateRequest?leaveId=" +
-        values.leaveId +
-        "&requestType=" +
-        values.requestType,
-      requestOptions
-    )
+    fetch('http://localhost:1234/updateRequest?leaveId=' + values.leaveId + '&requestType=' + values.requestType, requestOptions)
       .then((response) => response.text())
       .then((result) => console.log(result))
-      .catch((error) => console.log("error", error));
+      .catch((error) => console.log('error', error));
     close;
   };
   return (
     <div>
-      <Modal title="Edit Leave Request" close={close}>
+      <Modal title='Edit Leave Request' close={close}>
         <Formik
           initialValues={{
             requestType: reqType,
@@ -60,20 +54,15 @@ const EditRequestForm = ({ close, reqType, id }: FormProps) => {
           {({ handleSubmit, values, setFieldValue }) => (
             <>
               <AdminFormColumns>
-                <input
-                  name="id"
-                  type="hidden"
-                  value={values.leaveId}
-                  readOnly
-                />
+                <input name='id' type='hidden' value={values.leaveId} readOnly />
                 <AdminFormSelectUnderline
                   options={[
-                    { value: "Annual Leave", label: "Annual Leave" },
-                    { value: "Sickness", label: "Sickness" },
+                    { value: 'Annual Leave', label: 'Annual Leave' },
+                    { value: 'Sickness', label: 'Sickness' },
                   ]}
-                  label="Request Type"
+                  label='Request Type'
                   value={values.requestType}
-                  setValue={(val: string) => setFieldValue("requestType", val)}
+                  setValue={(val: string) => setFieldValue('requestType', val)}
                 />
               </AdminFormColumns>
 

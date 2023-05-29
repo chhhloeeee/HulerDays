@@ -1,9 +1,9 @@
-import { scrollStyling } from "src/styles/mixins";
-import styled from "styled-components";
-import AboutTwo from "../components/background/AboutTwo";
-import Button from "../components/Button";
-import Footer from "../components/footer";
-import Logo from "../components/Logo";
+import { scrollStyling } from 'src/styles/mixins';
+import styled from 'styled-components';
+import AboutTwo from '../components/background/AboutTwo';
+import Button from '../components/Button';
+import Footer from '../components/footer';
+import Logo from '../components/Logo';
 
 interface PolicyProps {
   className?: string;
@@ -12,40 +12,28 @@ const Policies = ({ className }: PolicyProps) => {
   return (
     <div className={className}>
       <Logo />
-      <Button primary href="/home">
+      <Button primary href='/home'>
         Back
       </Button>
       <h1>Policies</h1>
       <div>
         <div>
           <strong>Overview</strong>
+          <p>Our holiday year runs from 1st January to 31st December, the standard entitlement is 25 days plus bank holidays.</p>
           <p>
-            Our holiday year runs from 1st January to 31st December, the
-            standard entitlement is 25 days plus bank holidays.
+            When an employee joins/leaves the company part way through the year, they will be notified of their pro-rata annual leave entitlement.
           </p>
-          <p>
-            When an employee joins/leaves the company part way through the year,
-            they will be notified of their pro-rata annual leave entitlement.
-          </p>
-          <p>
-            Around September time, you’ll receive an update on how much holiday
-            each of your team has left to book.
-          </p>
+          <p>Around September time, you’ll receive an update on how much holiday each of your team has left to book.</p>
           <br />
           <strong>Staff employed during covid-19 (2020)</strong>
           <p>
-            In line with government guidance, staff employed throughout 2020 who
-            were unable to use all of their annual leave entitlement due to
-            covid-19 are able to roll their unused 2020 days into 2021 and 2022.
-            Only unused days from 2020 can be carried forward, staff will not be
-            able to carry forward any unused days from your standard 2021
-            entitlement.{" "}
+            In line with government guidance, staff employed throughout 2020 who were unable to use all of their annual leave entitlement due to
+            covid-19 are able to roll their unused 2020 days into 2021 and 2022. Only unused days from 2020 can be carried forward, staff will not be
+            able to carry forward any unused days from your standard 2021 entitlement.{' '}
           </p>
           <p>
-            As an additional benefit in 2021, staff who feel they will be unable
-            to make use of all their holiday entitlement or would prefer to
-            exchange these for the equivalent monetary value will be able to
-            sell up to 5 days back to the company.
+            As an additional benefit in 2021, staff who feel they will be unable to make use of all their holiday entitlement or would prefer to
+            exchange these for the equivalent monetary value will be able to sell up to 5 days back to the company.
           </p>
         </div>
       </div>
@@ -58,7 +46,7 @@ const Policies = ({ className }: PolicyProps) => {
 };
 
 Policies.defaultProps = {
-  className: "",
+  className: '',
 };
 const StyledPolicies = styled(Policies)`
   background: var(--background);
@@ -97,8 +85,7 @@ const StyledPolicies = styled(Policies)`
     height: 60%;
     margin: auto;
     border-radius: 5px;
-    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
-      rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
     display: flex;
     align-items: center;
     justify-content: center;

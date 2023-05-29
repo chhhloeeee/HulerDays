@@ -1,6 +1,6 @@
-import { motion } from "framer-motion";
-import styled from "styled-components";
-import { scrollStyling } from "src/styles/mixins";
+import { motion } from 'framer-motion';
+import styled from 'styled-components';
+import { scrollStyling } from 'src/styles/mixins';
 
 const AdminFormSelectOptions = styled(motion.ul)`
   box-shadow: 0 6px 12px #0000004d;
