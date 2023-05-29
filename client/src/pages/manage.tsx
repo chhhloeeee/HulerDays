@@ -33,7 +33,7 @@ const ManageRequest = ({ className }: ManageRequestProps) => {
         </span>
         <h1>Manage Leave Requests</h1>
         <TableWrapper>
-          <APILoader url={'http://localhost:1234/getRequestByUserId?userId=' + userId} Component={RequestsTable} />
+          <APILoader url={'http://localhost:1234/getRequestByUserId?userId=' + 2} Component={RequestsTable} />
         </TableWrapper>
         <Footer />
       </ContentWrapper>

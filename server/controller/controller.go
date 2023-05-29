@@ -313,33 +313,37 @@ func Insertrequest(w http.ResponseWriter, r *http.Request) {
 func UpdateRequest(w http.ResponseWriter, r *http.Request) {
 	var response model.RequestsResponse
 
-	db := config.Connect()
-	defer db.Close()
-
-	err := r.ParseMultipartForm(4096)
-
-	if err != nil {
-		panic(err)
-	}
-	leaveId := r.FormValue("leaveId")
-	startDate := r.FormValue("startDate")
-	endDate := r.FormValue("endDate")
-	userId := r.FormValue("userId")
-	status := r.FormValue("status")
-	requestType := r.FormValue("requestType")
-
-	_, err = db.Exec("UPDATE holiday SET startDate=?, endDate=?, userId=?, status=?, requestType=? WHERE leaveId=?", startDate, endDate, userId, status, requestType, leaveId)
-
-	if err != nil {
-		log.Print(err)
+	if r.Method == "OPTIONS" {
+		response.Status = 200
 	}
 
-	response.Status = 200
-	response.Message = "Update data successfully"
-	fmt.Print("Update data successfully")
+	if r.Method == "PUT" {
 
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(response)
+		db := config.Connect()
+		defer db.Close()
+
+		err := r.ParseMultipartForm(4096)
+
+		if err != nil {
+			panic(err)
+		}
+		leaveId := r.FormValue("leaveId")
+		status := r.FormValue("status")
+		requestType := r.FormValue("requestType")
+
+		_, err = db.Exec("UPDATE holiday SET status=?, requestType=? WHERE leaveId=?", status, requestType, leaveId)
+
+		if err != nil {
+			log.Print(err)
+		}
+
+		response.Status = 200
+		response.Message = "Update data successfully"
+		fmt.Print("Update data successfully")
+
+		w.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(w).Encode(response)
+	}
 }
 
 // DeleteRequest = Delete Request API

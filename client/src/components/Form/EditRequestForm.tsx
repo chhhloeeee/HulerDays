@@ -21,6 +21,7 @@ const EditRequestForm = ({ close, reqType, id }: FormProps) => {
     var formdata = new FormData();
     formdata.append('leaveId', values.leaveId);
     formdata.append('requestType', values.requestType);
+    formdata.append('status', 'Pending');
 
     var requestOptions = {
       method: 'PUT',
@@ -28,11 +29,12 @@ const EditRequestForm = ({ close, reqType, id }: FormProps) => {
       redirect: 'follow' as RequestRedirect,
     };
 
-    fetch('http://localhost:1234/updateRequest?leaveId=' + values.leaveId + '&requestType=' + values.requestType, requestOptions)
+    fetch('http://localhost:1234/updateRequest?leaveId=' + values.leaveId + '&requestType=' + values.requestType + '&status=Pending', requestOptions)
       .then((response) => response.text())
       .then((result) => console.log(result))
       .catch((error) => console.log('error', error));
-    close;
+    window.location.reload();
+    return close();
   };
   return (
     <div>
