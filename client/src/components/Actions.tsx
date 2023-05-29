@@ -37,10 +37,10 @@ Actions.defaultProps = {
 const StyledActions = styled(Actions)`
   width: 100%;
   display: flex;
-  justify-content: flex-end;
-  position: absolute;
-  right: 1rem;
-  bottom: 1rem;
+  justify-content: center;
+  align-items: center;
+  padding-top: 2rem;
+  position: relative;
   @media screen and (max-width: 750) {
     margin-bottom: 0;
   }

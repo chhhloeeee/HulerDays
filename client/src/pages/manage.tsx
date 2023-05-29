@@ -6,7 +6,6 @@ import ContentWrapper from "src/components/ContentWrapper";
 import StyledErrorRequest from "src/components/ErrorRequest";
 import Footer from "src/components/footer";
 import EditRequestForm from "src/components/form/EditRequestForm";
-import EditRequestModal from "src/components/form/EditRequestModal";
 import Icon from "src/components/icons";
 import Logo from "src/components/Logo";
 import { APILoader } from "src/components/table/ApiLoader";
@@ -18,6 +17,10 @@ interface ManageRequestProps {
 }
 
 const ManageRequest = ({ className }: ManageRequestProps) => {
+  const TableWrapper = styled.div`
+    margin: 45px;
+    flex-grow: 1;
+  `;
   const userId = 2;
   return (
     <div className={className}>
@@ -29,12 +32,12 @@ const ManageRequest = ({ className }: ManageRequestProps) => {
           </Button>
         </span>
         <h1>Manage Leave Requests</h1>
-        <div>
+        <TableWrapper>
           <APILoader
             url={"http://localhost:1234/getRequestByUserId?userId=" + userId}
             Component={RequestsTable}
           />
-        </div>
+        </TableWrapper>
         <Footer />
       </ContentWrapper>
     </div>
@@ -52,10 +55,6 @@ function RequestsTable({ data }) {
     setLeaveId(leaveId);
     setIsCreate(true);
   };
-
-  // const handleClose = () => {
-  //   setIsCreate(false);
-  // };
 
   if (leave === null) {
     return <StyledErrorRequest />;
@@ -130,11 +129,10 @@ function RequestsTable({ data }) {
         ])}
       />
       {isCreate && (
-        // <EditRequestForm reqType={requestType} close={handleClose} />
-        <EditRequestModal
+        <EditRequestForm
           reqType={requestType}
           id={Number(leaveId)}
-          cancel={() => setIsCreate(false)}
+          close={() => setIsCreate(false)}
         />
       )}
     </>
@@ -151,11 +149,6 @@ const StyledManageRequest = styled(ManageRequest)`
     font-size: 3.5rem;
     color: #fb6666;
     text-align: center;
-  }
-
-  div:nth-of-type(2) {
-    margin: 45px;
-    flex-grow: 1;
   }
 
   span button {

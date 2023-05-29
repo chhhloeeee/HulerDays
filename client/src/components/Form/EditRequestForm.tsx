@@ -7,23 +7,50 @@ import Actions from "../Actions";
 interface FormProps {
   close: () => void;
   reqType: string;
+  id: number;
 }
 
 interface Values {
   requestType: string;
+  leaveId: number;
 }
 
-const EditRequestForm = ({ close, reqType }: FormProps) => {
+const EditRequestForm = ({ close, reqType, id }: FormProps) => {
+  const postUpdate = async (values) => {
+    console.log(values);
+    var formdata = new FormData();
+    formdata.append("leaveId", values.leaveId);
+    formdata.append("requestType", values.requestType);
+
+    var requestOptions = {
+      method: "PUT",
+      body: formdata,
+      redirect: "follow" as RequestRedirect,
+    };
+
+    fetch(
+      "http://localhost:1234/updateRequest?leaveId=" +
+        values.leaveId +
+        "&requestType=" +
+        values.requestType,
+      requestOptions
+    )
+      .then((response) => response.text())
+      .then((result) => console.log(result))
+      .catch((error) => console.log("error", error));
+    close;
+  };
   return (
     <div>
       <Modal title="Edit Leave Request" close={close}>
         <Formik
           initialValues={{
             requestType: reqType,
+            leaveId: id,
           }}
           validateOnMount
           onSubmit={(values: Values, { setSubmitting, resetForm }) => {
-            //postRequest(values);
+            postUpdate(values);
             setSubmitting(false);
             setTimeout(() => {
               resetForm();
@@ -33,6 +60,12 @@ const EditRequestForm = ({ close, reqType }: FormProps) => {
           {({ handleSubmit, values, setFieldValue }) => (
             <>
               <AdminFormColumns>
+                <input
+                  name="id"
+                  type="hidden"
+                  value={values.leaveId}
+                  readOnly
+                />
                 <AdminFormSelectUnderline
                   options={[
                     { value: "Annual Leave", label: "Annual Leave" },
