@@ -349,8 +349,11 @@ func UpdateRequest(w http.ResponseWriter, r *http.Request) {
 
 // DeleteRequest = Delete Request API
 func DeleteRequest(w http.ResponseWriter, r *http.Request) {
-
 	var response model.RequestsResponse
+
+	if r.Method == "OPTIONS" {
+		response.Status = 200
+	}
 
 	if r.Method == "DELETE" {
 		w.WriteHeader(http.StatusOK)
