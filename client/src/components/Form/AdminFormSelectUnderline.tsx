@@ -1,12 +1,12 @@
 /* eslint-disable react/jsx-key */
-import Icon from "../icons";
-import { AnimatePresence } from "framer-motion";
-import { useState, useRef, useEffect } from "react";
-import styled from "styled-components";
-import { SelectOption } from "../icons/type";
-import AdminFormSelectUnderlineOptionButton from "./AdminFormSelectOptionButton";
-import AdminFormSelectOptions from "./AdminFormSelectOptions";
-import AdminFormSelectUnderlineButton from "./AdminFormSelectUnderlineButton";
+import Icon from '../icons';
+import { AnimatePresence } from 'framer-motion';
+import { useState, useRef, useEffect } from 'react';
+import styled from 'styled-components';
+import { SelectOption } from '../icons/type';
+import AdminFormSelectUnderlineOptionButton from './AdminFormSelectOptionButton';
+import AdminFormSelectOptions from './AdminFormSelectOptions';
+import AdminFormSelectUnderlineButton from './AdminFormSelectUnderlineButton';
 
 interface AdminFormSelectUnderlineProps {
   className?: string;
@@ -17,14 +17,7 @@ interface AdminFormSelectUnderlineProps {
   setValue: (val: string) => void;
 }
 
-const AdminFormSelectUnderline = ({
-  className,
-  options,
-  label,
-  placeholder,
-  value,
-  setValue,
-}: AdminFormSelectUnderlineProps) => {
+const AdminFormSelectUnderline = ({ className, options, label, placeholder, value, setValue }: AdminFormSelectUnderlineProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -35,8 +28,8 @@ const AdminFormSelectUnderline = ({
       setIsOpen(false);
     };
 
-    document.addEventListener("mousedown", handleClick);
-    return () => document.removeEventListener("mousedown", handleClick);
+    document.addEventListener('mousedown', handleClick);
+    return () => document.removeEventListener('mousedown', handleClick);
   }, []);
 
   const valuesLabel = options.find((option) => option.value === value)?.label;
@@ -46,7 +39,7 @@ const AdminFormSelectUnderline = ({
       <span>{label}</span>
       <AdminFormSelectUnderlineButton onClick={() => setIsOpen(!isOpen)}>
         {valuesLabel || placeholder}
-        <Icon name="chevron-react-select" />
+        <Icon name='chevron-react-select' />
       </AdminFormSelectUnderlineButton>
       <AnimatePresence>
         {isOpen && (

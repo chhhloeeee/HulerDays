@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import Image from "next/image";
+import styled from 'styled-components';
+import Image from 'next/image';
 
 interface LogoProps {
   className?: string;
@@ -8,13 +8,7 @@ interface LogoProps {
 const Logo = ({ className }: LogoProps) => {
   return (
     <div className={className}>
-      <Image
-        src="https://cdn.huler.io/v2/wp-content/uploads/2021/11/12130402/huler-logo.svg"
-        alt="hulerLogo"
-        width="100"
-        height="50"
-        priority
-      />
+      <Image src='https://cdn.huler.io/v2/wp-content/uploads/2021/11/12130402/huler-logo.svg' alt='hulerLogo' width='100' height='50' priority />
     </div>
   );
 };

@@ -1,31 +1,27 @@
-import { createContext, useState } from "react";
-import { ThemeProvider } from "styled-components";
-import baseTheme from "./baseTheme";
+import { createContext, useState } from 'react';
+import { ThemeProvider } from 'styled-components';
+import baseTheme from './baseTheme';
 
 export const ThemeContext = createContext({
-  theme: "light",
+  theme: 'light',
   switchTheme: () => {},
   toggleTheme: () => {},
 } as {
   // Some nasty types here due to localstorage
-  theme: string | "light" | "dark";
-  switchTheme: (val: "light" | "dark") => void;
+  theme: string | 'light' | 'dark';
+  switchTheme: (val: 'light' | 'dark') => void;
   toggleTheme: () => void;
 });
 
 const ThemeHandler = ({ children }: { children: React.ReactNode }) => {
-  const [theme, setTheme] = useState(
-    typeof window !== "undefined"
-      ? window.localStorage.getItem("theme")
-      : "light"
-  );
+  const [theme, setTheme] = useState(typeof window !== 'undefined' ? window.localStorage.getItem('theme') : 'light');
   const dynamicTheme = { ...baseTheme, mode: theme };
-  const switchTheme = (newTheme: "dark" | "light") => {
+  const switchTheme = (newTheme: 'dark' | 'light') => {
     setTheme(newTheme);
-    localStorage.setItem("theme", newTheme);
+    localStorage.setItem('theme', newTheme);
   };
   const toggleTheme = () => {
-    switchTheme(theme === "light" ? "dark" : "light");
+    switchTheme(theme === 'light' ? 'dark' : 'light');
   };
 
   return (

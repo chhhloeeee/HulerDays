@@ -1,11 +1,11 @@
-import Grid from "../components/grid";
-import Footer from "../components/footer";
-import ContentWrapper from "src/components/ContentWrapper";
-import styled from "styled-components";
-import Logo from "src/components/Logo";
-import Icon from "src/components/icons";
-import Button from "src/components/Button";
-import { APILoader } from "src/components/table/ApiLoader";
+import Grid from '../components/grid';
+import Footer from '../components/footer';
+import ContentWrapper from 'src/components/ContentWrapper';
+import styled from 'styled-components';
+import Logo from 'src/components/Logo';
+import Icon from 'src/components/icons';
+import Button from 'src/components/Button';
+import { APILoader } from 'src/components/table/ApiLoader';
 
 interface HomeProps {
   className?: string;
@@ -18,16 +18,13 @@ const Home = ({ className }: HomeProps) => {
       <ContentWrapper>
         <div>
           <Logo />
-          <Button className="logout">
-            <Icon name="logout" />
+          <Button className='logout'>
+            <Icon name='logout' />
           </Button>
           <main>
             <h1>Welcome to HulerDays</h1>
             <div>
-              <APILoader
-                url={"http://localhost:1234/getUserById?id=" + userId}
-                Component={countDown}
-              />
+              <APILoader url={'http://localhost:1234/getUserById?id=' + userId} Component={countDown} />
               <p>Days Remaining</p>
             </div>
           </main>
@@ -69,10 +66,8 @@ const StyledHome = styled(Home)`
       margin-bottom: 3rem;
       background: #fff;
       box-shadow:
-    /* The top layer shadow */ 0 1px 1px rgba(0, 0, 0, 0.15),
-        /* The second layer */ 0 10px 0 -5px #eee,
-        /* The second layer shadow */ 0 10px 1px -4px rgba(0, 0, 0, 0.15),
-        /* The third layer */ 0 20px 0 -10px #eee,
+    /* The top layer shadow */ 0 1px 1px rgba(0, 0, 0, 0.15), /* The second layer */ 0 10px 0 -5px #eee,
+        /* The second layer shadow */ 0 10px 1px -4px rgba(0, 0, 0, 0.15), /* The third layer */ 0 20px 0 -10px #eee,
         /* The third layer shadow */ 0 20px 1px -9px rgba(0, 0, 0, 0.15);
       /* Padding for demo purposes */
       padding: 30px;

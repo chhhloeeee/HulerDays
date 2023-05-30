@@ -1,9 +1,9 @@
-import Image from "next/image";
-import styled from "styled-components";
-import { motion, AnimatePresence } from "framer-motion";
-import RequestForm from "./form/requestForm";
-import { useState } from "react";
-import Link from "next/link";
+import Image from 'next/image';
+import styled from 'styled-components';
+import { motion, AnimatePresence } from 'framer-motion';
+import RequestForm from './form/requestForm';
+import { useState } from 'react';
+import Link from 'next/link';
 
 interface GridProps {
   className?: string;
@@ -18,53 +18,31 @@ const Grid = ({ className }: GridProps) => {
 
   return (
     <div className={className}>
-      <div className="grid">
-        <motion.div className="card" onClick={() => setIsCreate(true)}>
-          <Image
-            src="https://cdn.huler.io/v2/wp-content/uploads/2022/06/14085410/Lifestyle9.jpg"
-            alt="beach"
-            width={271.11}
-            height={271.11}
-          />
+      <div className='grid'>
+        <motion.div className='card' onClick={() => setIsCreate(true)}>
+          <Image src='https://cdn.huler.io/v2/wp-content/uploads/2022/06/14085410/Lifestyle9.jpg' alt='beach' width={271.11} height={271.11} />
           <div>
             <h2>Request Leave &rarr;</h2>
           </div>
         </motion.div>
-        <AnimatePresence>
-          {isCreate && <RequestForm close={handleClose} />}
-        </AnimatePresence>
+        <AnimatePresence>{isCreate && <RequestForm close={handleClose} />}</AnimatePresence>
 
-        <Link className="card" href="/manage">
-          <Image
-            src="https://cdn.huler.io/v2/wp-content/uploads/2022/06/14090345/Office12.jpg"
-            alt="paperworkr"
-            width={271.11}
-            height={271.11}
-          />
+        <Link className='card' href='/manage'>
+          <Image src='https://cdn.huler.io/v2/wp-content/uploads/2022/06/14090345/Office12.jpg' alt='paperworkr' width={271.11} height={271.11} />
           <div>
             <h2>Manage Requests &rarr;</h2>
           </div>
         </Link>
 
-        <Link className="card" href="/calendar">
-          <Image
-            src="https://cdn.huler.io/v2/wp-content/uploads/2022/06/14090344/Office11.jpg"
-            alt="calendar"
-            width={271.11}
-            height={271.11}
-          />
+        <Link className='card' href='/calendar'>
+          <Image src='https://cdn.huler.io/v2/wp-content/uploads/2022/06/14090344/Office11.jpg' alt='calendar' width={271.11} height={271.11} />
           <div>
             <h2>Calendar View &rarr;</h2>
           </div>
         </Link>
 
-        <Link className="card" href="/policies">
-          <Image
-            src="https://cdn.huler.io/v2/wp-content/uploads/2022/06/14090343/Office10.jpg"
-            alt="policies"
-            width={271.11}
-            height={271.11}
-          />
+        <Link className='card' href='/policies'>
+          <Image src='https://cdn.huler.io/v2/wp-content/uploads/2022/06/14090343/Office10.jpg' alt='policies' width={271.11} height={271.11} />
           <div>
             <h2>Policies &rarr;</h2>
           </div>
@@ -75,7 +53,7 @@ const Grid = ({ className }: GridProps) => {
 };
 
 Grid.defaultProps = {
-  className: "",
+  className: '',
 };
 
 const StyledGrid = styled(Grid)`

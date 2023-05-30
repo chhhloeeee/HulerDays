@@ -1,38 +1,40 @@
 /* eslint-disable react/jsx-key */
-import router from "next/router";
-import { useState } from "react";
-import Button from "src/components/Button";
-import ContentWrapper from "src/components/ContentWrapper";
-import StyledErrorRequest from "src/components/ErrorRequest";
-import Footer from "src/components/footer";
-import Icon from "src/components/icons";
-import Logo from "src/components/Logo";
-import { APILoader } from "src/components/table/ApiLoader";
-import Table from "src/components/table/Table";
-import styled from "styled-components";
+import { useState } from 'react';
+import Button from 'src/components/Button';
+import ContentWrapper from 'src/components/ContentWrapper';
+import StyledErrorRequest from 'src/components/ErrorRequest';
+import Footer from 'src/components/footer';
+import EditRequestForm from 'src/components/form/EditRequestForm';
+import Icon from 'src/components/icons';
+import Logo from 'src/components/Logo';
+import { APILoader } from 'src/components/table/ApiLoader';
+import Table from 'src/components/table/Table';
+import styled from 'styled-components';
+
 
 interface ManageRequestProps {
   className?: string;
 }
 
 const ManageRequest = ({ className }: ManageRequestProps) => {
+  const TableWrapper = styled.div`
+    margin: 45px;
+    flex-grow: 1;
+  `;
   const userId = 2;
   return (
     <div className={className}>
       <ContentWrapper>
         <Logo />
         <span>
-          <Button primary href="/home">
+          <Button primary href='/home'>
             Back
           </Button>
         </span>
         <h1>Manage Leave Requests</h1>
-        <div>
-          <APILoader
-            url={"http://localhost:1234/getRequestByUserId?userId=" + userId}
-            Component={RequestsTable}
-          />
-        </div>
+        <TableWrapper>
+          <APILoader url={'http://localhost:1234/getRequestByUserId?userId=' + 2} Component={RequestsTable} />
+        </TableWrapper>
         <Footer />
       </ContentWrapper>
     </div>
@@ -41,6 +43,15 @@ const ManageRequest = ({ className }: ManageRequestProps) => {
 
 function RequestsTable({ data }) {
   const [leave, setLeave] = useState(data.Data);
+  const [isCreate, setIsCreate] = useState(false);
+  const [requestType, setRequestType] = useState('');
+  const [leaveId, setLeaveId] = useState('');
+
+  const handleOpen = (requestType, leaveId) => {
+    setRequestType(requestType);
+    setLeaveId(leaveId);
+    setIsCreate(true);
+  };
 
   if (leave === null) {
     return <StyledErrorRequest />;
@@ -71,25 +82,30 @@ function RequestsTable({ data }) {
         alert("Oops! Something went wrong.");
       });
   };
-
   return (
-    <Table
-      headers={["Request Type", "Start Date", "End Date", "Status", "Actions"]}
-      rows={leaveList.map((service) => [
-        service.requestType,
-        service.startDate,
-        service.endDate,
-        service.status,
-        <div>
-          <Button onClick={() => deleteLeave(service.leaveId)}>
-            <Icon name="delete" />
-          </Button>
-          <Button>
-            <Icon name="edit" />
-          </Button>
-        </div>,
-      ])}
-    />
+    <>
+      <Table
+        headers={['Request Type', 'Start Date', 'End Date', 'Status', 'Actions']}
+        rows={leaveList.map((service) => [
+          service.requestType,
+          service.startDate,
+          service.endDate,
+          service.status,
+          <div>
+            <Button onClick={() => deleteLeave(service.leaveId)}>
+              <Icon name='delete' />
+            </Button>
+            <Button onClick={() => handleOpen(service.requestType, service.leaveId)}>
+              <Icon name='edit' />
+            </Button>
+          </div>,
+        ])}
+      />
+      {isCreate && <EditRequestForm reqType={requestType} id={Number(leaveId)} close={() => setIsCreate(false)} />}
+    </>
+
+
+
   );
 }
 
@@ -105,15 +121,10 @@ const StyledManageRequest = styled(ManageRequest)`
     text-align: center;
   }
 
-  div:nth-of-type(2) {
-    margin: 45px;
-    flex-grow: 1;
-  }
-
   span button {
     z-index: ${(props) => props.theme.zLayers.overlay};
     position: relative;
-    top: 5.8rem;
+    top: 6.3rem;
   }
 
   table {

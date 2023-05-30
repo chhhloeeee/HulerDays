@@ -23,8 +23,6 @@ export const APILoader = ({ url, Component, reloadWith }: APILoaderProps) => {
       })
       .catch((err) => setError(err))
       .finally(() => setIsLoaded(true));
-
-    console.log(response);
   };
   useEffect(fetchData, reloadWith || []);
 

@@ -22,7 +22,7 @@ func main() {
 	router.HandleFunc("/getRequestByLeaveId", controller.GetRequestbyLeaveId).Methods("GET")
 	router.HandleFunc("/getRequestByUserId", controller.GetRequestbyUserId).Methods("GET")
 	router.HandleFunc("/addRequest", controller.Insertrequest).Methods("POST")
-	router.HandleFunc("/updateRequest", controller.UpdateRequest).Methods("PUT")
+	router.HandleFunc("/updateRequest", controller.UpdateRequest).Methods("PUT", "OPTIONS")
 	router.HandleFunc("/deleteRequest", controller.DeleteRequest).Methods("DELETE", "OPTIONS")
 	http.Handle("/", router)
 	fmt.Println("Connected to port 1234")

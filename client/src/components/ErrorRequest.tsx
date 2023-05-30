@@ -1,6 +1,6 @@
-import Image from "next/image";
-import Calendar from "../Images/calendar.svg";
-import styled from "styled-components";
+import Image from 'next/image';
+import Calendar from '../Images/calendar.svg';
+import styled from 'styled-components';
 
 interface ErrorProps {
   className?: string;
@@ -9,7 +9,7 @@ const ErrorRequest = ({ className }: ErrorProps) => {
   return (
     <div className={className}>
       <div>
-        <Image src={Calendar} alt="calendar" width={271.11} height={271.11} />
+        <Image src={Calendar} alt='calendar' width={271.11} height={271.11} />
         <h1>Sorry!</h1>
         <h2>Looks like there are no requests yet</h2>
       </div>
