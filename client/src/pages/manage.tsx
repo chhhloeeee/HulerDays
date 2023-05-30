@@ -1,5 +1,6 @@
 /* eslint-disable react/jsx-key */
 import { AnimatePresence } from 'framer-motion';
+import router from "next/router";
 import { useState } from 'react';
 import Button from 'src/components/Button';
 import ContentWrapper from 'src/components/ContentWrapper';
@@ -11,6 +12,7 @@ import Logo from 'src/components/Logo';
 import { APILoader } from 'src/components/table/ApiLoader';
 import Table from 'src/components/table/Table';
 import styled from 'styled-components';
+
 
 interface ManageRequestProps {
   className?: string;
@@ -67,36 +69,20 @@ function RequestsTable({ data }) {
     return 0;
   });
 
-  const deleteUserCall = async (leaveID) => {
-    return await fetch('http://localhost:1234/deleteRequest/' + leaveID, {
-      method: 'DELETE',
-    });
-  };
-
-  const deleteLeave = (leaveID) => {
-    const array = [...leaveList];
-    for (let i = 0; i < array.length; i++) {
-      if (leaveID === array[i].userID) {
-        let promise = deleteUserCall(leaveID);
-        promise
-          .then((response) => {
-            if (!response.ok) {
-              alert('Something went wrong');
-              return;
-            }
-            alert('Delete Success');
-            array.splice(i, 1);
-
-            setLeave(array);
-            return;
-          })
-          .catch((error) => {
-            alert('Internal Server Error');
-            return;
-          });
-      }
-    }
-    return;
+  const deleteLeave = async (leaveID) => {
+    const formData = new FormData();
+    formData.append("leaveId", leaveID);
+    fetch("http://localhost:1234/deleteRequest", {
+      method: "DELETE",
+      body: formData,
+    })
+      .then((response) => {
+        alert("Delete Successful!");
+        window.location.reload();
+      })
+      .catch((error) => {
+        alert("Oops! Something went wrong.");
+      });
   };
   return (
     <>
@@ -119,6 +105,9 @@ function RequestsTable({ data }) {
       />
       {isCreate && <EditRequestForm reqType={requestType} id={Number(leaveId)} close={() => setIsCreate(false)} />}
     </>
+
+
+
   );
 }
 
