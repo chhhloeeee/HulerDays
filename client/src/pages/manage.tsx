@@ -1,6 +1,4 @@
 /* eslint-disable react/jsx-key */
-import { AnimatePresence } from 'framer-motion';
-import router from "next/router";
 import { useState } from 'react';
 import Button from 'src/components/Button';
 import ContentWrapper from 'src/components/ContentWrapper';
