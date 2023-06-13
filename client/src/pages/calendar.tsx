@@ -1,5 +1,5 @@
-import Button from "src/components/Button";
-import styled from "styled-components";
+import Button from 'src/components/Button';
+import styled from 'styled-components';
 
 interface CalendarProps {
   className?: string;
@@ -8,7 +8,7 @@ interface CalendarProps {
 const CalendarView = ({ className }: CalendarProps) => {
   return (
     <div>
-      <Button primary href="/home">
+      <Button primary href='/home'>
         Back
       </Button>
     </div>

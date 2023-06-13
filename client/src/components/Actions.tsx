@@ -1,6 +1,6 @@
-import React from "react";
-import styled from "styled-components";
-import Button from "./Button";
+import React from 'react';
+import styled from 'styled-components';
+import Button from './Button';
 
 export interface ActionsProps {
   className?: string;
@@ -26,7 +26,7 @@ const Actions = ({ className, invalid, onCancel, onCreate }: ActionsProps) => {
 };
 
 Actions.defaultProps = {
-  className: "",
+  className: '',
   invalid: false,
   onCancel: () => {},
   onCreate: () => {},
@@ -37,16 +37,17 @@ Actions.defaultProps = {
 const StyledActions = styled(Actions)`
   width: 100%;
   display: flex;
-  justify-content: flex-end;
-  position: absolute;
-  right: 1rem;
+  justify-content: center;
+  align-items: center;
+  padding-top: 2rem;
+  position: relative;
   @media screen and (max-width: 750) {
     margin-bottom: 0;
   }
   @media screen and (max-width: 600) {
-    flex-wrap: ${(props) => (props.noWrap ? "nowrap" : "wrap")};
+    flex-wrap: ${(props) => (props.noWrap ? 'nowrap' : 'wrap')};
     button {
-      width: ${(props) => (props.noWrap ? "auto" : "100%")};
+      width: ${(props) => (props.noWrap ? 'auto' : '100%')};
       margin: 5px 0;
     }
   }

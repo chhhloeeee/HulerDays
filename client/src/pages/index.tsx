@@ -1,6 +1,6 @@
-import UserContextProvider from "src/components/contexts/UserContext";
-import Footer from "src/components/footer";
-import LoginForm from "src/components/LoginForm";
+import UserContextProvider from 'src/components/contexts/UserContext';
+import Footer from 'src/components/footer';
+import LoginForm from 'src/components/LoginForm';
 
 const Login = () => {
   return (

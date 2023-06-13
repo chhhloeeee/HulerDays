@@ -1,11 +1,11 @@
-import { Formik } from "formik";
-import { useRouter } from "next/router";
-import styled from "styled-components";
-import AboutTwo from "./background/AboutTwo";
-import Button from "./Button";
-import Logo from "./Logo";
-import { Error } from "./form/Error";
-import * as Yup from "yup";
+import { Formik } from 'formik';
+import { useRouter } from 'next/router';
+import styled from 'styled-components';
+import AboutTwo from '../background/AboutTwo';
+import Button from '../Button';
+import Logo from '../Logo';
+import { Error } from './Error';
+import * as Yup from 'yup';
 
 interface LoginFormProps {
   className?: string;
@@ -32,18 +32,11 @@ const FormWrapper = styled.div`
 `;
 
 const LoginForm = ({ className }: LoginFormProps) => {
-  const router = useRouter();
-
   const LoginSchema = Yup.object().shape({
-    password: Yup.string()
-      .min(8, "Your Password must be longer than 8 characters")
-      .required("Required"),
-    email: Yup.string().email("Invalid email").required("Required"),
+    password: Yup.string().min(8, 'Your Password must be longer than 8 characters').required('Required'),
+    email: Yup.string().email('Invalid email').required('Required'),
   });
-
-  //const handleLogin = () => {
-  //}
-
+  const router = useRouter();
   return (
     <div className={className}>
       <Logo />
@@ -51,29 +44,21 @@ const LoginForm = ({ className }: LoginFormProps) => {
       <div>
         <Formik
           initialValues={{
-            email: "",
-            password: "",
+            email: '',
+            password: '',
           }}
           validationSchema={LoginSchema}
           validateOnMount
           onSubmit={(values: Values, { setSubmitting, resetForm }) => {
-            console.log("here");
-            //handleLogin(values, setSubmitting);
-            router.push("/home");
+            //handleChangePassword(values, setSubmitting);
+            router.push('/home');
             setSubmitting(false);
             setTimeout(() => {
               resetForm();
             }, 400);
           }}
         >
-          {({
-            handleSubmit,
-            handleBlur,
-            handleChange,
-            values,
-            errors,
-            touched,
-          }) => (
+          {({ handleSubmit, handleBlur, handleChange, values, errors, touched }) => (
             <FormWrapper>
               <form
                 onSubmit={(e) => {
@@ -82,35 +67,23 @@ const LoginForm = ({ className }: LoginFormProps) => {
                 }}
               >
                 <div>
-                  <input
-                    placeholder="Email"
-                    name="email"
-                    type="email"
-                    value={values.email}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    required
-                  />
-                  {!!(errors.email && touched.email) && (
-                    <Error attached>{errors.email}</Error>
-                  )}
+                  <input placeholder='Email' name='email' type='email' value={values.email} onChange={handleChange} onBlur={handleBlur} required />
+                  {!!(errors.email && touched.email) && <Error attached>{errors.email}</Error>}
                 </div>
                 <div>
                   <input
-                    placeholder="Password"
-                    name="password"
-                    type="password"
+                    placeholder='Password'
+                    name='password'
+                    type='password'
                     value={values.password}
                     onChange={handleChange}
                     onBlur={handleBlur}
                     required
                   />
-                  {!!(errors.password && touched.password) && (
-                    <Error attached>{errors.password}</Error>
-                  )}
+                  {!!(errors.password && touched.password) && <Error attached>{errors.password}</Error>}
                 </div>
               </form>
-              <Button primary type="submit" onClick={() => handleSubmit()}>
+              <Button primary type='submit' onClick={() => handleSubmit()}>
                 Login
               </Button>
             </FormWrapper>
@@ -167,8 +140,7 @@ const StyledLoginForm = styled(LoginForm)`
           margin-top: 26px;
         }
 
-        @media screen and (max-width: ${(props) =>
-            props.theme.breakpoints.small}) {
+        @media screen and (max-width: ${(props) => props.theme.breakpoints.small}) {
           padding: 8px 16px;
         }
 

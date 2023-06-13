@@ -1,6 +1,6 @@
-import styled from "styled-components";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+import styled from 'styled-components';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 interface AdminFormDatePickerProps {
   className?: string;
@@ -12,23 +12,10 @@ interface AdminFormDatePickerProps {
   error?: string;
 }
 
-const FormDatePicker = ({
-  className,
-  label,
-  placeholder,
-  value,
-  setValue,
-  hasError,
-  error,
-}: AdminFormDatePickerProps) => (
+const FormDatePicker = ({ className, label, placeholder, value, setValue, hasError, error }: AdminFormDatePickerProps) => (
   <div className={className}>
     <span>{label}</span>
-    <DatePicker
-      selected={value}
-      onChange={(e: Date) => setValue(e)}
-      dateFormat="dd/MM/yyyy"
-      placeholderText={placeholder}
-    />
+    <DatePicker selected={value} onChange={(e: Date) => setValue(e)} dateFormat='dd/MM/yyyy' placeholderText={placeholder} />
     {hasError && <span>{error}</span>}
   </div>
 );

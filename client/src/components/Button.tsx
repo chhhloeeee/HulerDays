@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
 export interface ButtonProps {
   className?: string;
@@ -16,31 +16,16 @@ export interface ButtonProps {
   secondary?: boolean;
   primaryOutlineDark?: boolean;
   children?: React.ReactNode;
-  type?: "button" | "submit";
+  type?: 'button' | 'submit';
   disabled?: boolean;
   id?: string;
 }
 
-const Button = ({
-  href,
-  text,
-  children,
-  className,
-  type = "button",
-  disabled = false,
-  onClick,
-  id = "",
-}: ButtonProps) => {
+const Button = ({ href, text, children, className, type = 'button', disabled = false, onClick, id = '' }: ButtonProps) => {
   if (href) {
     return (
-      <a href={href} style={{ textDecoration: "none" }}>
-        <button
-          className={className}
-          type="button"
-          onClick={onClick}
-          id={id}
-          disabled={disabled}
-        >
+      <a href={href} style={{ textDecoration: 'none' }}>
+        <button className={className} type='button' onClick={onClick} id={id} disabled={disabled}>
           {children || text}
         </button>
       </a>
@@ -49,13 +34,7 @@ const Button = ({
 
   return (
     // eslint-disable-next-line react/button-has-type
-    <button
-      className={className}
-      onClick={onClick}
-      type={type}
-      disabled={disabled}
-      id={id}
-    >
+    <button className={className} onClick={onClick} type={type} disabled={disabled} id={id}>
       {children}
     </button>
   );
@@ -76,8 +55,7 @@ const StyledButton = styled(Button)`
   border: none;
   cursor: pointer;
   background: transparent;
-  transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out,
-    transform 0.2s ease-in-out, text-shadow 0.2s ease-in-out;
+  transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out, transform 0.2s ease-in-out, text-shadow 0.2s ease-in-out;
   position: relative;
   outline: none;
   user-select: none;
