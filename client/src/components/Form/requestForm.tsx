@@ -31,7 +31,7 @@ const RequestForm = ({ close }: FormProps) => {
       formData.append('requestType', values.requestType);
       formData.append('startDate', values.startDate.toLocaleDateString('en-gb'));
       formData.append('endDate', values.endDate.toLocaleDateString('en-gb'));
-      formData.append('userId', '2');
+      formData.append('userId', '1');
       formData.append('status', 'Pending');
     }
 
