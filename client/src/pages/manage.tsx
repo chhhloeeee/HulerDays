@@ -11,7 +11,6 @@ import { APILoader } from 'src/components/table/ApiLoader';
 import Table from 'src/components/table/Table';
 import styled from 'styled-components';
 
-
 interface ManageRequestProps {
   className?: string;
 }
@@ -21,7 +20,7 @@ const ManageRequest = ({ className }: ManageRequestProps) => {
     margin: 45px;
     flex-grow: 1;
   `;
-  const userId = 2;
+  const userId = 1;
   return (
     <div className={className}>
       <ContentWrapper>
@@ -33,7 +32,7 @@ const ManageRequest = ({ className }: ManageRequestProps) => {
         </span>
         <h1>Manage Leave Requests</h1>
         <TableWrapper>
-          <APILoader url={'http://localhost:1234/getRequestByUserId?userId=' + 2} Component={RequestsTable} />
+          <APILoader url={'http://localhost:1234/getRequestByUserId?userId=' + userId} Component={RequestsTable} />
         </TableWrapper>
         <Footer />
       </ContentWrapper>
@@ -69,17 +68,17 @@ function RequestsTable({ data }) {
 
   const deleteLeave = async (leaveID) => {
     const formData = new FormData();
-    formData.append("leaveId", leaveID);
-    fetch("http://localhost:1234/deleteRequest", {
-      method: "DELETE",
+    formData.append('leaveId', leaveID);
+    fetch('http://localhost:1234/deleteRequest', {
+      method: 'DELETE',
       body: formData,
     })
       .then((response) => {
-        alert("Delete Successful!");
+        alert('Delete Successful!');
         window.location.reload();
       })
       .catch((error) => {
-        alert("Oops! Something went wrong.");
+        alert('Oops! Something went wrong.');
       });
   };
   return (
@@ -103,9 +102,6 @@ function RequestsTable({ data }) {
       />
       {isCreate && <EditRequestForm reqType={requestType} id={Number(leaveId)} close={() => setIsCreate(false)} />}
     </>
-
-
-
   );
 }
 

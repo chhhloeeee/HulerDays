@@ -17,7 +17,12 @@ const Grid = ({ className }: GridProps) => {
     setIsCreate(false);
   };
 
-  const { isManager, setIsManager } = useContext(UserContext);
+  const { isManager, setIsManager, user } = useContext(UserContext);
+
+  // TODO: if user is a manager, set manager to true
+  if (user.isManager === true) {
+    setIsManager(true);
+  }
 
   return (
     <div className={className}>

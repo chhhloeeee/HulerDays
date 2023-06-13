@@ -1,26 +1,29 @@
-import { Dispatch, SetStateAction, createContext, useState } from "react";
+import { Dispatch, SetStateAction, createContext, useState } from 'react';
 
 interface ContextUserType {
   isManager: boolean;
   setIsManager: Dispatch<SetStateAction<boolean>>;
-  userId: string;
-  setUserId: Dispatch<SetStateAction<string>>;
+  user: UserType;
+  setUser: Dispatch<SetStateAction<UserType>>;
 }
-export const UserContext = createContext<ContextUserType>(
-  {} as ContextUserType
-);
+
+interface UserType {
+  userId: string;
+  isManager: boolean;
+}
+export const UserContext = createContext<ContextUserType>({} as ContextUserType);
 
 const UserContextProvider = ({ children }) => {
   const [isManager, setIsManager] = useState(false);
-  const [userId, setUserId] = useState("");
+  const [user, setUser] = useState(null);
 
   return (
     <UserContext.Provider
       value={{
         isManager,
         setIsManager,
-        userId,
-        setUserId,
+        user,
+        setUser,
       }}
     >
       {children}
