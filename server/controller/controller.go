@@ -386,3 +386,42 @@ func DeleteRequest(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
 	json.NewEncoder(w).Encode(response)
 }
+
+// GetRequestsByManagerId = Get all requests by manager id
+func GetRequestsByManagerId(w http.ResponseWriter, r *http.Request) {
+	var requests model.RequestsTest
+	var response model.RequestsTestResponse
+	var arrRequests []model.RequestsTest
+
+	db := config.Connect()
+	defer db.Close()
+
+	id := r.FormValue("id")
+
+	rows, err := db.Query(`
+	SELECT holiday.*, users.managerId
+	FROM holiday 
+	LEFT JOIN users ON holiday.userId = users.id
+	WHERE users.managerId =?`, id)
+
+	if err != nil {
+		log.Print(err)
+	}
+
+	for rows.Next() {
+		err = rows.Scan(&requests.LeaveId, &requests.StartDate, &requests.EndDate, &requests.UserId, &requests.Status, &requests.RequestType, &requests.ManagerId)
+		if err != nil {
+			log.Fatal(err.Error())
+		} else {
+			arrRequests = append(arrRequests, requests)
+		}
+	}
+
+	response.Status = 200
+	response.Message = "Success"
+	response.Data = arrRequests
+
+	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	json.NewEncoder(w).Encode(response)
+}

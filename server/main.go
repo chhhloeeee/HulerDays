@@ -24,6 +24,7 @@ func main() {
 	router.HandleFunc("/addRequest", controller.Insertrequest).Methods("POST")
 	router.HandleFunc("/updateRequest", controller.UpdateRequest).Methods("PUT", "OPTIONS")
 	router.HandleFunc("/deleteRequest", controller.DeleteRequest).Methods("DELETE", "OPTIONS")
+	router.HandleFunc("/getRequestByManagerId", controller.GetRequestsByManagerId).Methods("GET")
 	http.Handle("/", router)
 	fmt.Println("Connected to port 1234")
 	log.Fatal(http.ListenAndServe(":1234", router))

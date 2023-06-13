@@ -1,14 +1,14 @@
 /* eslint-disable react/jsx-key */
-import { useState } from "react";
-import Button from "src/components/Button";
-import ContentWrapper from "src/components/ContentWrapper";
-import StyledErrorRequest from "src/components/ErrorRequest";
-import Footer from "src/components/footer";
-import Icon from "src/components/icons";
-import Logo from "src/components/Logo";
-import { APILoader } from "src/components/table/ApiLoader";
-import Table from "src/components/table/Table";
-import styled from "styled-components";
+import { useState } from 'react';
+import Button from 'src/components/Button';
+import ContentWrapper from 'src/components/ContentWrapper';
+import StyledErrorRequest from 'src/components/ErrorRequest';
+import Footer from 'src/components/footer';
+import Icon from 'src/components/icons';
+import Logo from 'src/components/Logo';
+import { APILoader } from 'src/components/table/ApiLoader';
+import Table from 'src/components/table/Table';
+import styled from 'styled-components';
 
 interface ManageRequestProps {
   className?: string;
@@ -21,19 +21,14 @@ const TeamRequest = ({ className }: ManageRequestProps) => {
       <ContentWrapper>
         <Logo />
         <span>
-          <Button primary href="/home">
+          <Button primary href='/home'>
             Back
           </Button>
         </span>
         <h1>Manage Team Leave</h1>
         <div>
           {/* New API needed - find users with manager ID that matches the userID of manager logged in */}
-          <APILoader
-            url={
-              "http://localhost:1234/getRequestByManagerId?managerId=" + userId
-            }
-            Component={RequestsTable}
-          />
+          <APILoader url={'http://localhost:1234/getRequestByManagerId?users.managerId=' + userId} Component={RequestsTable} />
         </div>
         <Footer />
       </ContentWrapper>
@@ -42,6 +37,7 @@ const TeamRequest = ({ className }: ManageRequestProps) => {
 };
 
 function RequestsTable({ data }) {
+  console.log(data);
   const [leave, setLeave] = useState(data.Data);
 
   if (leave === null) {
@@ -60,7 +56,7 @@ function RequestsTable({ data }) {
 
   return (
     <Table
-      headers={["Request Type", "Start Date", "End Date", "Status", "Actions"]}
+      headers={['Request Type', 'Start Date', 'End Date', 'Status', 'Actions']}
       rows={leaveList.map((service) => [
         service.requestType,
         service.startDate,
@@ -69,10 +65,10 @@ function RequestsTable({ data }) {
         <div>
           {/* Add onClick actions to upade the user request to approve or deny */}
           <Button>
-            <Icon name="check" />
+            <Icon name='check' />
           </Button>
           <Button>
-            <Icon name="close" />
+            <Icon name='close' />
           </Button>
         </div>,
       ])}
