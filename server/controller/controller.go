@@ -421,3 +421,40 @@ func GetRequestsByManagerId(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	json.NewEncoder(w).Encode(response)
 }
+
+// UpdateHolidayDays = Update holiday days API
+func UpdateHolidayDays(w http.ResponseWriter, r *http.Request) {
+	var response model.RequestsResponse
+
+	if r.Method == "OPTIONS" {
+		response.Status = 200
+	}
+
+	if r.Method == "PUT" {
+		db := config.Connect()
+		defer db.Close()
+
+		err := r.ParseMultipartForm(4096)
+
+		if err != nil {
+			panic(err)
+		}
+		leaveId := r.FormValue("leaveId")
+		days := r.FormValue("days")
+
+		_, err = db.Exec(`UPDATE users u INNER JOIN holiday h ON (u.id = h.userId)
+		SET u.holiday = u.holiday + ?
+		WHERE h.leaveId = ?;`, days, leaveId)
+
+		if err != nil {
+			log.Print(err)
+		}
+
+		response.Status = 200
+		response.Message = "Update data successfully"
+		fmt.Print("Update data successfully")
+
+		w.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(w).Encode(response)
+	}
+}

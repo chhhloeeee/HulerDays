@@ -46,8 +46,6 @@ function RequestsTable({ data }) {
   const [requestType, setRequestType] = useState('');
   const [leaveId, setLeaveId] = useState('');
 
-  console.log(leave);
-
   const handleOpen = (requestType, leaveId) => {
     setRequestType(requestType);
     setLeaveId(leaveId);
@@ -79,22 +77,45 @@ function RequestsTable({ data }) {
     return count;
   }
 
-  const deleteLeave = async (leaveID, startDate, endDate) => {
+  const updateLeave = async (leaveId: number, startDate: Date, endDate: Date) => {
     let days = getBusinessDatesCount(startDate, endDate);
-    const formData = new FormData();
-    formData.append('leaveId', leaveID);
-    fetch('http://localhost:1234/deleteRequest', {
+
+    const formData: any = new FormData();
+    formData.append('leaveId', leaveId);
+    formData.append('days', days);
+
+    var requestOptions = {
+      method: 'PUT',
+      body: formData,
+      redirect: 'follow' as RequestRedirect,
+    };
+
+    fetch('http://localhost:1234/updateHolidayDays?leaveId=' + leaveId + '&days=' + days, requestOptions)
+      .then((response) => response.text())
+      .then((result) => console.log(result))
+      .catch((error) => console.log('error', error));
+    //TO DO: If no error then so this
+    deleteLeave(leaveId);
+  };
+
+  const deleteLeave = async (leaveId: number) => {
+    const formData: any = new FormData();
+    formData.append('leaveId', leaveId);
+
+    var requestOptions = {
       method: 'DELETE',
       body: formData,
-    })
-      .then((response) => {
-        alert('Delete Successful!');
-        window.location.reload();
-      })
-      .catch((error) => {
-        alert('Oops! Something went wrong.');
-      });
+      redirect: 'follow' as RequestRedirect,
+    };
+
+    fetch('http://localhost:1234/deleteRequest?leaveId=' + leaveId, requestOptions)
+      .then((response) => response.text())
+      .then((result) => console.log(result))
+      .catch((error) => console.log('error', error));
+
+    window.location.reload();
   };
+
   return (
     <>
       <Table
@@ -108,7 +129,7 @@ function RequestsTable({ data }) {
             <Button onClick={() => handleOpen(service.requestType, service.leaveId)}>
               <Icon name='edit' />
             </Button>
-            <Button onClick={() => deleteLeave(service.leaveId, new Date(service.startDate.slice(0, 23)), new Date(service.endDate.slice(0, 23)))}>
+            <Button onClick={() => updateLeave(service.leaveId, new Date(service.startDate.slice(0, 23)), new Date(service.endDate.slice(0, 23)))}>
               <Icon name='delete' />
             </Button>
           </div>,
