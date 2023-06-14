@@ -29,9 +29,9 @@ const RequestForm = ({ close }: FormProps) => {
     // Push our data into our FormData object
     for (const [] of Object.entries(values)) {
       formData.append('requestType', values.requestType);
-      formData.append('startDate', values.startDate.toLocaleDateString('en-gb'));
-      formData.append('endDate', values.endDate.toLocaleDateString('en-gb'));
-      formData.append('userId', '2');
+      formData.append('startDate', values.startDate);
+      formData.append('endDate', values.endDate);
+      formData.append('userId', '1');
       formData.append('status', 'Pending');
     }
 

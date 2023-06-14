@@ -386,3 +386,38 @@ func DeleteRequest(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
 	json.NewEncoder(w).Encode(response)
 }
+
+// GetRequestsByManagerId = Get all requests by manager id
+func GetRequestsByManagerId(w http.ResponseWriter, r *http.Request) {
+	var requests model.TeamLeave
+	var response model.TeamLeaveResponse
+	var arrRequests []model.TeamLeave
+
+	db := config.Connect()
+	defer db.Close()
+
+	id := r.FormValue("users.managerId")
+
+	rows, err := db.Query(`SELECT holiday.leaveId, holiday.startDate, holiday.endDate, holiday.status, holiday.requestType, holiday.userId, users.managerId FROM holiday  LEFT JOIN users ON holiday.userId = users.id WHERE holiday.status = 'Pending' AND users.managerId =?`, id)
+
+	if err != nil {
+		log.Print(err)
+	}
+
+	for rows.Next() {
+		err = rows.Scan(&requests.LeaveId, &requests.StartDate, &requests.EndDate, &requests.Status, &requests.RequestType, &requests.UserId, &requests.ManagerId)
+		if err != nil {
+			log.Fatal(err.Error())
+		} else {
+			arrRequests = append(arrRequests, requests)
+		}
+	}
+
+	response.Status = 200
+	response.Message = "Success"
+	response.Data = arrRequests
+
+	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	json.NewEncoder(w).Encode(response)
+}

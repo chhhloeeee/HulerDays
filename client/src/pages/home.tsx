@@ -6,12 +6,15 @@ import Logo from 'src/components/Logo';
 import Icon from 'src/components/icons';
 import Button from 'src/components/Button';
 import { APILoader } from 'src/components/table/ApiLoader';
+import { useContext } from 'react';
+import { UserContext } from 'src/components/contexts/UserContext';
 
 interface HomeProps {
   className?: string;
 }
 
 const Home = ({ className }: HomeProps) => {
+  // const {userId} = useContext(UserContext);
   const userId = 2;
   return (
     <div className={className}>

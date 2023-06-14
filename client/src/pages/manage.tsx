@@ -11,7 +11,6 @@ import { APILoader } from 'src/components/table/ApiLoader';
 import Table from 'src/components/table/Table';
 import styled from 'styled-components';
 
-
 interface ManageRequestProps {
   className?: string;
 }
@@ -21,7 +20,7 @@ const ManageRequest = ({ className }: ManageRequestProps) => {
     margin: 45px;
     flex-grow: 1;
   `;
-  const userId = 2;
+  const userId = 1;
   return (
     <div className={className}>
       <ContentWrapper>
@@ -33,7 +32,7 @@ const ManageRequest = ({ className }: ManageRequestProps) => {
         </span>
         <h1>Manage Leave Requests</h1>
         <TableWrapper>
-          <APILoader url={'http://localhost:1234/getRequestByUserId?userId=' + 2} Component={RequestsTable} />
+          <APILoader url={'http://localhost:1234/getRequestByUserId?userId=' + userId} Component={RequestsTable} />
         </TableWrapper>
         <Footer />
       </ContentWrapper>
@@ -42,10 +41,12 @@ const ManageRequest = ({ className }: ManageRequestProps) => {
 };
 
 function RequestsTable({ data }) {
-  const [leave, setLeave] = useState(data.Data);
+  const leave = data.Data;
   const [isCreate, setIsCreate] = useState(false);
   const [requestType, setRequestType] = useState('');
   const [leaveId, setLeaveId] = useState('');
+
+  console.log(leave);
 
   const handleOpen = (requestType, leaveId) => {
     setRequestType(requestType);
@@ -67,19 +68,31 @@ function RequestsTable({ data }) {
     return 0;
   });
 
-  const deleteLeave = async (leaveID) => {
+  function getBusinessDatesCount(startDate, endDate) {
+    let count = 0;
+    const curDate = new Date(startDate.getTime());
+    while (curDate <= endDate) {
+      const dayOfWeek = curDate.getDay();
+      if (dayOfWeek !== 0 && dayOfWeek !== 6) count++;
+      curDate.setDate(curDate.getDate() + 1);
+    }
+    return count;
+  }
+
+  const deleteLeave = async (leaveID, startDate, endDate) => {
+    let days = getBusinessDatesCount(startDate, endDate);
     const formData = new FormData();
-    formData.append("leaveId", leaveID);
-    fetch("http://localhost:1234/deleteRequest", {
-      method: "DELETE",
+    formData.append('leaveId', leaveID);
+    fetch('http://localhost:1234/deleteRequest', {
+      method: 'DELETE',
       body: formData,
     })
       .then((response) => {
-        alert("Delete Successful!");
+        alert('Delete Successful!');
         window.location.reload();
       })
       .catch((error) => {
-        alert("Oops! Something went wrong.");
+        alert('Oops! Something went wrong.');
       });
   };
   return (
@@ -88,24 +101,21 @@ function RequestsTable({ data }) {
         headers={['Request Type', 'Start Date', 'End Date', 'Status', 'Actions']}
         rows={leaveList.map((service) => [
           service.requestType,
-          service.startDate,
-          service.endDate,
+          service.startDate.slice(0, 16),
+          service.endDate.slice(0, 16),
           service.status,
           <div>
-            <Button onClick={() => deleteLeave(service.leaveId)}>
-              <Icon name='delete' />
-            </Button>
             <Button onClick={() => handleOpen(service.requestType, service.leaveId)}>
               <Icon name='edit' />
+            </Button>
+            <Button onClick={() => deleteLeave(service.leaveId, new Date(service.startDate.slice(0, 23)), new Date(service.endDate.slice(0, 23)))}>
+              <Icon name='delete' />
             </Button>
           </div>,
         ])}
       />
       {isCreate && <EditRequestForm reqType={requestType} id={Number(leaveId)} close={() => setIsCreate(false)} />}
     </>
-
-
-
   );
 }
 

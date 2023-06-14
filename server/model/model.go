@@ -24,8 +24,24 @@ type Requests struct {
 	RequestType string `form:"requestType" json:"requestType"`
 }
 
+type TeamLeave struct {
+	LeaveId     int    `form:"leaveId" json:"leaveId"`
+	StartDate   string `form:"startDate" json:"startDate"`
+	EndDate     string `form:"endDate" json:"endDate"`
+	UserId      int    `form:"userId" json:"userId"`
+	Status      string `form:"status" json:"status"`
+	RequestType string `form:"requestType" json:"requestType"`
+	ManagerId   int    `form:"managerID" json:"managerId"`
+}
+
 type RequestsResponse struct {
 	Status  int    `json:"status"`
 	Message string `json:"message"`
 	Data    []Requests
+}
+
+type TeamLeaveResponse struct {
+	Status  int    `json:"status"`
+	Message string `json:"message"`
+	Data    []TeamLeave
 }

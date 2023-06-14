@@ -2,8 +2,9 @@ import Image from 'next/image';
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
 import RequestForm from './form/requestForm';
-import { useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import Link from 'next/link';
+import { UserContext } from './contexts/UserContext';
 
 interface GridProps {
   className?: string;
@@ -15,6 +16,17 @@ const Grid = ({ className }: GridProps) => {
   const handleClose = () => {
     setIsCreate(false);
   };
+
+  const { isManager, setIsManager } = useContext(UserContext);
+
+  // TODO: if user is a manager, set manager to true
+  // if (user.isManager === true) {
+  //   setIsManager(true);
+  // }
+
+  // useEffect(() => {
+  //   setIsManager(true);
+  // });
 
   return (
     <div className={className}>
@@ -47,6 +59,14 @@ const Grid = ({ className }: GridProps) => {
             <h2>Policies &rarr;</h2>
           </div>
         </Link>
+        {isManager && (
+          <Link className='card' href='/teamRequests'>
+            <Image src='https://cdn.huler.io/v2/wp-content/uploads/2022/06/14090341/Office9.jpg' alt='planner' width={271.11} height={271.11} />
+            <div>
+              <h2>Team Requests &rarr;</h2>
+            </div>
+          </Link>
+        )}
       </div>
     </div>
   );
