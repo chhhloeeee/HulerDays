@@ -115,6 +115,7 @@ function RequestsTable({ data }) {
       .then((response) => {
         alert('Delete Successful!');
         window.location.reload();
+        response.text();
       })
       .then((result) => console.log(result))
       .catch((error) => {
