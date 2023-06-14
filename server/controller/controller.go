@@ -389,27 +389,25 @@ func DeleteRequest(w http.ResponseWriter, r *http.Request) {
 
 // GetRequestsByManagerId = Get all requests by manager id
 func GetRequestsByManagerId(w http.ResponseWriter, r *http.Request) {
-	var requests model.RequestsTest
-	var response model.RequestsTestResponse
-	var arrRequests []model.RequestsTest
+	var requests model.TeamLeave
+	var response model.TeamLeaveResponse
+	var arrRequests []model.TeamLeave
 
 	db := config.Connect()
 	defer db.Close()
 
-	id := r.FormValue("id")
+	id := r.FormValue("users.managerId")
+	fmt.Println(id)
 
-	rows, err := db.Query(`
-	SELECT holiday.*, users.managerId
-	FROM holiday 
-	LEFT JOIN users ON holiday.userId = users.id
-	WHERE users.managerId =?`, id)
+	rows, err := db.Query(`SELECT holiday.leaveId, holiday.startDate, holiday.endDate, holiday.status, holiday.requestType, holiday.userId, users.managerId FROM holiday  LEFT JOIN users ON holiday.userId = users.id WHERE users.managerId =?`, id)
 
 	if err != nil {
+		fmt.Println(err)
 		log.Print(err)
 	}
 
 	for rows.Next() {
-		err = rows.Scan(&requests.LeaveId, &requests.StartDate, &requests.EndDate, &requests.UserId, &requests.Status, &requests.RequestType, &requests.ManagerId)
+		err = rows.Scan(&requests.LeaveId, &requests.StartDate, &requests.EndDate, &requests.Status, &requests.RequestType, &requests.UserId, &requests.ManagerId)
 		if err != nil {
 			log.Fatal(err.Error())
 		} else {

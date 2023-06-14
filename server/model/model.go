@@ -24,7 +24,7 @@ type Requests struct {
 	RequestType string `form:"requestType" json:"requestType"`
 }
 
-type RequestsTest struct {
+type TeamLeave struct {
 	LeaveId     int    `form:"leaveId" json:"leaveId"`
 	StartDate   string `form:"startDate" json:"startDate"`
 	EndDate     string `form:"endDate" json:"endDate"`
@@ -40,8 +40,8 @@ type RequestsResponse struct {
 	Data    []Requests
 }
 
-type RequestsTestResponse struct {
+type TeamLeaveResponse struct {
 	Status  int    `json:"status"`
 	Message string `json:"message"`
-	Data    []RequestsTest
+	Data    []TeamLeave
 }
