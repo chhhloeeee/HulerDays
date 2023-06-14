@@ -69,40 +69,16 @@ function RequestsTable({ data }) {
       });
   };
 
-  function calcBusinessDays(starDate, endDate) {
-    // input given as Date objects
-    var dDate1 = new Date(starDate);
-    var dDate2 = new Date(endDate);
-
-    var iWeeks,
-      iDateDiff,
-      iAdjust = 0;
-
-    if (dDate2 < dDate1) return -1; // error code if dates transposed
-
-    var iWeekday1 = dDate1.getDay(); // day of week
-    var iWeekday2 = dDate2.getDay();
-
-    iWeekday1 = iWeekday1 == 0 ? 7 : iWeekday1; // change Sunday from 0 to 7
-    iWeekday2 = iWeekday2 == 0 ? 7 : iWeekday2;
-
-    if (iWeekday1 > 5 && iWeekday2 > 5) iAdjust = 1; // adjustment if both days on weekend
-
-    iWeekday1 = iWeekday1 > 5 ? 5 : iWeekday1; // only count weekdays
-    iWeekday2 = iWeekday2 > 5 ? 5 : iWeekday2;
-
-    // calculate differnece in weeks (1000mS * 60sec * 60min * 24hrs * 7 days = 604800000)
-    iWeeks = Math.floor((dDate2.getTime() - dDate1.getTime()) / 604800000);
-
-    if (iWeekday1 <= iWeekday2) {
-      iDateDiff = iWeeks * 5 + (iWeekday2 - iWeekday1);
-    } else {
-      iDateDiff = (iWeeks + 1) * 5 - (iWeekday1 - iWeekday2);
+  function getBusinessDatesCount(startDate, endDate) {
+    let count = 0;
+    const curDate = new Date(startDate.getTime());
+    while (curDate <= endDate) {
+      const dayOfWeek = curDate.getDay();
+      if (dayOfWeek !== 0 && dayOfWeek !== 6) count++;
+      curDate.setDate(curDate.getDate() + 1);
     }
-
-    iDateDiff -= iAdjust; // take into account both days on weekend
-
-    return iDateDiff + 1; // add 1 because dates are inclusive
+    alert(count);
+    return count;
   }
 
   return (
@@ -118,7 +94,7 @@ function RequestsTable({ data }) {
           <Button>
             <Icon name='check' />
           </Button>
-          <Button onClick={() => alert(calcBusinessDays(service.startDate.slice(0, 23), service.endDate.slice(0, 23)))}>
+          <Button onClick={() => getBusinessDatesCount(new Date(service.startDate.slice(0, 23)), new Date(service.endDate.slice(0, 23)))}>
             <Icon name='delete' />
           </Button>
         </div>,
