@@ -93,11 +93,11 @@ function RequestsTable({ data }) {
           service.endDate.slice(0, 16),
           service.status,
           <div>
-            <Button onClick={() => deleteLeave(service.leaveId)}>
-              <Icon name='delete' />
-            </Button>
             <Button onClick={() => handleOpen(service.requestType, service.leaveId)}>
               <Icon name='edit' />
+            </Button>
+            <Button onClick={() => deleteLeave(service.leaveId)}>
+              <Icon name='delete' />
             </Button>
           </div>,
         ])}
