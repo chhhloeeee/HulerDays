@@ -27,7 +27,6 @@ const TeamRequest = ({ className }: ManageRequestProps) => {
         </span>
         <h1>Manage Team Leave</h1>
         <div>
-          {/* New API needed - find users with manager ID that matches the userID of manager logged in */}
           <APILoader url={'http://localhost:1234/getRequestByManagerId?users.managerId=' + userId} Component={RequestsTable} />
         </div>
         <Footer />
@@ -53,33 +52,25 @@ function RequestsTable({ data }) {
     return 0;
   });
 
-  const deleteLeave = async (leaveID) => {
-    const formData = new FormData();
-    formData.append('leaveId', leaveID);
-    fetch('http://localhost:1234/deleteRequest', {
-      method: 'DELETE',
-      body: formData,
-    })
-      .then((response) => {
-        alert('Delete Successful!');
-        window.location.reload();
-      })
-      .catch((error) => {
-        alert('Oops! Something went wrong.');
-      });
-  };
+  const updateLeave = async (leaveId, requestType, status) => {
+    var formdata = new FormData();
+    formdata.append('leaveId', leaveId);
+    formdata.append('requestType', requestType);
+    formdata.append('status', status);
 
-  function getBusinessDatesCount(startDate, endDate) {
-    let count = 0;
-    const curDate = new Date(startDate.getTime());
-    while (curDate <= endDate) {
-      const dayOfWeek = curDate.getDay();
-      if (dayOfWeek !== 0 && dayOfWeek !== 6) count++;
-      curDate.setDate(curDate.getDate() + 1);
-    }
-    alert(count);
-    return count;
-  }
+    var requestOptions = {
+      method: 'PUT',
+      body: formdata,
+      redirect: 'follow' as RequestRedirect,
+    };
+
+    fetch('http://localhost:1234/updateRequest?leaveId=' + leaveId + '&requestType=' + requestType + '&status=' + status, requestOptions)
+      .then((response) => response.text())
+      .then((result) => console.log(result))
+      .catch((error) => console.log('error', error));
+    window.location.reload();
+    return close();
+  };
 
   return (
     <Table
@@ -90,11 +81,10 @@ function RequestsTable({ data }) {
         service.endDate.slice(0, 16),
         service.status,
         <div>
-          {/* Add onClick actions to upade the user request to approve or deny */}
-          <Button>
+          <Button onClick={() => updateLeave(service.leaveId, service.requestType, 'Approved')}>
             <Icon name='check' />
           </Button>
-          <Button onClick={() => getBusinessDatesCount(new Date(service.startDate.slice(0, 23)), new Date(service.endDate.slice(0, 23)))}>
+          <Button onClick={() => updateLeave(service.leaveId, service.requestType, 'Denied')}>
             <Icon name='delete' />
           </Button>
         </div>,

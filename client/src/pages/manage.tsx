@@ -68,7 +68,19 @@ function RequestsTable({ data }) {
     return 0;
   });
 
-  const deleteLeave = async (leaveID) => {
+  function getBusinessDatesCount(startDate, endDate) {
+    let count = 0;
+    const curDate = new Date(startDate.getTime());
+    while (curDate <= endDate) {
+      const dayOfWeek = curDate.getDay();
+      if (dayOfWeek !== 0 && dayOfWeek !== 6) count++;
+      curDate.setDate(curDate.getDate() + 1);
+    }
+    return count;
+  }
+
+  const deleteLeave = async (leaveID, startDate, endDate) => {
+    let days = getBusinessDatesCount(startDate, endDate);
     const formData = new FormData();
     formData.append('leaveId', leaveID);
     fetch('http://localhost:1234/deleteRequest', {
@@ -96,7 +108,7 @@ function RequestsTable({ data }) {
             <Button onClick={() => handleOpen(service.requestType, service.leaveId)}>
               <Icon name='edit' />
             </Button>
-            <Button onClick={() => deleteLeave(service.leaveId)}>
+            <Button onClick={() => deleteLeave(service.leaveId, new Date(service.startDate.slice(0, 23)), new Date(service.endDate.slice(0, 23)))}>
               <Icon name='delete' />
             </Button>
           </div>,
