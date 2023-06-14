@@ -41,10 +41,12 @@ const ManageRequest = ({ className }: ManageRequestProps) => {
 };
 
 function RequestsTable({ data }) {
-  const [leave, setLeave] = useState(data.Data);
+  const leave = data.Data;
   const [isCreate, setIsCreate] = useState(false);
   const [requestType, setRequestType] = useState('');
   const [leaveId, setLeaveId] = useState('');
+
+  console.log(leave);
 
   const handleOpen = (requestType, leaveId) => {
     setRequestType(requestType);
@@ -87,8 +89,8 @@ function RequestsTable({ data }) {
         headers={['Request Type', 'Start Date', 'End Date', 'Status', 'Actions']}
         rows={leaveList.map((service) => [
           service.requestType,
-          service.startDate,
-          service.endDate,
+          service.startDate.slice(0, 16),
+          service.endDate.slice(0, 16),
           service.status,
           <div>
             <Button onClick={() => deleteLeave(service.leaveId)}>
