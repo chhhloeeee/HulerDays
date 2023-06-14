@@ -91,11 +91,14 @@ function RequestsTable({ data }) {
     };
 
     fetch('http://localhost:1234/updateHolidayDays?leaveId=' + leaveId + '&days=' + days, requestOptions)
-      .then((response) => response.text())
+      .then((response) => {
+        deleteLeave(leaveId);
+        response.text();
+      })
       .then((result) => console.log(result))
-      .catch((error) => console.log('error', error));
-    //TO DO: If no error then so this
-    deleteLeave(leaveId);
+      .catch((error) => {
+        alert('Oops! Something went wrong.');
+      });
   };
 
   const deleteLeave = async (leaveId: number) => {
@@ -109,11 +112,14 @@ function RequestsTable({ data }) {
     };
 
     fetch('http://localhost:1234/deleteRequest?leaveId=' + leaveId, requestOptions)
-      .then((response) => response.text())
+      .then((response) => {
+        alert('Delete Successful!');
+        window.location.reload();
+      })
       .then((result) => console.log(result))
-      .catch((error) => console.log('error', error));
-
-    window.location.reload();
+      .catch((error) => {
+        alert('Oops! Something went wrong.');
+      });
   };
 
   return (
