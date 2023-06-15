@@ -6,9 +6,10 @@ import parse from 'date-fns/parse';
 import startOfWeek from 'date-fns/startOfWeek';
 import getDay from 'date-fns/getDay';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import FormDatePicker from 'src/components/DatePicker';
 import Logo from 'src/components/Logo';
+import moment from 'moment';
 
 interface CalendarProps {
   className?: string;
@@ -26,26 +27,6 @@ const localiser = dateFnsLocalizer({
   locales,
 });
 
-const events = [
-  {
-    title: 'Big Meeting',
-    allDay: true,
-    start: new Date(2023, 5, 6),
-    end: new Date(2023, 5, 6),
-  },
-  {
-    title: 'Holiday',
-    start: new Date(2023, 5, 17),
-    end: new Date(2023, 5, 23),
-  },
-  {
-    title: 'Birthday',
-    allDay: true,
-    start: new Date(2023, 5, 25),
-    end: new Date(2023, 5, 25),
-  },
-];
-
 const eventStyleGetter = () => {
   var style = {
     backgroundColor: `var(--primary-color)`,
@@ -54,7 +35,44 @@ const eventStyleGetter = () => {
     style: style,
   };
 };
+
+const convertDate = (date) => {
+  return moment.utc(date).toDate();
+};
+
 const CalendarView = ({ className }: CalendarProps) => {
+  const [events, setEvents] = useState([]);
+
+  useEffect(() => {
+    async function getData() {
+      var requestOptions = {
+        method: 'GET',
+        redirect: 'follow' as RequestRedirect,
+      };
+
+      fetch('http://localhost:1234/getRequestByUserId?userId=1', requestOptions)
+        .then((response) => response.json())
+        .then((response) => {
+          console.log(response.Data);
+          let appointments = response.Data;
+
+          for (let i = 0; i < appointments.length; i++) {
+            appointments[i].start = convertDate(appointments[i].start);
+            appointments[i].end = convertDate(appointments[i].end);
+          }
+
+          //set events
+          setEvents(appointments);
+          console.log(appointments, 'HERE');
+          return;
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
+    getData();
+  }, []);
+
   return (
     <div className={className}>
       <Logo />
