@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"strconv"
 
 	"github.com/HulerDays/model"
 
@@ -460,6 +461,7 @@ func AddHolidayDays(w http.ResponseWriter, r *http.Request) {
 // RemoveHolidayDays = Update holiday days API
 func RemoveHolidayDays(w http.ResponseWriter, r *http.Request) {
 	var response model.RequestsResponse
+	var users model.Users
 
 	if r.Method == "OPTIONS" {
 		response.Status = 200
@@ -476,18 +478,24 @@ func RemoveHolidayDays(w http.ResponseWriter, r *http.Request) {
 		}
 		id := r.FormValue("id")
 		days := r.FormValue("days")
+		daysInt, _ := strconv.Atoi(days)
 
-		_, err = db.Exec("UPDATE users SET holiday = holiday - ? WHERE id = ?", days, id)
+		if daysInt > users.Holiday {
+			fmt.Println("TOO MANy")
+			return
+		} else {
+			_, err = db.Exec("UPDATE users SET holiday = holiday - ? WHERE id = ?", days, id)
 
-		if err != nil {
-			log.Print(err)
+			if err != nil {
+				log.Print(err)
+			}
+
+			response.Status = 200
+			response.Message = "Update data successfully"
+			fmt.Print("Update data successfully")
+
+			w.Header().Set("Content-Type", "application/json")
+			json.NewEncoder(w).Encode(response)
 		}
-
-		response.Status = 200
-		response.Message = "Update data successfully"
-		fmt.Print("Update data successfully")
-
-		w.Header().Set("Content-Type", "application/json")
-		json.NewEncoder(w).Encode(response)
 	}
 }
