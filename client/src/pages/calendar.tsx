@@ -1,21 +1,21 @@
-import Button from "src/components/Button";
-import styled from "styled-components";
-import { Calendar, dateFnsLocalizer } from "react-big-calendar";
-import format from "date-fns/format";
-import parse from "date-fns/parse";
-import startOfWeek from "date-fns/startOfWeek";
-import getDay from "date-fns/getDay";
-import "react-big-calendar/lib/css/react-big-calendar.css";
-import { useState } from "react";
-import FormDatePicker from "src/components/DatePicker";
-import Logo from "src/components/Logo";
+import Button from 'src/components/Button';
+import styled from 'styled-components';
+import { Calendar, dateFnsLocalizer } from 'react-big-calendar';
+import format from 'date-fns/format';
+import parse from 'date-fns/parse';
+import startOfWeek from 'date-fns/startOfWeek';
+import getDay from 'date-fns/getDay';
+import 'react-big-calendar/lib/css/react-big-calendar.css';
+import { useState } from 'react';
+import FormDatePicker from 'src/components/DatePicker';
+import Logo from 'src/components/Logo';
 
 interface CalendarProps {
   className?: string;
 }
 
 const locales = {
-  "en-GB": require("date-fns/locale/en-GB"),
+  'en-GB': require('date-fns/locale/en-GB'),
 };
 
 const localiser = dateFnsLocalizer({
@@ -28,18 +28,18 @@ const localiser = dateFnsLocalizer({
 
 const events = [
   {
-    title: "Big Meeting",
+    title: 'Big Meeting',
     allDay: true,
     start: new Date(2023, 5, 6),
     end: new Date(2023, 5, 6),
   },
   {
-    title: "Holiday",
+    title: 'Holiday',
     start: new Date(2023, 5, 17),
     end: new Date(2023, 5, 23),
   },
   {
-    title: "Birthday",
+    title: 'Birthday',
     allDay: true,
     start: new Date(2023, 5, 25),
     end: new Date(2023, 5, 25),
@@ -56,8 +56,9 @@ const eventStyleGetter = () => {
 };
 const CalendarView = ({ className }: CalendarProps) => {
   return (
-    <div>
-      <Button primary href="/home">
+    <div className={className}>
+      <Logo />
+      <Button primary href='/home'>
         Back
       </Button>
 
@@ -65,11 +66,11 @@ const CalendarView = ({ className }: CalendarProps) => {
         <Calendar
           localizer={localiser}
           events={events}
-          startAccessor="start"
-          endAccessor="end"
+          startAccessor='start'
+          endAccessor='end'
           style={{
             height: 800,
-            margin: "50px",
+            margin: '50px',
           }}
           eventPropGetter={eventStyleGetter}
         />
