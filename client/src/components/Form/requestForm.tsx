@@ -45,7 +45,7 @@ const RequestForm = ({ close }: FormProps) => {
       })
       .then((result) => console.log(result))
       .catch((error) => {
-        alert('Oops! Something went wrong.');
+        alert(error);
       });
   };
 

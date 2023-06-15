@@ -498,6 +498,8 @@ func RemoveHolidayDays(w http.ResponseWriter, r *http.Request) {
 
 		if leaveErr != nil {
 			fmt.Println(leaveErr)
+			response.Status = 400
+			response.Message = "MAJOR ERR"
 			return
 		}
 		_, err = db.Exec("UPDATE users SET holiday = holiday - ? WHERE id = ?", days, id)
