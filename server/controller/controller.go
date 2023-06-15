@@ -2,6 +2,7 @@ package controller
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"log"
 	"net/http"
@@ -458,6 +459,19 @@ func AddHolidayDays(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+// CheckLeave = Checks if user has enough leave remaining
+func CheckLeave(days int, leave int) error {
+
+	newError := errors.New("Too much leave selected")
+
+	if days > leave {
+		return newError
+	}
+
+	return nil
+
+}
+
 // RemoveHolidayDays = Update holiday days API
 func RemoveHolidayDays(w http.ResponseWriter, r *http.Request) {
 	var response model.RequestsResponse
@@ -480,22 +494,24 @@ func RemoveHolidayDays(w http.ResponseWriter, r *http.Request) {
 		days := r.FormValue("days")
 		daysInt, _ := strconv.Atoi(days)
 
-		if daysInt > users.Holiday {
-			fmt.Println("TOO MANy")
+		leaveErr := CheckLeave(daysInt, users.Holiday)
+
+		if leaveErr != nil {
+			fmt.Println(leaveErr)
 			return
-		} else {
-			_, err = db.Exec("UPDATE users SET holiday = holiday - ? WHERE id = ?", days, id)
-
-			if err != nil {
-				log.Print(err)
-			}
-
-			response.Status = 200
-			response.Message = "Update data successfully"
-			fmt.Print("Update data successfully")
-
-			w.Header().Set("Content-Type", "application/json")
-			json.NewEncoder(w).Encode(response)
 		}
+		_, err = db.Exec("UPDATE users SET holiday = holiday - ? WHERE id = ?", days, id)
+
+		if err != nil {
+			log.Print(err)
+		}
+
+		response.Status = 200
+		response.Message = "Update data successfully"
+		fmt.Print("Update data successfully")
+
+		w.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(w).Encode(response)
 	}
+
 }
