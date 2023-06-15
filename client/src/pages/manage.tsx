@@ -5,6 +5,7 @@ import ContentWrapper from 'src/components/ContentWrapper';
 import StyledErrorRequest from 'src/components/ErrorRequest';
 import Footer from 'src/components/footer';
 import EditRequestForm from 'src/components/form/EditRequestForm';
+import { GetBusinessDatesCount } from 'src/components/helpers/helpers';
 import Icon from 'src/components/icons';
 import Logo from 'src/components/Logo';
 import { APILoader } from 'src/components/table/ApiLoader';
@@ -20,7 +21,7 @@ const ManageRequest = ({ className }: ManageRequestProps) => {
     margin: 45px;
     flex-grow: 1;
   `;
-  const userId = 1;
+  const UserId = 1;
   return (
     <div className={className}>
       <ContentWrapper>
@@ -32,7 +33,7 @@ const ManageRequest = ({ className }: ManageRequestProps) => {
         </span>
         <h1>Manage Leave Requests</h1>
         <TableWrapper>
-          <APILoader url={'http://localhost:1234/getRequestByUserId?userId=' + userId} Component={RequestsTable} />
+          <APILoader url={'http://localhost:1234/getRequestByUserId?userId=' + UserId} Component={RequestsTable} />
         </TableWrapper>
         <Footer />
       </ContentWrapper>
@@ -66,22 +67,11 @@ function RequestsTable({ data }) {
     return 0;
   });
 
-  function getBusinessDatesCount(startDate, endDate) {
-    let count = 0;
-    const curDate = new Date(startDate.getTime());
-    while (curDate <= endDate) {
-      const dayOfWeek = curDate.getDay();
-      if (dayOfWeek !== 0 && dayOfWeek !== 6) count++;
-      curDate.setDate(curDate.getDate() + 1);
-    }
-    return count;
-  }
-
-  const updateLeave = async (leaveId: number, startDate: Date, endDate: Date) => {
-    let days = getBusinessDatesCount(startDate, endDate);
+  const updateLeave = async (leaveId: number, startDate: Date, endDate: Date, userId: Number) => {
+    let days = GetBusinessDatesCount(startDate, endDate);
 
     const formData: any = new FormData();
-    formData.append('leaveId', leaveId);
+    formData.append('id', userId);
     formData.append('days', days);
 
     var requestOptions = {
@@ -90,7 +80,7 @@ function RequestsTable({ data }) {
       redirect: 'follow' as RequestRedirect,
     };
 
-    fetch('http://localhost:1234/updateHolidayDays?leaveId=' + leaveId + '&days=' + days, requestOptions)
+    fetch('http://localhost:1234/addHolidayDays?id=' + userId + '&days=' + days, requestOptions)
       .then((response) => {
         deleteLeave(leaveId);
         response.text();
@@ -136,7 +126,11 @@ function RequestsTable({ data }) {
             <Button onClick={() => handleOpen(service.requestType, service.leaveId)}>
               <Icon name='edit' />
             </Button>
-            <Button onClick={() => updateLeave(service.leaveId, new Date(service.startDate.slice(0, 23)), new Date(service.endDate.slice(0, 23)))}>
+            <Button
+              onClick={() =>
+                updateLeave(service.leaveId, new Date(service.startDate.slice(0, 23)), new Date(service.endDate.slice(0, 23)), service.userId)
+              }
+            >
               <Icon name='delete' />
             </Button>
           </div>,

@@ -422,8 +422,8 @@ func GetRequestsByManagerId(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(response)
 }
 
-// UpdateHolidayDays = Update holiday days API
-func UpdateHolidayDays(w http.ResponseWriter, r *http.Request) {
+// AddHolidayDays = Update holiday days API
+func AddHolidayDays(w http.ResponseWriter, r *http.Request) {
 	var response model.RequestsResponse
 
 	if r.Method == "OPTIONS" {
@@ -439,12 +439,45 @@ func UpdateHolidayDays(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			panic(err)
 		}
-		leaveId := r.FormValue("leaveId")
+		id := r.FormValue("id")
 		days := r.FormValue("days")
 
-		_, err = db.Exec(`UPDATE users u INNER JOIN holiday h ON (u.id = h.userId)
-		SET u.holiday = u.holiday + ?
-		WHERE h.leaveId = ?;`, days, leaveId)
+		_, err = db.Exec("UPDATE users SET holiday = holiday + ? WHERE id = ?", days, id)
+
+		if err != nil {
+			log.Print(err)
+		}
+
+		response.Status = 200
+		response.Message = "Update data successfully"
+		fmt.Print("Update data successfully")
+
+		w.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(w).Encode(response)
+	}
+}
+
+// RemoveHolidayDays = Update holiday days API
+func RemoveHolidayDays(w http.ResponseWriter, r *http.Request) {
+	var response model.RequestsResponse
+
+	if r.Method == "OPTIONS" {
+		response.Status = 200
+	}
+
+	if r.Method == "PUT" {
+		db := config.Connect()
+		defer db.Close()
+
+		err := r.ParseMultipartForm(4096)
+
+		if err != nil {
+			panic(err)
+		}
+		id := r.FormValue("id")
+		days := r.FormValue("days")
+
+		_, err = db.Exec("UPDATE users SET holiday = holiday - ? WHERE id = ?", days, id)
 
 		if err != nil {
 			log.Print(err)
