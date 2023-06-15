@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 interface FooterProps {
   className?: string;
@@ -12,7 +12,7 @@ const Footer = ({ className }: FooterProps) => {
 };
 
 Footer.defaultProps = {
-  className: "",
+  className: '',
 };
 
 const StyledFooter = styled(Footer)`

@@ -1,5 +1,5 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
 export interface InputProps {
   className?: string;
@@ -8,7 +8,7 @@ export interface InputProps {
   label: string;
   value?: string | undefined;
   name: string;
-  size: "sm" | "md" | "lg";
+  size: 'sm' | 'md' | 'lg';
   hideLabel?: boolean;
   onChange: React.ChangeEventHandler<HTMLInputElement>;
   onBlur: React.FocusEventHandler<HTMLInputElement>;
@@ -18,29 +18,10 @@ export interface InputProps {
   applicableTxt?: string;
 }
 
-const Input = ({
-  className,
-  type,
-  placeholder,
-  label,
-  name,
-  value = undefined,
-  onChange,
-  onBlur,
-  error,
-  hasError,
-  applicableTxt,
-}: InputProps) => (
+const Input = ({ className, type, placeholder, label, name, value = undefined, onChange, onBlur, error, hasError, applicableTxt }: InputProps) => (
   <div className={className}>
     <label htmlFor={name}>{label}</label>
-    <input
-      value={value}
-      placeholder={placeholder}
-      name={name}
-      type={type}
-      onChange={onChange}
-      onBlur={onBlur}
-    />
+    <input value={value} placeholder={placeholder} name={name} type={type} onChange={onChange} onBlur={onBlur} />
     {applicableTxt && <small>{applicableTxt}</small>}
     {hasError && <span>{error}</span>}
   </div>
@@ -59,8 +40,7 @@ const StyledInput = styled(Input)`
   }
 
   label {
-    ${(props) =>
-      props.hideLabel && `visibility: hidden; position: absolute; opacity: 0;`}
+    ${(props) => props.hideLabel && `visibility: hidden; position: absolute; opacity: 0;`}
     display: block;
   }
 
@@ -81,7 +61,7 @@ const StyledInput = styled(Input)`
     margin: 0;
     position: absolute;
     left: 0.5rem;
-    color: "#c1c7d0";
+    color: '#c1c7d0';
     font-weight: 800;
   }
 
@@ -95,21 +75,21 @@ const StyledInput = styled(Input)`
 
   input {
     background: white;
-    border: 3px solid "#c1c7d0";
+    border: 3px solid '#c1c7d0';
     border-radius: 1.5rem;
     font-weight: bold;
     transition: #fb6666;
     height: 3rem;
-    color: "#c1c7d0";
+    color: '#c1c7d0';
     width: 100%;
 
     &::placeholder {
       opacity: 1;
-      color: "#c1c7d0";
+      color: '#c1c7d0';
     }
 
     &:focus {
-      border: 3px solid "#e3e1e2";
+      border: 3px solid '#e3e1e2';
       outline: none;
     }
 
@@ -123,7 +103,7 @@ const StyledInput = styled(Input)`
   }
 
   ${(props) =>
-    props.size === "lg" &&
+    props.size === 'lg' &&
     `
       input{
         font-size: 25px;
@@ -138,7 +118,7 @@ const StyledInput = styled(Input)`
    `}
 
   ${(props) =>
-    props.size === "md" &&
+    props.size === 'md' &&
     `
       input{
         font-size: 20px;
@@ -153,7 +133,7 @@ const StyledInput = styled(Input)`
    `}
 
   ${(props) =>
-    props.size === "sm" &&
+    props.size === 'sm' &&
     `
       input{
         font-size: 18px;

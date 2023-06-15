@@ -141,6 +141,7 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 	fmt.Print("Update data successfully")
 
 	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	json.NewEncoder(w).Encode(response)
 }
 
@@ -159,7 +160,7 @@ func DeleteUser(w http.ResponseWriter, r *http.Request) {
 
 	id := r.FormValue("id")
 
-	_, err = db.Exec("DELETE FROM employee WHERE id=?", id)
+	_, err = db.Exec("DELETE FROM users WHERE id=?", id)
 
 	if err != nil {
 		log.Print(err)
@@ -171,6 +172,7 @@ func DeleteUser(w http.ResponseWriter, r *http.Request) {
 	fmt.Print("Delete data successfully")
 
 	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	json.NewEncoder(w).Encode(response)
 }
 
@@ -313,55 +315,67 @@ func Insertrequest(w http.ResponseWriter, r *http.Request) {
 func UpdateRequest(w http.ResponseWriter, r *http.Request) {
 	var response model.RequestsResponse
 
-	db := config.Connect()
-	defer db.Close()
-
-	err := r.ParseMultipartForm(4096)
-
-	if err != nil {
-		panic(err)
-	}
-	leaveId := r.FormValue("leaveId")
-	startDate := r.FormValue("startDate")
-	endDate := r.FormValue("endDate")
-	userId := r.FormValue("userId")
-	status := r.FormValue("status")
-	requestType := r.FormValue("requestType")
-
-	_, err = db.Exec("UPDATE holiday SET startDate=?, endDate=?, userId=?, status=?, requestType=? WHERE leaveId=?", startDate, endDate, userId, status, requestType, leaveId)
-
-	if err != nil {
-		log.Print(err)
+	if r.Method == "OPTIONS" {
+		response.Status = 200
 	}
 
-	response.Status = 200
-	response.Message = "Update data successfully"
-	fmt.Print("Update data successfully")
+	if r.Method == "PUT" {
+		db := config.Connect()
+		defer db.Close()
 
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(response)
+		err := r.ParseMultipartForm(4096)
+
+		if err != nil {
+			panic(err)
+		}
+		leaveId := r.FormValue("leaveId")
+		status := r.FormValue("status")
+		requestType := r.FormValue("requestType")
+
+		_, err = db.Exec("UPDATE holiday SET status=?, requestType=? WHERE leaveId=?", status, requestType, leaveId)
+
+		if err != nil {
+			log.Print(err)
+		}
+
+		response.Status = 200
+		response.Message = "Update data successfully"
+		fmt.Print("Update data successfully")
+
+		w.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(w).Encode(response)
+	}
 }
 
 // DeleteRequest = Delete Request API
 func DeleteRequest(w http.ResponseWriter, r *http.Request) {
 	var response model.RequestsResponse
 
-	db := config.Connect()
-	defer db.Close()
-
-	err := r.ParseMultipartForm(4096)
-
-	if err != nil {
-		panic(err)
+	if r.Method == "OPTIONS" {
+		response.Status = 200
 	}
 
-	leaveId := r.FormValue("leaveId")
+	if r.Method == "DELETE" {
+		w.WriteHeader(http.StatusOK)
 
-	_, err = db.Exec("DELETE FROM holidays WHERE leaveId=?", leaveId)
+		db := config.Connect()
+		defer db.Close()
 
-	if err != nil {
-		log.Print(err)
-		return
+		err := r.ParseMultipartForm(4096)
+
+		if err != nil {
+			panic(err)
+		}
+
+		leaveId := r.FormValue("leaveId")
+
+		_, err = db.Exec("DELETE FROM holiday WHERE leaveId=?", leaveId)
+
+		if err != nil {
+			log.Print(err)
+			return
+		}
+
 	}
 
 	response.Status = 200
@@ -369,5 +383,41 @@ func DeleteRequest(w http.ResponseWriter, r *http.Request) {
 	fmt.Print("Delete data successfully")
 
 	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
+	json.NewEncoder(w).Encode(response)
+}
+
+// GetRequestsByManagerId = Get all requests by manager id
+func GetRequestsByManagerId(w http.ResponseWriter, r *http.Request) {
+	var requests model.TeamLeave
+	var response model.TeamLeaveResponse
+	var arrRequests []model.TeamLeave
+
+	db := config.Connect()
+	defer db.Close()
+
+	id := r.FormValue("users.managerId")
+
+	rows, err := db.Query(`SELECT holiday.leaveId, holiday.startDate, holiday.endDate, holiday.status, holiday.requestType, holiday.userId, users.managerId FROM holiday  LEFT JOIN users ON holiday.userId = users.id WHERE holiday.status = 'Pending' AND users.managerId =?`, id)
+
+	if err != nil {
+		log.Print(err)
+	}
+
+	for rows.Next() {
+		err = rows.Scan(&requests.LeaveId, &requests.StartDate, &requests.EndDate, &requests.Status, &requests.RequestType, &requests.UserId, &requests.ManagerId)
+		if err != nil {
+			log.Fatal(err.Error())
+		} else {
+			arrRequests = append(arrRequests, requests)
+		}
+	}
+
+	response.Status = 200
+	response.Message = "Success"
+	response.Data = arrRequests
+
+	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	json.NewEncoder(w).Encode(response)
 }

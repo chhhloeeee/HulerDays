@@ -56,8 +56,7 @@ const eventStyleGetter = () => {
 };
 const CalendarView = ({ className }: CalendarProps) => {
   return (
-    <div className={className}>
-      <Logo />
+    <div>
       <Button primary href="/home">
         Back
       </Button>

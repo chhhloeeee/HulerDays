@@ -1,4 +1,4 @@
-import { css } from "styled-components";
+import { css } from 'styled-components';
 
 const reset = css`
   html,
@@ -126,7 +126,7 @@ const reset = css`
   blockquote {
     &:before,
     &:after {
-      content: "";
+      content: '';
       content: none;
     }
   }
@@ -134,7 +134,7 @@ const reset = css`
   q {
     &:before,
     &:after {
-      content: "";
+      content: '';
       content: none;
     }
   }

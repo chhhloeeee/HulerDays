@@ -1,11 +1,13 @@
-import Footer from "src/components/footer";
-import LoginForm from "src/components/LoginForm";
-import Logo from "src/components/Logo";
+import UserContextProvider from 'src/components/contexts/UserContext';
+import Footer from 'src/components/footer';
+import LoginForm from 'src/components/LoginForm';
 
 const Login = () => {
   return (
     <div>
-      <LoginForm />
+      <UserContextProvider>
+        <LoginForm />
+      </UserContextProvider>
       <Footer />
     </div>
   );
