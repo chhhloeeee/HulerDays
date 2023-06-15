@@ -15,6 +15,30 @@ interface CalendarProps {
   className?: string;
 }
 
+// NOTES:
+// Previous event array looked like:
+
+// const event = [
+//   const events = [
+//     {
+//       title: 'Big Meeting',
+//       allDay: true,
+//       start: new Date(2023, 5, 6),
+//       end: new Date(2023, 5, 6),
+//     },
+//     {
+//       title: 'Holiday',
+//       start: new Date(2023, 5, 17),
+//       end: new Date(2023, 5, 23),
+//     },
+//     {
+//       title: 'Birthday',
+//       allDay: true,
+//       start: new Date(2023, 5, 25),
+//       end: new Date(2023, 5, 25),
+//     },
+//   ];
+
 const locales = {
   'en-GB': require('date-fns/locale/en-GB'),
 };
