@@ -8,7 +8,6 @@ import getDay from 'date-fns/getDay';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { useEffect, useState } from 'react';
 import Logo from 'src/components/Logo';
-import moment from 'moment';
 
 interface CalendarProps {
   className?: string;
@@ -35,10 +34,6 @@ const eventStyleGetter = () => {
   };
 };
 
-const convertDate = (date) => {
-  return moment.utc(date).toDate();
-};
-
 const CalendarView = ({ className }: CalendarProps) => {
   const [events, setEvents] = useState([]);
 
@@ -56,8 +51,8 @@ const CalendarView = ({ className }: CalendarProps) => {
           let appointments = response.Data;
 
           for (let i = 0; i < appointments.length; i++) {
-            appointments[i].start = convertDate(appointments[i].startDate);
-            appointments[i].end = convertDate(appointments[i].endDate);
+            appointments[i].start = appointments[i].startDate;
+            appointments[i].end = appointments[i].endDate;
             appointments[i].title = appointments[i].requestType;
             appointments[i].allDay = true;
           }
