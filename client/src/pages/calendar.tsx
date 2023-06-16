@@ -62,34 +62,35 @@ const CalendarView = ({ className }: CalendarProps) => {
   const { isManager } = useContext(UserContext);
   const [showLeave, setShowLeave] = useState(false);
 
+  async function getData() {
+    var requestOptions = {
+      method: 'GET',
+      redirect: 'follow' as RequestRedirect,
+    };
+
+    fetch('http://localhost:1234/getApprovedRequestByUserId?userId=2', requestOptions)
+      .then((response) => response.json())
+      .then((response) => {
+        console.log(response.Data);
+        let appointments = response.Data;
+
+        for (let i = 0; i < appointments.length; i++) {
+          appointments[i].start = appointments[i].startDate;
+          appointments[i].end = appointments[i].endDate;
+          appointments[i].title = appointments[i].requestType;
+          appointments[i].allDay = true;
+        }
+
+        setEvents(appointments);
+
+        return;
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+
   useEffect(() => {
-    async function getData() {
-      var requestOptions = {
-        method: 'GET',
-        redirect: 'follow' as RequestRedirect,
-      };
-
-      fetch('http://localhost:1234/getApprovedRequestByUserId?userId=2', requestOptions)
-        .then((response) => response.json())
-        .then((response) => {
-          console.log(response.Data);
-          let appointments = response.Data;
-
-          for (let i = 0; i < appointments.length; i++) {
-            appointments[i].start = appointments[i].startDate;
-            appointments[i].end = appointments[i].endDate;
-            appointments[i].title = appointments[i].requestType;
-            appointments[i].allDay = true;
-          }
-
-          setEvents(appointments);
-
-          return;
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-    }
     getData();
   }, []);
 
@@ -100,7 +101,7 @@ const CalendarView = ({ className }: CalendarProps) => {
         redirect: 'follow' as RequestRedirect,
       };
 
-      fetch('http://localhost:1234/getRequestByManagerId?users.managerId=' + 2 + '&holiday.status=Pending', requestOptions)
+      fetch('http://localhost:1234/getRequestByManagerId?users.managerId=' + 2 + '&holiday.status=Approved', requestOptions)
         .then((response) => response.json())
         .then((response) => {
           console.log(response.Data);
@@ -120,6 +121,12 @@ const CalendarView = ({ className }: CalendarProps) => {
         .catch(function (error) {
           console.log(error);
         });
+    }
+  }, [showLeave]);
+
+  useEffect(() => {
+    if (!showLeave) {
+      getData();
     }
   }, [showLeave]);
 
