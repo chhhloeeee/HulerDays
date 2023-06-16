@@ -136,7 +136,7 @@ const CalendarView = ({ className }: CalendarProps) => {
       <Button primary href='/home'>
         Back
       </Button>
-      {!isManager && (
+      {isManager && (
         <ToggleWrapper>
           <h4>Show Team Leave?</h4>
           <Toggle onChange={() => setShowLeave(!showLeave)} checked={showLeave} label='Show Team Leave' slug='show team Leave' />{' '}
