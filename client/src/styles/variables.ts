@@ -20,6 +20,7 @@ const sharedVariables = css`
   --grey-20: #e9e9ea;
   --grey-30: #e4e4e4;
   --grey-40: #ededed;
+  --grey-60: #e4e4e4;
   --grey-70: #ddddde;
   --grey-80: #b8b8b8;
   --grey-100: #807e84;
@@ -103,6 +104,8 @@ const lightVariables = css`
   --search-input-border: var(--grey-80);
   --search-input-placeholder: var(--grey-900);
   --search-input-text: var(--grey-900);
+  --toggle-input-background: var(--grey-60);
+  --toggle-input-thumb-background: var(--grey-10);
 
   // Shadows
   --soft-button-shadow: -2px -2px 5px #ffffff30, -2px -2px 5px #ffffff30, 0 0 15px #ffffff30, 5px 5px 10px #00000010;
@@ -203,6 +206,8 @@ const darkVariables = css`
   --search-input-border: var(--grey-200);
   --search-input-placeholder: var(--white);
   --search-input-text: var(--white);
+  --toggle-input-background: var(--grey-800);
+  --toggle-input-thumb-background: var(--grey-500);
 
   // Shadows
   --soft-button-shadow: -2px -2px 5px #65656d1f, -2px -2px 5px #65656d1f, 0 0 15px #65656d1f, 5px 5px 10px #00000057;
