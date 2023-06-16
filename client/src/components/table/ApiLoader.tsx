@@ -1,7 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from "react";
-import StyledErrorRequest from "../ErrorRequest";
-import { useRouter } from "next/router";
+import React, { useEffect, useState } from 'react';
+import StyledErrorRequest from '../ErrorRequest';
+import { useRouter } from 'next/router';
+import Loader from '../loader/Loader';
 
 interface APILoaderProps {
   url: string;
@@ -27,13 +28,11 @@ export const APILoader = ({ url, Component, reloadWith }: APILoaderProps) => {
   useEffect(fetchData, reloadWith || []);
 
   if (!isLoaded) {
-    return <h1>Loading...</h1>;
+    return <Loader />;
   }
   if (error) {
-    const isManageRequest = router.pathname.includes("/manage");
-    return (
-      <div>{isManageRequest ? <StyledErrorRequest /> : <h2>No Data</h2>}</div>
-    );
+    const isCountdown = router.pathname.includes('/home');
+    return <div>{isCountdown ? <h2>No Data</h2> : <StyledErrorRequest />}</div>;
   }
   return <Component data={response} />;
 };

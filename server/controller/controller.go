@@ -397,8 +397,9 @@ func GetRequestsByManagerId(w http.ResponseWriter, r *http.Request) {
 	defer db.Close()
 
 	id := r.FormValue("users.managerId")
+	status := r.FormValue("holiday.status")
 
-	rows, err := db.Query(`SELECT holiday.leaveId, holiday.startDate, holiday.endDate, holiday.status, holiday.requestType, holiday.userId, users.managerId FROM holiday  LEFT JOIN users ON holiday.userId = users.id WHERE holiday.status = 'Pending' AND users.managerId =?`, id)
+	rows, err := db.Query(`SELECT holiday.leaveId, holiday.startDate, holiday.endDate, holiday.status, holiday.requestType, holiday.userId, users.managerId FROM holiday  LEFT JOIN users ON holiday.userId = users.id WHERE users.managerId =? AND holiday.status =? `, id, status)
 
 	if err != nil {
 		log.Print(err)

@@ -27,7 +27,10 @@ const TeamRequest = ({ className }: ManageRequestProps) => {
         </span>
         <h1>Manage Team Leave</h1>
         <div>
-          <APILoader url={'http://localhost:1234/getRequestByManagerId?users.managerId=' + userId} Component={RequestsTable} />
+          <APILoader
+            url={'http://localhost:1234/getRequestByManagerId?users.managerId=' + userId + '&holiday.status=Pending'}
+            Component={RequestsTable}
+          />
         </div>
         <Footer />
       </ContentWrapper>
