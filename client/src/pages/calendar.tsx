@@ -7,37 +7,12 @@ import startOfWeek from 'date-fns/startOfWeek';
 import getDay from 'date-fns/getDay';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { useEffect, useState } from 'react';
-import FormDatePicker from 'src/components/DatePicker';
 import Logo from 'src/components/Logo';
 import moment from 'moment';
 
 interface CalendarProps {
   className?: string;
 }
-
-// NOTES:
-// Previous event array looked like:
-
-// const event = [
-//   const events = [
-//     {
-//       title: 'Big Meeting',
-//       allDay: true,
-//       start: new Date(2023, 5, 6),
-//       end: new Date(2023, 5, 6),
-//     },
-//     {
-//       title: 'Holiday',
-//       start: new Date(2023, 5, 17),
-//       end: new Date(2023, 5, 23),
-//     },
-//     {
-//       title: 'Birthday',
-//       allDay: true,
-//       start: new Date(2023, 5, 25),
-//       end: new Date(2023, 5, 25),
-//     },
-//   ];
 
 const locales = {
   'en-GB': require('date-fns/locale/en-GB'),
@@ -81,13 +56,14 @@ const CalendarView = ({ className }: CalendarProps) => {
           let appointments = response.Data;
 
           for (let i = 0; i < appointments.length; i++) {
-            appointments[i].start = convertDate(appointments[i].start);
-            appointments[i].end = convertDate(appointments[i].end);
+            appointments[i].start = convertDate(appointments[i].startDate);
+            appointments[i].end = convertDate(appointments[i].endDate);
+            appointments[i].title = appointments[i].requestType;
+            appointments[i].allDay = true;
           }
 
-          //set events
           setEvents(appointments);
-          console.log(appointments, 'HERE');
+
           return;
         })
         .catch(function (error) {
