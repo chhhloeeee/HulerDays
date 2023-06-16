@@ -441,7 +441,7 @@ func GetRequestsByManagerId(w http.ResponseWriter, r *http.Request) {
 	}
 
 	for rows.Next() {
-		err = rows.Scan(&requests.LeaveId, &requests.StartDate, &requests.EndDate, &requests.Status, &requests.RequestType, &requests.UserId, &requests.ManagerId)
+		err = rows.Scan(&requests.LeaveId, &requests.StartDate, &requests.EndDate, &requests.Status, &requests.RequestType, &requests.UserId, &requests.ManagerId, &requests.Email)
 		if err != nil {
 			log.Fatal(err.Error())
 		} else {
