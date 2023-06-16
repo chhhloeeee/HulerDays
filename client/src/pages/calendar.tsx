@@ -114,7 +114,7 @@ const CalendarView = ({ className }: CalendarProps) => {
             appointments[i].allDay = true;
           }
 
-          setEvents(appointments);
+          setEvents(events.concat(appointments));
 
           return;
         })
