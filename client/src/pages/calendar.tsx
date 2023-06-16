@@ -93,33 +93,35 @@ const CalendarView = ({ className }: CalendarProps) => {
     getData();
   }, []);
 
-  if (showLeave) {
-    var requestOptions = {
-      method: 'GET',
-      redirect: 'follow' as RequestRedirect,
-    };
+  useEffect(() => {
+    if (showLeave) {
+      var requestOptions = {
+        method: 'GET',
+        redirect: 'follow' as RequestRedirect,
+      };
 
-    fetch('http://localhost:1234/getRequestByManagerId?users.managerId=' + 2 + '&holiday.status=Pending', requestOptions)
-      .then((response) => response.json())
-      .then((response) => {
-        console.log(response.Data);
-        let appointments = response.Data;
+      fetch('http://localhost:1234/getRequestByManagerId?users.managerId=' + 2 + '&holiday.status=Pending', requestOptions)
+        .then((response) => response.json())
+        .then((response) => {
+          console.log(response.Data);
+          let appointments = response.Data;
 
-        for (let i = 0; i < appointments.length; i++) {
-          appointments[i].start = appointments[i].startDate;
-          appointments[i].end = appointments[i].endDate;
-          appointments[i].title = appointments[i].requestType + ' (' + appointments[i].email + ')';
-          appointments[i].allDay = true;
-        }
+          for (let i = 0; i < appointments.length; i++) {
+            appointments[i].start = appointments[i].startDate;
+            appointments[i].end = appointments[i].endDate;
+            appointments[i].title = appointments[i].requestType + ' (' + appointments[i].email + ')';
+            appointments[i].allDay = true;
+          }
 
-        setEvents(appointments);
+          setEvents(appointments);
 
-        return;
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  }
+          return;
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
+  }, [showLeave]);
 
   return (
     <div className={className}>
