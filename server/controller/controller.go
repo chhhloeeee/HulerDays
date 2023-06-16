@@ -279,6 +279,41 @@ func GetRequestbyUserId(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(response)
 }
 
+// GetApprovedRequestByUserId = Select Request by Id where status = apprved API
+func GetApprovedRequestbyUserId(w http.ResponseWriter, r *http.Request) {
+	var requests model.Requests
+	var response model.RequestsResponse
+	var arrRequests []model.Requests
+
+	db := config.Connect()
+	defer db.Close()
+
+	userId := r.FormValue("userId")
+
+	rows, err := db.Query("SELECT leaveId, startDate, endDate, userId, status, requestType from holiday WHERE status=Approved AND userId=?", userId)
+
+	if err != nil {
+		log.Print(err)
+	}
+
+	for rows.Next() {
+		err = rows.Scan(&requests.LeaveId, &requests.StartDate, &requests.EndDate, &requests.UserId, &requests.Status, &requests.RequestType)
+		if err != nil {
+			log.Fatal(err.Error())
+		} else {
+			arrRequests = append(arrRequests, requests)
+		}
+	}
+
+	response.Status = 200
+	response.Message = "Success"
+	response.Data = arrRequests
+
+	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	json.NewEncoder(w).Encode(response)
+}
+
 // InsertRequest = Insert Request API
 func Insertrequest(w http.ResponseWriter, r *http.Request) {
 	var response model.RequestsResponse

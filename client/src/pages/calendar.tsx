@@ -49,7 +49,7 @@ const CalendarView = ({ className }: CalendarProps) => {
         redirect: 'follow' as RequestRedirect,
       };
 
-      fetch('http://localhost:1234/getRequestByUserId?userId=1', requestOptions)
+      fetch('http://localhost:1234/getApprovedRequestByUserId?userId=1', requestOptions)
         .then((response) => response.json())
         .then((response) => {
           console.log(response.Data);
