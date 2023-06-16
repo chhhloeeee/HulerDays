@@ -6,12 +6,35 @@ import parse from 'date-fns/parse';
 import startOfWeek from 'date-fns/startOfWeek';
 import getDay from 'date-fns/getDay';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import Logo from 'src/components/Logo';
+import { UserContext } from 'src/components/contexts/UserContext';
+import Toggle from 'src/components/Toggle';
 
 interface CalendarProps {
   className?: string;
 }
+
+const ToggleWrapper = styled.div`
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+  top: 6rem;
+  right: 2rem;
+  h4 {
+    margin-right: 10px;
+    line-height: 2.3;
+  }
+  ${Toggle} {
+    > label {
+      &:before {
+        font-size: 10px;
+        font-weight: bold;
+        text-transform: uppercase;
+      }
+    }
+  }
+`;
 
 const locales = {
   'en-GB': require('date-fns/locale/en-GB'),
@@ -36,6 +59,8 @@ const eventStyleGetter = () => {
 
 const CalendarView = ({ className }: CalendarProps) => {
   const [events, setEvents] = useState([]);
+  const { isManager } = useContext(UserContext);
+  const [showLeave, setShowLeave] = useState(false);
 
   useEffect(() => {
     async function getData() {
@@ -44,7 +69,7 @@ const CalendarView = ({ className }: CalendarProps) => {
         redirect: 'follow' as RequestRedirect,
       };
 
-      fetch('http://localhost:1234/getApprovedRequestByUserId?userId=1', requestOptions)
+      fetch('http://localhost:1234/getApprovedRequestByUserId?userId=2', requestOptions)
         .then((response) => response.json())
         .then((response) => {
           console.log(response.Data);
@@ -68,12 +93,46 @@ const CalendarView = ({ className }: CalendarProps) => {
     getData();
   }, []);
 
+  if (showLeave) {
+    var requestOptions = {
+      method: 'GET',
+      redirect: 'follow' as RequestRedirect,
+    };
+
+    fetch('http://localhost:1234/getRequestByManagerId?users.managerId=' + 2 + '&holiday.status=Pending', requestOptions)
+      .then((response) => response.json())
+      .then((response) => {
+        console.log(response.Data);
+        let appointments = response.Data;
+
+        for (let i = 0; i < appointments.length; i++) {
+          appointments[i].start = appointments[i].startDate;
+          appointments[i].end = appointments[i].endDate;
+          appointments[i].title = appointments[i].requestType + ' (' + appointments[i].email + ')';
+          appointments[i].allDay = true;
+        }
+
+        setEvents(appointments);
+
+        return;
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+
   return (
     <div className={className}>
       <Logo />
       <Button primary href='/home'>
         Back
       </Button>
+      {!isManager && (
+        <ToggleWrapper>
+          <h4>Show Team Leave?</h4>
+          <Toggle onChange={() => setShowLeave(!showLeave)} checked={showLeave} label='Show Team Leave' slug='show team Leave' />{' '}
+        </ToggleWrapper>
+      )}
 
       <span>
         <Calendar
@@ -97,6 +156,7 @@ const StyledCalendarView = styled(CalendarView)`
   button {
     top: 5.8rem;
     left: 2rem;
+    margin-right: 1rem;
   }
 
   span {
