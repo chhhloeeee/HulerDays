@@ -290,7 +290,7 @@ func GetApprovedRequestbyUserId(w http.ResponseWriter, r *http.Request) {
 
 	userId := r.FormValue("userId")
 
-	rows, err := db.Query("SELECT leaveId, startDate, endDate, userId, status, requestType from holiday WHERE status=Approved AND userId=?", userId)
+	rows, err := db.Query("SELECT leaveId, startDate, endDate, userId, status, requestType from holiday WHERE status='Approved' AND userId=?", userId)
 
 	if err != nil {
 		log.Print(err)
