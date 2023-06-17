@@ -75,6 +75,15 @@ const RequestForm = ({ close }: FormProps) => {
       });
   };
 
+  const checkAllowance = (values) => {
+    var strStartDate = values.startDate.toString();
+    var strEndDate = values.endDate.toString();
+    let days = GetBusinessDatesCount(new Date(strStartDate), new Date(strEndDate));
+
+    if (days > 5) {
+      return true;
+    }
+  };
   return (
     <Modal title='New Leave Request' close={close}>
       <Formik
@@ -127,7 +136,7 @@ const RequestForm = ({ close }: FormProps) => {
               />
             </AdminFormColumns>
 
-            <Actions onCancel={() => close()} onCreate={handleSubmit} />
+            <Actions onCancel={() => close()} onCreate={handleSubmit} invalid={checkAllowance(values)} />
           </form>
         )}
       </Formik>
