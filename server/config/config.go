@@ -2,6 +2,8 @@ package config
 
 import (
 	"database/sql"
+	"fmt"
+	"os"
 )
 
 func Connect() *sql.DB {
@@ -10,7 +12,13 @@ func Connect() *sql.DB {
 	dbPass := "ChloeBaker1!"
 	dbName := "HulerDays"
 
-	db, err := sql.Open(dbDriver, dbUser+":"+dbPass+"@/"+dbName)
+	dsn := os.Getenv("MYSQL_WRITEDSN")
+	fmt.Println(dsn)
+	if dsn == "" {
+		dsn = dbUser + ":" + dbPass + "@/" + dbName
+	}
+
+	db, err := sql.Open(dbDriver, dsn)
 	if err != nil {
 		panic(err.Error())
 	}

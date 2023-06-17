@@ -48,6 +48,7 @@ func AllUsers(w http.ResponseWriter, r *http.Request) {
 
 // GetUserById = Select User by Id API
 func GetUserById(w http.ResponseWriter, r *http.Request) {
+
 	var users model.Users
 	var response model.UserResponse
 	var arrUsers []model.Users
