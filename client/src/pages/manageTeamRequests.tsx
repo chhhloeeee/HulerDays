@@ -27,7 +27,10 @@ const TeamRequest = ({ className }: ManageRequestProps) => {
         </span>
         <h1>Manage Team Leave</h1>
         <div>
-          <APILoader url={'http://localhost:1234/getRequestByManagerId?users.managerId=' + userId} Component={RequestsTable} />
+          <APILoader
+            url={'http://localhost:1234/getRequestByManagerId?users.managerId=' + userId + '&holiday.status=Pending'}
+            Component={RequestsTable}
+          />
         </div>
         <Footer />
       </ContentWrapper>
@@ -37,6 +40,7 @@ const TeamRequest = ({ className }: ManageRequestProps) => {
 
 function RequestsTable({ data }) {
   const leave = data.Data;
+  console.log(leave);
 
   if (leave === null) {
     return <StyledErrorRequest />;
@@ -74,8 +78,9 @@ function RequestsTable({ data }) {
 
   return (
     <Table
-      headers={['Request Type', 'Start Date', 'End Date', 'Status', 'Actions']}
+      headers={['User', 'Request Type', 'Start Date', 'End Date', 'Status', 'Actions']}
       rows={leaveList.map((service) => [
+        service.email,
         service.requestType,
         service.startDate.slice(0, 16),
         service.endDate.slice(0, 16),
