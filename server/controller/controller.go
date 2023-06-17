@@ -44,6 +44,8 @@ func AllUsers(w http.ResponseWriter, r *http.Request) {
 
 // GetUserById = Select User by Id API
 func GetUserById(w http.ResponseWriter, r *http.Request) {
+	tkn := GetTokenFromRequest(r)
+	fmt.Println(tkn)
 
 	var users model.Users
 	var response model.UserResponse
@@ -460,10 +462,6 @@ func RemoveHolidayDays(w http.ResponseWriter, r *http.Request) {
 	var response model.RequestsResponse
 	fmt.Println("HERE")
 
-	if r.Method == "OPTIONS" {
-		response.Status = 200
-	}
-
 	if r.Method == "PUT" || r.Method == "GET" {
 
 		err := r.ParseMultipartForm(4096)
@@ -498,4 +496,16 @@ func RemoveHolidayDays(w http.ResponseWriter, r *http.Request) {
 		json.NewEncoder(w).Encode(response)
 	}
 
+}
+func GetTokenFromRequest(r *http.Request) string {
+	var tmptoken string
+	tmptoken = r.Header.Get("AUTH-TOKEN")
+	if tmptoken != "" {
+		return tmptoken
+	}
+	tmptoken = r.URL.Query().Get("token")
+	if tmptoken != "" {
+		return tmptoken
+	}
+	return tmptoken
 }

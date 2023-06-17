@@ -51,10 +51,10 @@ func NewServer(port string) *myServer {
 	router.HandleFunc("/deleteRequest", controller.DeleteRequest).Methods("DELETE", "OPTIONS")
 	router.HandleFunc("/getRequestByManagerId", controller.GetRequestsByManagerId).Methods("GET")
 	router.HandleFunc("/addHolidayDays", controller.AddHolidayDays).Methods("PUT", "OPTIONS")
-	router.HandleFunc("/removeHolidayDays", controller.RemoveHolidayDays).Methods("PUT", "OPTIONS", "GET")
+	router.HandleFunc("/removeHolidayDays", controller.RemoveHolidayDays).Methods("PUT", "GET")
 
 	// CORS stuff
-	headersOk := handlers.AllowedHeaders([]string{"X-Requested-With", "X-API-KEY", "X-Request-Token", "Content-Type"})
+	headersOk := handlers.AllowedHeaders([]string{"AUTH-TOKEN", "X-API-KEY", "X-Request-Token", "Content-Type"})
 	originsOk := handlers.AllowedOrigins([]string{"*"})
 	methodsOk := handlers.AllowedMethods([]string{"GET", "HEAD", "POST", "PUT", "DELETE", "OPTIONS"})
 	s.Handler = handlers.CORS(headersOk, originsOk, methodsOk)(router)
@@ -89,23 +89,4 @@ func (s *myServer) WaitShutdown() {
 
 func (s *myServer) RootHandler(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("Holidays\n"))
-}
-
-func GetTokenFromRequest(r *http.Request) string {
-	var tmptoken string
-	tmptoken = r.Header.Get("X-API-KEY")
-	if tmptoken != "" {
-		return tmptoken
-	}
-	tmptoken = r.URL.Query().Get("authtoken")
-	if tmptoken != "" {
-		return tmptoken
-	}
-
-	tmptoken = r.Header.Get("wf-tkn")
-	if tmptoken == "" {
-		tmptoken = r.URL.Query().Get("wf_tkn")
-	}
-
-	return tmptoken
 }

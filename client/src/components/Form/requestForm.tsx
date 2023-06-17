@@ -36,6 +36,7 @@ const RequestForm = ({ close }: FormProps) => {
       method: 'PUT',
       body: formData,
       redirect: 'follow' as RequestRedirect,
+      headers: { 'Auth-Token': "test" },
     };
 
     fetch('http://localhost:1234/removeHolidayDays?id=' + values.id + '&days=' + days, requestOptions)
