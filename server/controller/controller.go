@@ -281,6 +281,41 @@ func GetRequestbyUserId(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(response)
 }
 
+// GetApprovedRequestByUserId = Select Request by Id where status = apprved API
+func GetApprovedRequestbyUserId(w http.ResponseWriter, r *http.Request) {
+	var requests model.Requests
+	var response model.RequestsResponse
+	var arrRequests []model.Requests
+
+	db := config.Connect()
+	defer db.Close()
+
+	userId := r.FormValue("userId")
+
+	rows, err := db.Query("SELECT leaveId, startDate, endDate, userId, status, requestType from holiday WHERE status='Approved' AND userId=?", userId)
+
+	if err != nil {
+		log.Print(err)
+	}
+
+	for rows.Next() {
+		err = rows.Scan(&requests.LeaveId, &requests.StartDate, &requests.EndDate, &requests.UserId, &requests.Status, &requests.RequestType)
+		if err != nil {
+			log.Fatal(err.Error())
+		} else {
+			arrRequests = append(arrRequests, requests)
+		}
+	}
+
+	response.Status = 200
+	response.Message = "Success"
+	response.Data = arrRequests
+
+	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	json.NewEncoder(w).Encode(response)
+}
+
 // InsertRequest = Insert Request API
 func Insertrequest(w http.ResponseWriter, r *http.Request) {
 	var response model.RequestsResponse
@@ -399,15 +434,16 @@ func GetRequestsByManagerId(w http.ResponseWriter, r *http.Request) {
 	defer db.Close()
 
 	id := r.FormValue("users.managerId")
+	status := r.FormValue("holiday.status")
 
-	rows, err := db.Query(`SELECT holiday.leaveId, holiday.startDate, holiday.endDate, holiday.status, holiday.requestType, holiday.userId, users.managerId FROM holiday  LEFT JOIN users ON holiday.userId = users.id WHERE holiday.status = 'Pending' AND users.managerId =?`, id)
+	rows, err := db.Query(`SELECT holiday.leaveId, holiday.startDate, holiday.endDate, holiday.status, holiday.requestType, holiday.userId, users.managerId, users.email FROM holiday  LEFT JOIN users ON holiday.userId = users.id WHERE users.managerId =? AND holiday.status =? `, id, status)
 
 	if err != nil {
 		log.Print(err)
 	}
 
 	for rows.Next() {
-		err = rows.Scan(&requests.LeaveId, &requests.StartDate, &requests.EndDate, &requests.Status, &requests.RequestType, &requests.UserId, &requests.ManagerId)
+		err = rows.Scan(&requests.LeaveId, &requests.StartDate, &requests.EndDate, &requests.Status, &requests.RequestType, &requests.UserId, &requests.ManagerId, &requests.Email)
 		if err != nil {
 			log.Fatal(err.Error())
 		} else {

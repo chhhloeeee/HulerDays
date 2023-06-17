@@ -32,6 +32,7 @@ type TeamLeave struct {
 	Status      string `form:"status" json:"status"`
 	RequestType string `form:"requestType" json:"requestType"`
 	ManagerId   int    `form:"managerID" json:"managerId"`
+	Email       string `form:"email" json:"email"`
 }
 
 type RequestsResponse struct {
