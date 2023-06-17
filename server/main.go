@@ -8,10 +8,19 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/gorilla/mux"
 
+	"github.com/HulerDays/config"
 	"github.com/HulerDays/controller"
 )
 
 func main() {
+
+	//DB, err := config.Connect()
+	t, err := config.Connect()
+	if err != nil {
+		log.Fatal("could not initialise connection with database")
+	}
+	controller.DB = t
+
 	router := mux.NewRouter()
 	router.HandleFunc("/getUsers", controller.AllUsers).Methods("GET")
 	router.HandleFunc("/getUserById", controller.GetUserById).Methods("GET")

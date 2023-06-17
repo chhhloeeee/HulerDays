@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"database/sql"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -9,9 +10,9 @@ import (
 	"strconv"
 
 	"github.com/HulerDays/model"
-
-	"github.com/HulerDays/config"
 )
+
+var DB *sql.DB
 
 // AllUsers = Select User API
 func AllUsers(w http.ResponseWriter, r *http.Request) {
@@ -19,10 +20,7 @@ func AllUsers(w http.ResponseWriter, r *http.Request) {
 	var response model.UserResponse
 	var arrUsers []model.Users
 
-	db := config.Connect()
-	defer db.Close()
-
-	rows, err := db.Query("SELECT id, email, password, holiday, isManager, managerId from users")
+	rows, err := DB.Query("SELECT id, email, password, holiday, isManager, managerId from users")
 
 	if err != nil {
 		log.Print(err)
@@ -53,12 +51,9 @@ func GetUserById(w http.ResponseWriter, r *http.Request) {
 	var response model.UserResponse
 	var arrUsers []model.Users
 
-	db := config.Connect()
-	defer db.Close()
-
 	id := r.FormValue("id")
 
-	rows, err := db.Query("SELECT id, email, password, holiday, isManager, managerId from users WHERE id=?", id)
+	rows, err := DB.Query("SELECT id, email, password, holiday, isManager, managerId from users WHERE id=?", id)
 
 	if err != nil {
 		log.Print(err)
@@ -86,9 +81,6 @@ func GetUserById(w http.ResponseWriter, r *http.Request) {
 func InsertUser(w http.ResponseWriter, r *http.Request) {
 	var response model.UserResponse
 
-	db := config.Connect()
-	defer db.Close()
-
 	err := r.ParseMultipartForm(4096)
 	if err != nil {
 		panic(err)
@@ -99,7 +91,7 @@ func InsertUser(w http.ResponseWriter, r *http.Request) {
 	isManager := r.FormValue("isManager")
 	managerId := r.FormValue("managerId")
 
-	_, err = db.Exec("INSERT INTO users(email, password, holiday, isManager, managerId) VALUES(?, ?, ?, ?, ?)", email, password, holiday, isManager, managerId)
+	_, err = DB.Exec("INSERT INTO users(email, password, holiday, isManager, managerId) VALUES(?, ?, ?, ?, ?)", email, password, holiday, isManager, managerId)
 
 	if err != nil {
 		log.Print(err)
@@ -118,9 +110,6 @@ func InsertUser(w http.ResponseWriter, r *http.Request) {
 func UpdateUser(w http.ResponseWriter, r *http.Request) {
 	var response model.UserResponse
 
-	db := config.Connect()
-	defer db.Close()
-
 	err := r.ParseMultipartForm(4096)
 
 	if err != nil {
@@ -133,7 +122,7 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 	isManager := r.FormValue("isManager")
 	managerId := r.FormValue("managerId")
 
-	_, err = db.Exec("UPDATE users SET email=?, password=?, holiday=?, isManager=?, managerId=? WHERE id=?", email, password, holiday, isManager, managerId, id)
+	_, err = DB.Exec("UPDATE users SET email=?, password=?, holiday=?, isManager=?, managerId=? WHERE id=?", email, password, holiday, isManager, managerId, id)
 
 	if err != nil {
 		log.Print(err)
@@ -152,9 +141,6 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 func DeleteUser(w http.ResponseWriter, r *http.Request) {
 	var response model.UserResponse
 
-	db := config.Connect()
-	defer db.Close()
-
 	err := r.ParseMultipartForm(4096)
 
 	if err != nil {
@@ -163,7 +149,7 @@ func DeleteUser(w http.ResponseWriter, r *http.Request) {
 
 	id := r.FormValue("id")
 
-	_, err = db.Exec("DELETE FROM users WHERE id=?", id)
+	_, err = DB.Exec("DELETE FROM users WHERE id=?", id)
 
 	if err != nil {
 		log.Print(err)
@@ -185,10 +171,7 @@ func AllRequests(w http.ResponseWriter, r *http.Request) {
 	var response model.RequestsResponse
 	var arrRequests []model.Requests
 
-	db := config.Connect()
-	defer db.Close()
-
-	rows, err := db.Query("SELECT leaveId, startDate, endDate, userId, status, requestType from holiday")
+	rows, err := DB.Query("SELECT leaveId, startDate, endDate, userId, status, requestType from holiday")
 
 	if err != nil {
 		log.Print(err)
@@ -218,12 +201,9 @@ func GetRequestbyLeaveId(w http.ResponseWriter, r *http.Request) {
 	var response model.RequestsResponse
 	var arrRequests []model.Requests
 
-	db := config.Connect()
-	defer db.Close()
-
 	leaveId := r.FormValue("leaveId")
 
-	rows, err := db.Query("SELECT leaveId, startDate, endDate, userId, status, requestType from holiday WHERE leaveId=?", leaveId)
+	rows, err := DB.Query("SELECT leaveId, startDate, endDate, userId, status, requestType from holiday WHERE leaveId=?", leaveId)
 
 	if err != nil {
 		log.Print(err)
@@ -253,12 +233,9 @@ func GetRequestbyUserId(w http.ResponseWriter, r *http.Request) {
 	var response model.RequestsResponse
 	var arrRequests []model.Requests
 
-	db := config.Connect()
-	defer db.Close()
-
 	userId := r.FormValue("userId")
 
-	rows, err := db.Query("SELECT leaveId, startDate, endDate, userId, status, requestType from holiday WHERE userId=?", userId)
+	rows, err := DB.Query("SELECT leaveId, startDate, endDate, userId, status, requestType from holiday WHERE userId=?", userId)
 
 	if err != nil {
 		log.Print(err)
@@ -288,12 +265,9 @@ func GetApprovedRequestbyUserId(w http.ResponseWriter, r *http.Request) {
 	var response model.RequestsResponse
 	var arrRequests []model.Requests
 
-	db := config.Connect()
-	defer db.Close()
-
 	userId := r.FormValue("userId")
 
-	rows, err := db.Query("SELECT leaveId, startDate, endDate, userId, status, requestType from holiday WHERE status='Approved' AND userId=?", userId)
+	rows, err := DB.Query("SELECT leaveId, startDate, endDate, userId, status, requestType from holiday WHERE status='Approved' AND userId=?", userId)
 
 	if err != nil {
 		log.Print(err)
@@ -321,9 +295,6 @@ func GetApprovedRequestbyUserId(w http.ResponseWriter, r *http.Request) {
 func Insertrequest(w http.ResponseWriter, r *http.Request) {
 	var response model.RequestsResponse
 
-	db := config.Connect()
-	defer db.Close()
-
 	err := r.ParseMultipartForm(4096)
 	if err != nil {
 		panic(err)
@@ -334,7 +305,7 @@ func Insertrequest(w http.ResponseWriter, r *http.Request) {
 	status := r.FormValue("status")
 	requestType := r.FormValue("requestType")
 
-	_, err = db.Exec("INSERT INTO holiday(startDate, endDate, userId, status, requestType) VALUES(?, ?, ?, ?, ?)", startDate, endDate, userId, status, requestType)
+	_, err = DB.Exec("INSERT INTO holiday(startDate, endDate, userId, status, requestType) VALUES(?, ?, ?, ?, ?)", startDate, endDate, userId, status, requestType)
 
 	if err != nil {
 		log.Print(err)
@@ -358,8 +329,6 @@ func UpdateRequest(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if r.Method == "PUT" {
-		db := config.Connect()
-		defer db.Close()
 
 		err := r.ParseMultipartForm(4096)
 
@@ -370,7 +339,7 @@ func UpdateRequest(w http.ResponseWriter, r *http.Request) {
 		status := r.FormValue("status")
 		requestType := r.FormValue("requestType")
 
-		_, err = db.Exec("UPDATE holiday SET status=?, requestType=? WHERE leaveId=?", status, requestType, leaveId)
+		_, err = DB.Exec("UPDATE holiday SET status=?, requestType=? WHERE leaveId=?", status, requestType, leaveId)
 
 		if err != nil {
 			log.Print(err)
@@ -396,9 +365,6 @@ func DeleteRequest(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "DELETE" {
 		w.WriteHeader(http.StatusOK)
 
-		db := config.Connect()
-		defer db.Close()
-
 		err := r.ParseMultipartForm(4096)
 
 		if err != nil {
@@ -407,7 +373,7 @@ func DeleteRequest(w http.ResponseWriter, r *http.Request) {
 
 		leaveId := r.FormValue("leaveId")
 
-		_, err = db.Exec("DELETE FROM holiday WHERE leaveId=?", leaveId)
+		_, err = DB.Exec("DELETE FROM holiday WHERE leaveId=?", leaveId)
 
 		if err != nil {
 			log.Print(err)
@@ -431,13 +397,10 @@ func GetRequestsByManagerId(w http.ResponseWriter, r *http.Request) {
 	var response model.TeamLeaveResponse
 	var arrRequests []model.TeamLeave
 
-	db := config.Connect()
-	defer db.Close()
-
 	id := r.FormValue("users.managerId")
 	status := r.FormValue("holiday.status")
 
-	rows, err := db.Query(`SELECT holiday.leaveId, holiday.startDate, holiday.endDate, holiday.status, holiday.requestType, holiday.userId, users.managerId, users.email FROM holiday  LEFT JOIN users ON holiday.userId = users.id WHERE users.managerId =? AND holiday.status =? `, id, status)
+	rows, err := DB.Query(`SELECT holiday.leaveId, holiday.startDate, holiday.endDate, holiday.status, holiday.requestType, holiday.userId, users.managerId, users.email FROM holiday  LEFT JOIN users ON holiday.userId = users.id WHERE users.managerId =? AND holiday.status =? `, id, status)
 
 	if err != nil {
 		log.Print(err)
@@ -470,8 +433,6 @@ func AddHolidayDays(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if r.Method == "PUT" {
-		db := config.Connect()
-		defer db.Close()
 
 		err := r.ParseMultipartForm(4096)
 
@@ -481,7 +442,7 @@ func AddHolidayDays(w http.ResponseWriter, r *http.Request) {
 		id := r.FormValue("id")
 		days := r.FormValue("days")
 
-		_, err = db.Exec("UPDATE users SET holiday = holiday + ? WHERE id = ?", days, id)
+		_, err = DB.Exec("UPDATE users SET holiday = holiday + ? WHERE id = ?", days, id)
 
 		if err != nil {
 			log.Print(err)
@@ -519,8 +480,6 @@ func RemoveHolidayDays(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if r.Method == "PUT" {
-		db := config.Connect()
-		defer db.Close()
 
 		err := r.ParseMultipartForm(4096)
 
@@ -539,7 +498,7 @@ func RemoveHolidayDays(w http.ResponseWriter, r *http.Request) {
 			response.Message = "MAJOR ERR"
 			return
 		}
-		_, err = db.Exec("UPDATE users SET holiday = holiday - ? WHERE id = ?", days, id)
+		_, err = DB.Exec("UPDATE users SET holiday = holiday - ? WHERE id = ?", days, id)
 
 		if err != nil {
 			log.Print(err)
