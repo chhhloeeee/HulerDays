@@ -36,7 +36,7 @@ func main() {
 	router.HandleFunc("/deleteRequest", controller.DeleteRequest).Methods("DELETE", "OPTIONS")
 	router.HandleFunc("/getRequestByManagerId", controller.GetRequestsByManagerId).Methods("GET")
 	router.HandleFunc("/addHolidayDays", controller.AddHolidayDays).Methods("PUT", "OPTIONS")
-	router.HandleFunc("/removeHolidayDays", controller.RemoveHolidayDays).Methods("PUT", "OPTIONS")
+	router.HandleFunc("/removeHolidayDays", controller.RemoveHolidayDays).Methods("PUT", "OPTIONS", "GET")
 	http.Handle("/", router)
 	fmt.Println("Connected to port 1234")
 	log.Fatal(http.ListenAndServe(":1234", router))

@@ -3,11 +3,9 @@ package controller
 import (
 	"database/sql"
 	"encoding/json"
-	"errors"
 	"fmt"
 	"log"
 	"net/http"
-	"strconv"
 
 	"github.com/HulerDays/model"
 )
@@ -457,29 +455,16 @@ func AddHolidayDays(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// CheckLeave = Checks if user has enough leave remaining
-func CheckLeave(days int, leave int) error {
-
-	newError := errors.New("Too much leave selected")
-
-	if days > leave {
-		return newError
-	}
-
-	return nil
-
-}
-
 // RemoveHolidayDays = Update holiday days API
 func RemoveHolidayDays(w http.ResponseWriter, r *http.Request) {
 	var response model.RequestsResponse
-	var users model.Users
+	fmt.Println("HERE")
 
 	if r.Method == "OPTIONS" {
 		response.Status = 200
 	}
 
-	if r.Method == "PUT" {
+	if r.Method == "PUT" || r.Method == "GET" {
 
 		err := r.ParseMultipartForm(4096)
 
@@ -488,16 +473,17 @@ func RemoveHolidayDays(w http.ResponseWriter, r *http.Request) {
 		}
 		id := r.FormValue("id")
 		days := r.FormValue("days")
-		daysInt, _ := strconv.Atoi(days)
+		//daysInt, _ := strconv.Atoi(days)
+		fmt.Println("Here")
 
-		leaveErr := CheckLeave(daysInt, users.Holiday)
+		//leaveErr := CheckLeave(daysInt, users.Holiday)
 
-		if leaveErr != nil {
-			fmt.Println(leaveErr)
-			response.Status = 400
-			response.Message = "MAJOR ERR"
-			return
-		}
+		//if leaveErr != nil {
+		//	fmt.Println(leaveErr)
+		//	response.Status = 400
+		//	response.Message = "MAJOR ERR"
+		//	return
+		//}
 		_, err = DB.Exec("UPDATE users SET holiday = holiday - ? WHERE id = ?", days, id)
 
 		if err != nil {
