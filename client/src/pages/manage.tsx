@@ -16,6 +16,8 @@ interface ManageRequestProps {
 }
 
 const ManageRequest = ({ className }: ManageRequestProps) => {
+  const [confirmation, setConfirmation] = useState({});
+  const [deleteRequest, setDeleteRequest] = useState(false);
   const TableWrapper = styled.div`
     margin: 45px;
     flex-grow: 1;

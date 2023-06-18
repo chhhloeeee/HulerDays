@@ -3,6 +3,8 @@ import AdminFormColumns from './AdminFormColumns';
 import AdminFormSelectUnderline from './AdminFormSelectUnderline';
 import Modal from '../modal';
 import Actions from '../Actions';
+import { useEffect, useState } from 'react';
+import ConfirmationDialog from '../ConfirmationDialog';
 
 interface FormProps {
   close: () => void;
@@ -16,11 +18,17 @@ interface Values {
 }
 
 const EditRequestForm = ({ close, reqType, id }: FormProps) => {
+  const [confirmation, setConfirmation] = useState([]);
+  const [editRequest, setEditRequest] = useState(false);
+  let test = '';
+
   const postUpdate = async (values) => {
-    console.log(values);
+    console.log('here');
+    console.log(values, 'final');
+    return;
     var formdata = new FormData();
-    formdata.append('leaveId', values.leaveId);
-    formdata.append('requestType', values.requestType);
+    formdata.append('leaveId', values[0]);
+    formdata.append('requestType', values[1]);
     formdata.append('status', 'Pending');
 
     var requestOptions = {
@@ -36,6 +44,22 @@ const EditRequestForm = ({ close, reqType, id }: FormProps) => {
     window.location.reload();
     return close();
   };
+
+  const confirmationPending = async (values) => {
+    setConfirmation(
+      values.map((value) => ({
+        leaveId: value.leaveId,
+        requestType: value.requestType,
+      })),
+    );
+
+    console.log(values, 'in pending');
+    // setConfirmation(values);
+    test = values.leaveId;
+    console.log(test);
+    console.log(confirmation, 'confo');
+    setEditRequest(true);
+  };
   return (
     <div>
       <Modal title='Edit Leave Request' close={close}>
@@ -46,7 +70,8 @@ const EditRequestForm = ({ close, reqType, id }: FormProps) => {
           }}
           validateOnMount
           onSubmit={(values: Values, { setSubmitting, resetForm }) => {
-            postUpdate(values);
+            console.log(values, 'here');
+            confirmationPending(values);
             setSubmitting(false);
             setTimeout(() => {
               resetForm();
@@ -73,6 +98,14 @@ const EditRequestForm = ({ close, reqType, id }: FormProps) => {
           )}
         </Formik>
       </Modal>
+      {editRequest && (
+        <ConfirmationDialog
+          title='Confirm Action'
+          message='Are you sure you want to edit this request?'
+          confirm={() => postUpdate(confirmation)}
+          cancel={() => setEditRequest(false)}
+        />
+      )}
     </div>
   );
 };
