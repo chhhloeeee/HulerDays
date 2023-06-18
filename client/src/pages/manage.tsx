@@ -1,6 +1,7 @@
 /* eslint-disable react/jsx-key */
 import { useState } from 'react';
 import Button from 'src/components/Button';
+import ConfirmationDialog from 'src/components/ConfirmationDialog';
 import ContentWrapper from 'src/components/ContentWrapper';
 import StyledErrorRequest from 'src/components/ErrorRequest';
 import Footer from 'src/components/footer';
@@ -16,8 +17,6 @@ interface ManageRequestProps {
 }
 
 const ManageRequest = ({ className }: ManageRequestProps) => {
-  const [confirmation, setConfirmation] = useState({});
-  const [deleteRequest, setDeleteRequest] = useState(false);
   const TableWrapper = styled.div`
     margin: 45px;
     flex-grow: 1;
@@ -47,8 +46,8 @@ function RequestsTable({ data }) {
   const [isCreate, setIsCreate] = useState(false);
   const [requestType, setRequestType] = useState('');
   const [leaveId, setLeaveId] = useState('');
-
-  console.log(leave);
+  const [confirmation, setConfirmation] = useState({});
+  const [deleteRequest, setDeleteRequest] = useState(false);
 
   const handleOpen = (requestType, leaveId) => {
     setRequestType(requestType);
@@ -70,21 +69,9 @@ function RequestsTable({ data }) {
     return 0;
   });
 
-  function getBusinessDatesCount(startDate, endDate) {
-    let count = 0;
-    const curDate = new Date(startDate.getTime());
-    while (curDate <= endDate) {
-      const dayOfWeek = curDate.getDay();
-      if (dayOfWeek !== 0 && dayOfWeek !== 6) count++;
-      curDate.setDate(curDate.getDate() + 1);
-    }
-    return count;
-  }
-
-  const deleteLeave = async (leaveID, startDate, endDate) => {
-    let days = getBusinessDatesCount(startDate, endDate);
+  const deleteLeave = async (values) => {
     const formData = new FormData();
-    formData.append('leaveId', leaveID);
+    formData.append('leaveId', values[0]);
     fetch('http://localhost:1234/deleteRequest', {
       method: 'DELETE',
       body: formData,
@@ -110,13 +97,26 @@ function RequestsTable({ data }) {
             <Button onClick={() => handleOpen(service.requestType, service.leaveId)}>
               <Icon name='edit' />
             </Button>
-            <Button onClick={() => deleteLeave(service.leaveId, new Date(service.startDate.slice(0, 23)), new Date(service.endDate.slice(0, 23)))}>
+            <Button
+              onClick={() => {
+                setConfirmation([service.leaveId, new Date(service.startDate.slice(0, 23)), new Date(service.endDate.slice(0, 23))]);
+                setDeleteRequest(true);
+              }}
+            >
               <Icon name='delete' />
             </Button>
           </div>,
         ])}
       />
       {isCreate && <EditRequestForm reqType={requestType} id={Number(leaveId)} close={() => setIsCreate(false)} />}
+      {deleteRequest && (
+        <ConfirmationDialog
+          title='Confirm Action'
+          message='Are you sure you want to deny this request?'
+          confirm={() => deleteLeave(confirmation)}
+          cancel={() => setDeleteRequest(false)}
+        />
+      )}
     </>
   );
 }
