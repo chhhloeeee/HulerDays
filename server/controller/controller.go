@@ -17,6 +17,23 @@ var DB *sql.DB
 
 // AllUsers = Select User API
 func AllUsers(w http.ResponseWriter, r *http.Request) {
+
+	user := GetUserFromRequest(r)
+	if user.Id == 0 {
+		w.WriteHeader(http.StatusUnauthorized)
+		return
+
+	} else {
+		if user.IsManager {
+			// Do this for managers
+			fmt.Println("User is a manager")
+		} else {
+			// Do this for non managers
+			fmt.Println("User is not a manager")
+
+		}
+	}
+
 	var users model.Users
 	var response model.UserResponse
 	var arrUsers []model.Users
@@ -350,8 +367,8 @@ func Logout(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	json.NewEncoder(w).Encode(user)
-
+	//json.NewEncoder(w).Encode(user)
+	w.Write([]byte("logged out"))
 }
 
 // Login handles an incoming login request
@@ -416,13 +433,8 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if err != nil {
-		log.Print(err)
-		return
-	}
-
 	w.Header().Set("Content-Type", "application/json")
-	w.Header().Set("Access-Control-Allow-Origin", "*")
+	//w.Header().Set("Access-Control-Allow-Origin", "*")
 	json.NewEncoder(w).Encode(model.LoginResponse{
 		Status: 200,
 		Token:  tkn.String(),
