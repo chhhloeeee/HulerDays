@@ -51,7 +51,8 @@ func NewServer(port string) *myServer {
 	router.HandleFunc("/getRequestByManagerId", controller.GetRequestsByManagerId).Methods("GET")
 	router.HandleFunc("/addHolidayDays", controller.AddHolidayDays).Methods("PUT", "OPTIONS")
 	router.HandleFunc("/removeHolidayDays", controller.RemoveHolidayDays).Methods("PUT", "GET")
-
+	router.HandleFunc("/login", controller.Login).Methods("PUT", "GET")
+	router.Handle("/logout", controller.AuthenticationContext(http.HandlerFunc(controller.Logout))).Methods("GET")
 	// CORS stuff
 	headersOk := handlers.AllowedHeaders([]string{"AUTH-TOKEN", "X-API-KEY", "X-Request-Token", "Content-Type"})
 	originsOk := handlers.AllowedOrigins([]string{"*"})
