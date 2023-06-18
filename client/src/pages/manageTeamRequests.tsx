@@ -16,6 +16,10 @@ interface ManageRequestProps {
 }
 
 const TeamRequest = ({ className }: ManageRequestProps) => {
+  const TableWrapper = styled.div`
+    margin: 45px;
+    flex-grow: 1;
+  `;
   const userId = 2;
   return (
     <div className={className}>
@@ -27,12 +31,12 @@ const TeamRequest = ({ className }: ManageRequestProps) => {
           </Button>
         </span>
         <h1>Manage Team Leave</h1>
-        <div>
+        <TableWrapper>
           <APILoader
             url={'http://localhost:1234/getRequestByManagerId?users.managerId=' + userId + '&holiday.status=Pending'}
             Component={RequestsTable}
           />
-        </div>
+        </TableWrapper>
         <Footer />
       </ContentWrapper>
     </div>
@@ -61,10 +65,9 @@ function RequestsTable({ data }) {
 
   const updateRequest = async (values: any) => {
     var formdata = new FormData();
-    console.log(values)
-    formdata.append('leaveId', values.leaveId);
-    formdata.append('requestType', values.requestType);
-    formdata.append('status', values.status);
+    formdata.append('leaveId', values[0]);
+    formdata.append('requestType', values[1]);
+    formdata.append('status', values[2]);
 
     var requestOptions = {
       method: 'PUT',
@@ -72,10 +75,7 @@ function RequestsTable({ data }) {
       redirect: 'follow' as RequestRedirect,
     };
 
-    fetch(
-      'http://localhost:1234/updateRequest?leaveId=' + values.leaveId + '&requestType=' + values.requestType + '&status=' + values.status,
-      requestOptions,
-    )
+    fetch('http://localhost:1234/updateRequest?leaveId=' + values[0] + '&requestType=' + values[1] + '&status=' + values[2], requestOptions)
       .then((response) => response.text())
       .then((result) => console.log(result))
       .catch((error) => console.log('error', error));
@@ -104,7 +104,7 @@ function RequestsTable({ data }) {
             </Button>
             <Button
               onClick={() => {
-                setConfirmation({[service.leaveId, service.requestType, 'Denied']});
+                setConfirmation([service.leaveId, service.requestType, 'Denied']);
                 setDenyRequest(true);
               }}
             >
@@ -143,11 +143,6 @@ const StyledTeamRequest = styled(TeamRequest)`
     font-size: 3.5rem;
     color: #fb6666;
     text-align: center;
-  }
-
-  div:nth-of-type(2) {
-    margin: 45px;
-    flex-grow: 1;
   }
 
   span button {

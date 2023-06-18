@@ -42,8 +42,16 @@ const ConfirmationDialog = ({ className, title, message, confirm, cancel, confir
           {icon && <Icon name={icon} />}
           <h1>{title}</h1>
           <p>{message}</p>
-          {cancel && <Button primaryOutline text={cancelText || 'Cancel'} onClick={cancel} />}
-          {confirm && <Button text={confirmText || 'Confirm'} onClick={confirm} />}
+          {cancel && (
+            <Button primaryOutline onClick={cancel}>
+              Cancel
+            </Button>
+          )}
+          {confirm && (
+            <Button primary onClick={confirm}>
+              Confirm
+            </Button>
+          )}
         </div>
       </div>
     </div>
