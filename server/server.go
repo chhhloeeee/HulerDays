@@ -36,7 +36,7 @@ func NewServer(port string) *myServer {
 	router := mux.NewRouter()
 
 	//register handlers
-	router.HandleFunc("/getUsers", controller.AllUsers).Methods("GET")
+	router.Handle("/getUsers", controller.AuthenticationContext(http.HandlerFunc(controller.AllUsers))).Methods("GET")
 	router.HandleFunc("/getUserById", controller.GetUserById).Methods("GET")
 	router.HandleFunc("/addUser", controller.InsertUser).Methods("POST")
 	router.HandleFunc("/updateUser", controller.UpdateUser).Methods("PUT")
