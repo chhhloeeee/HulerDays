@@ -18,7 +18,6 @@ import (
 type myServer struct {
 	http.Server
 	shutdownReq chan bool
-	reqCount    uint32
 }
 
 // NewServer - this is the init function for the server process
