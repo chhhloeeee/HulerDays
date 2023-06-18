@@ -18,13 +18,13 @@ interface Values {
 }
 
 const EditRequestForm = ({ close, reqType, id }: FormProps) => {
-  const [confirmation, setConfirmation] = useState([]);
+  const [confirmation, setConfirmation] = useState({ leaveId: '', requestType: '' });
   const [editRequest, setEditRequest] = useState(false);
-  let test = '';
 
   const postUpdate = async (values) => {
     console.log('here');
     console.log(values, 'final');
+    console.log(confirmation, 'final confirmation');
     return;
     var formdata = new FormData();
     formdata.append('leaveId', values[0]);
@@ -46,17 +46,9 @@ const EditRequestForm = ({ close, reqType, id }: FormProps) => {
   };
 
   const confirmationPending = async (values) => {
-    setConfirmation(
-      values.map((value) => ({
-        leaveId: value.leaveId,
-        requestType: value.requestType,
-      })),
-    );
+    console.log(typeof values, 'val type');
+    setConfirmation({ leaveId: values.leaveId, requestType: values.requestType });
 
-    console.log(values, 'in pending');
-    // setConfirmation(values);
-    test = values.leaveId;
-    console.log(test);
     console.log(confirmation, 'confo');
     setEditRequest(true);
   };
