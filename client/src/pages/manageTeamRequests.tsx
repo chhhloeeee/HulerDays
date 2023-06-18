@@ -1,6 +1,7 @@
 /* eslint-disable react/jsx-key */
 import { useState } from 'react';
 import Button from 'src/components/Button';
+import ConfirmationDialog from 'src/components/ConfirmationDialog';
 import ContentWrapper from 'src/components/ContentWrapper';
 import StyledErrorRequest from 'src/components/ErrorRequest';
 import Footer from 'src/components/footer';
@@ -40,7 +41,9 @@ const TeamRequest = ({ className }: ManageRequestProps) => {
 
 function RequestsTable({ data }) {
   const leave = data.Data;
-  console.log(leave);
+  const [confirmation, setConfirmation] = useState({});
+  const [denyRequest, setDenyRequest] = useState(false);
+  const [approveRequest, setApproveRequest] = useState(false);
 
   if (leave === null) {
     return <StyledErrorRequest />;
@@ -56,11 +59,12 @@ function RequestsTable({ data }) {
     return 0;
   });
 
-  const updateLeave = async (leaveId, requestType, status) => {
+  const updateRequest = async (values: any) => {
     var formdata = new FormData();
-    formdata.append('leaveId', leaveId);
-    formdata.append('requestType', requestType);
-    formdata.append('status', status);
+    console.log(values)
+    formdata.append('leaveId', values.leaveId);
+    formdata.append('requestType', values.requestType);
+    formdata.append('status', values.status);
 
     var requestOptions = {
       method: 'PUT',
@@ -68,7 +72,10 @@ function RequestsTable({ data }) {
       redirect: 'follow' as RequestRedirect,
     };
 
-    fetch('http://localhost:1234/updateRequest?leaveId=' + leaveId + '&requestType=' + requestType + '&status=' + status, requestOptions)
+    fetch(
+      'http://localhost:1234/updateRequest?leaveId=' + values.leaveId + '&requestType=' + values.requestType + '&status=' + values.status,
+      requestOptions,
+    )
       .then((response) => response.text())
       .then((result) => console.log(result))
       .catch((error) => console.log('error', error));
@@ -77,24 +84,52 @@ function RequestsTable({ data }) {
   };
 
   return (
-    <Table
-      headers={['User', 'Request Type', 'Start Date', 'End Date', 'Status', 'Actions']}
-      rows={leaveList.map((service) => [
-        service.email,
-        service.requestType,
-        service.startDate.slice(0, 16),
-        service.endDate.slice(0, 16),
-        service.status,
-        <div>
-          <Button onClick={() => updateLeave(service.leaveId, service.requestType, 'Approved')}>
-            <Icon name='check' />
-          </Button>
-          <Button onClick={() => updateLeave(service.leaveId, service.requestType, 'Denied')}>
-            <Icon name='delete' />
-          </Button>
-        </div>,
-      ])}
-    />
+    <>
+      <Table
+        headers={['User', 'Request Type', 'Start Date', 'End Date', 'Status', 'Actions']}
+        rows={leaveList.map((service) => [
+          service.email,
+          service.requestType,
+          service.startDate.slice(0, 16),
+          service.endDate.slice(0, 16),
+          service.status,
+          <div>
+            <Button
+              onClick={() => {
+                setConfirmation([service.leaveId, service.requestType, 'Approved']);
+                setApproveRequest(true);
+              }}
+            >
+              <Icon name='check' />
+            </Button>
+            <Button
+              onClick={() => {
+                setConfirmation({[service.leaveId, service.requestType, 'Denied']});
+                setDenyRequest(true);
+              }}
+            >
+              <Icon name='delete' />
+            </Button>
+          </div>,
+        ])}
+      />
+      {denyRequest && (
+        <ConfirmationDialog
+          title='Confirm Action'
+          message='Are you sure you want to deny this request?'
+          confirm={() => updateRequest(confirmation)}
+          cancel={() => setDenyRequest(false)}
+        />
+      )}
+      {approveRequest && (
+        <ConfirmationDialog
+          title='Confirm Action'
+          message='Are you sure you want to approve this request?'
+          confirm={() => updateRequest(confirmation)}
+          cancel={() => setApproveRequest(false)}
+        />
+      )}
+    </>
   );
 }
 
