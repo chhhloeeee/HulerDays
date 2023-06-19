@@ -51,7 +51,7 @@ function RequestsTable({ data }) {
     startDate: new Date(),
     endDate: new Date(),
   });
-  const [deleteRequest, setDeleteRequest] = useState(false);
+  const [showDialog, setShowDialog] = useState(false);
 
   const handleOpen = (requestType, leaveId) => {
     setRequestType(requestType);
@@ -108,7 +108,7 @@ function RequestsTable({ data }) {
                   startDate: new Date(service.startDate.slice(0, 23)),
                   endDate: new Date(service.endDate.slice(0, 23)),
                 });
-                setDeleteRequest(true);
+                setShowDialog(true);
               }}
             >
               <Icon name='delete' />
@@ -117,12 +117,12 @@ function RequestsTable({ data }) {
         ])}
       />
       {isCreate && <EditRequestForm reqType={requestType} id={Number(leaveId)} close={() => setIsCreate(false)} />}
-      {deleteRequest && (
+      {showDialog && (
         <ConfirmationDialog
           title='Confirm Action'
           message='Are you sure you want to deny this request?'
           confirm={() => deleteLeave(confirmation)}
-          cancel={() => setDeleteRequest(false)}
+          cancel={() => setShowDialog(false)}
         />
       )}
     </>

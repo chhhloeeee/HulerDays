@@ -6,6 +6,7 @@ import AdminFormSelectUnderline from './AdminFormSelectUnderline';
 import AdminFormColumns from './AdminFormColumns';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+import ConfirmationDialog from '../ConfirmationDialog';
 
 interface FormProps {
   close: () => void;
@@ -21,7 +22,7 @@ const RequestForm = ({ close }: FormProps) => {
   var date = new Date();
   const router = useRouter();
   const [confirmation, setConfirmation] = useState({});
-  const [deleteRequest, setDeleteRequest] = useState(false);
+  const [showDialog, setShowDialog] = useState(false);
 
   const btn = document.querySelector('button');
 
@@ -69,7 +70,8 @@ const RequestForm = ({ close }: FormProps) => {
         }}
         validateOnMount
         onSubmit={(values: Values, { setSubmitting, resetForm }) => {
-          postRequest(values);
+          setConfirmation(values);
+          setShowDialog(true);
           setSubmitting(false);
           setTimeout(() => {
             resetForm();
@@ -108,6 +110,14 @@ const RequestForm = ({ close }: FormProps) => {
           </>
         )}
       </Formik>
+      {showDialog && (
+        <ConfirmationDialog
+          title='Confirm Action'
+          message='Are you sure you want to edit this request?'
+          confirm={() => postRequest(confirmation)}
+          cancel={() => setShowDialog(false)}
+        />
+      )}
     </Modal>
   );
 };

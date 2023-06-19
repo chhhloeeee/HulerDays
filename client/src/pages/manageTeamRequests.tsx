@@ -50,8 +50,8 @@ function RequestsTable({ data }) {
     requestType: '',
     status: '',
   });
-  const [denyRequest, setDenyRequest] = useState(false);
-  const [approveRequest, setApproveRequest] = useState(false);
+  const [showDenyDialog, setShowDenyDialog] = useState(false);
+  const [showApproveDialog, setShowApproveDialog] = useState(false);
 
   if (leave === null) {
     return <StyledErrorRequest />;
@@ -104,7 +104,7 @@ function RequestsTable({ data }) {
             <Button
               onClick={() => {
                 setConfirmation({ leaveId: service.leaveId, requestType: service.requestType, status: 'Approved' });
-                setApproveRequest(true);
+                setShowApproveDialog(true);
               }}
             >
               <Icon name='check' />
@@ -112,7 +112,7 @@ function RequestsTable({ data }) {
             <Button
               onClick={() => {
                 setConfirmation({ leaveId: service.leaveId, requestType: service.requestType, status: 'Denied' });
-                setDenyRequest(true);
+                setShowDenyDialog(true);
               }}
             >
               <Icon name='delete' />
@@ -120,20 +120,20 @@ function RequestsTable({ data }) {
           </div>,
         ])}
       />
-      {denyRequest && (
+      {showDenyDialog && (
         <ConfirmationDialog
           title='Confirm Action'
           message='Are you sure you want to deny this request?'
           confirm={() => updateRequest(confirmation)}
-          cancel={() => setDenyRequest(false)}
+          cancel={() => setShowDenyDialog(false)}
         />
       )}
-      {approveRequest && (
+      {showApproveDialog && (
         <ConfirmationDialog
           title='Confirm Action'
           message='Are you sure you want to approve this request?'
           confirm={() => updateRequest(confirmation)}
-          cancel={() => setApproveRequest(false)}
+          cancel={() => setShowApproveDialog(false)}
         />
       )}
     </>

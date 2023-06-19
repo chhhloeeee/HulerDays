@@ -19,7 +19,7 @@ interface Values {
 
 const EditRequestForm = ({ close, reqType, id }: FormProps) => {
   const [confirmation, setConfirmation] = useState({});
-  const [editRequest, setEditRequest] = useState(false);
+  const [showDialog, setShowDialog] = useState(false);
 
   const postUpdate = async (values) => {
     var formdata = new FormData();
@@ -51,7 +51,7 @@ const EditRequestForm = ({ close, reqType, id }: FormProps) => {
         validateOnMount
         onSubmit={(values: Values, { setSubmitting, resetForm }) => {
           setConfirmation(values);
-          setEditRequest(true);
+          setShowDialog(true);
           setSubmitting(false);
           setTimeout(() => {
             resetForm();
@@ -77,12 +77,12 @@ const EditRequestForm = ({ close, reqType, id }: FormProps) => {
           </>
         )}
       </Formik>
-      {editRequest && (
+      {showDialog && (
         <ConfirmationDialog
           title='Confirm Action'
           message='Are you sure you want to edit this request?'
           confirm={() => postUpdate(confirmation)}
-          cancel={() => setEditRequest(false)}
+          cancel={() => setShowDialog(false)}
         />
       )}
     </Modal>
