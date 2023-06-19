@@ -1,6 +1,7 @@
 /* eslint-disable react/jsx-key */
 import { useState } from 'react';
 import Button from 'src/components/Button';
+import ConfirmationDialog from 'src/components/ConfirmationDialog';
 import ContentWrapper from 'src/components/ContentWrapper';
 import StyledErrorRequest from 'src/components/ErrorRequest';
 import Footer from 'src/components/footer';
@@ -15,6 +16,10 @@ interface ManageRequestProps {
 }
 
 const TeamRequest = ({ className }: ManageRequestProps) => {
+  const TableWrapper = styled.div`
+    margin: 45px;
+    flex-grow: 1;
+  `;
   const userId = 2;
   return (
     <div className={className}>
@@ -26,12 +31,12 @@ const TeamRequest = ({ className }: ManageRequestProps) => {
           </Button>
         </span>
         <h1>Manage Team Leave</h1>
-        <div>
+        <TableWrapper>
           <APILoader
             url={'http://localhost:1234/getRequestByManagerId?users.managerId=' + userId + '&holiday.status=Pending'}
             Component={RequestsTable}
           />
-        </div>
+        </TableWrapper>
         <Footer />
       </ContentWrapper>
     </div>
@@ -40,7 +45,13 @@ const TeamRequest = ({ className }: ManageRequestProps) => {
 
 function RequestsTable({ data }) {
   const leave = data.Data;
-  console.log(leave);
+  const [confirmation, setConfirmation] = useState({
+    leaveId: '',
+    requestType: '',
+    status: '',
+  });
+  const [showDenyDialog, setShowDenyDialog] = useState(false);
+  const [showApproveDialog, setShowApproveDialog] = useState(false);
 
   if (leave === null) {
     return <StyledErrorRequest />;
@@ -56,11 +67,11 @@ function RequestsTable({ data }) {
     return 0;
   });
 
-  const updateLeave = async (leaveId, requestType, status) => {
+  const updateRequest = async (values: any) => {
     var formdata = new FormData();
-    formdata.append('leaveId', leaveId);
-    formdata.append('requestType', requestType);
-    formdata.append('status', status);
+    formdata.append('leaveId', values.leaveId);
+    formdata.append('requestType', values.requestType);
+    formdata.append('status', values.status);
 
     var requestOptions = {
       method: 'PUT',
@@ -68,7 +79,10 @@ function RequestsTable({ data }) {
       redirect: 'follow' as RequestRedirect,
     };
 
-    fetch('http://localhost:1234/updateRequest?leaveId=' + leaveId + '&requestType=' + requestType + '&status=' + status, requestOptions)
+    fetch(
+      'http://localhost:1234/updateRequest?leaveId=' + values.leaveId + '&requestType=' + values.requestType + '&status=' + values.status,
+      requestOptions,
+    )
       .then((response) => response.text())
       .then((result) => console.log(result))
       .catch((error) => console.log('error', error));
@@ -77,24 +91,52 @@ function RequestsTable({ data }) {
   };
 
   return (
-    <Table
-      headers={['User', 'Request Type', 'Start Date', 'End Date', 'Status', 'Actions']}
-      rows={leaveList.map((service) => [
-        service.email,
-        service.requestType,
-        service.startDate.slice(0, 16),
-        service.endDate.slice(0, 16),
-        service.status,
-        <div>
-          <Button onClick={() => updateLeave(service.leaveId, service.requestType, 'Approved')}>
-            <Icon name='check' />
-          </Button>
-          <Button onClick={() => updateLeave(service.leaveId, service.requestType, 'Denied')}>
-            <Icon name='delete' />
-          </Button>
-        </div>,
-      ])}
-    />
+    <>
+      <Table
+        headers={['User', 'Request Type', 'Start Date', 'End Date', 'Status', 'Actions']}
+        rows={leaveList.map((service) => [
+          service.email,
+          service.requestType,
+          service.startDate.slice(0, 16),
+          service.endDate.slice(0, 16),
+          service.status,
+          <div>
+            <Button
+              onClick={() => {
+                setConfirmation({ leaveId: service.leaveId, requestType: service.requestType, status: 'Approved' });
+                setShowApproveDialog(true);
+              }}
+            >
+              <Icon name='check' />
+            </Button>
+            <Button
+              onClick={() => {
+                setConfirmation({ leaveId: service.leaveId, requestType: service.requestType, status: 'Denied' });
+                setShowDenyDialog(true);
+              }}
+            >
+              <Icon name='delete' />
+            </Button>
+          </div>,
+        ])}
+      />
+      {showDenyDialog && (
+        <ConfirmationDialog
+          title='Confirm Action'
+          message='Are you sure you want to deny this request?'
+          confirm={() => updateRequest(confirmation)}
+          cancel={() => setShowDenyDialog(false)}
+        />
+      )}
+      {showApproveDialog && (
+        <ConfirmationDialog
+          title='Confirm Action'
+          message='Are you sure you want to approve this request?'
+          confirm={() => updateRequest(confirmation)}
+          cancel={() => setShowApproveDialog(false)}
+        />
+      )}
+    </>
   );
 }
 
@@ -108,11 +150,6 @@ const StyledTeamRequest = styled(TeamRequest)`
     font-size: 3.5rem;
     color: #fb6666;
     text-align: center;
-  }
-
-  div:nth-of-type(2) {
-    margin: 45px;
-    flex-grow: 1;
   }
 
   span button {
