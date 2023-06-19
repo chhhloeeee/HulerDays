@@ -5,6 +5,7 @@ import StyledFormDatePicker from '../DatePicker';
 import AdminFormSelectUnderline from './AdminFormSelectUnderline';
 import AdminFormColumns from './AdminFormColumns';
 import { useRouter } from 'next/router';
+import { useState } from 'react';
 
 interface FormProps {
   close: () => void;
@@ -19,6 +20,8 @@ interface Values {
 const RequestForm = ({ close }: FormProps) => {
   var date = new Date();
   const router = useRouter();
+  const [confirmation, setConfirmation] = useState({});
+  const [deleteRequest, setDeleteRequest] = useState(false);
 
   const btn = document.querySelector('button');
 
