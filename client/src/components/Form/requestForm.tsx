@@ -8,11 +8,13 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 import ConfirmationDialog from '../ConfirmationDialog';
 
+
 interface FormProps {
   close: () => void;
 }
 
 interface Values {
+  id: number;
   requestType: string;
   startDate: Date;
   endDate: Date;
@@ -20,50 +22,78 @@ interface Values {
 
 const RequestForm = ({ close }: FormProps) => {
   var date = new Date();
+  var userId = 1;
   const router = useRouter();
   const [confirmation, setConfirmation] = useState({});
   const [showDialog, setShowDialog] = useState(false);
 
-  const btn = document.querySelector('button');
+  const updateLeave = async (values) => {
+    var strStartDate = values.startDate.toString();
+    var strEndDate = values.endDate.toString();
+    let days = GetBusinessDatesCount(new Date(strStartDate), new Date(strEndDate));
 
-  const postRequest = async (values) => {
-    const XHR = new XMLHttpRequest();
-    const formData = new FormData();
+    const formData: any = new FormData();
+    formData.append('id', values.id);
+    formData.append('days', days);
 
-    // Push our data into our FormData object
-    for (const [] of Object.entries(values)) {
-      formData.append('requestType', values.requestType);
-      formData.append('startDate', values.startDate);
-      formData.append('endDate', values.endDate);
-      formData.append('userId', '1');
-      formData.append('status', 'Pending');
-    }
+    var requestOptions = {
+      method: 'PUT',
+      body: formData,
+      redirect: 'follow' as RequestRedirect,
+      headers: { 'Auth-Token': "test" },
+    };
 
-    // Define what happens on successful data submission
-    XHR.addEventListener('load', (e) => {
-      router.push('/manage');
-    });
-
-    // Define what happens in case of an error
-    XHR.addEventListener('error', (e) => {
-      alert('Oops! Something went wrong.');
-    });
-
-    // Set up our request
-    XHR.open('POST', 'http://localhost:1234/addRequest');
-
-    // Send our FormData object; HTTP headers are set automatically
-    XHR.send(formData);
+    fetch('http://localhost:1234/removeHolidayDays?id=' + values.id + '&days=' + days, requestOptions)
+      .then((response) => {
+        postRequest(values);
+        response.text();
+      })
+      .then((result) => console.log(result))
+      .catch((error) => {
+        alert(error);
+      });
   };
 
-  btn.addEventListener('click', () => {
-    postRequest({ test: 'ok' });
-  });
+  const postRequest = async (values) => {
+    var formdata = new FormData();
+    formdata.append('requestType', values.requestType);
+    formdata.append('startDate', values.startDate);
+    formdata.append('endDate', values.endDate);
+    formdata.append('userId', values.id);
+    formdata.append('status', 'Pending');
 
+    var requestOptions = {
+      method: 'POST',
+      body: formdata,
+      redirect: 'follow' as RequestRedirect,
+    };
+
+    fetch('http://localhost:1234/addRequest', requestOptions)
+      .then((response) => {
+        response.text();
+        router.push('/manage');
+      })
+      .then((result) => console.log(result))
+      .catch((error) => {
+        console.log('error', error);
+        alert('Something went wrong');
+      });
+  };
+
+  const checkAllowance = (values) => {
+    var strStartDate = values.startDate.toString();
+    var strEndDate = values.endDate.toString();
+    let days = GetBusinessDatesCount(new Date(strStartDate), new Date(strEndDate));
+
+    if (days > 5) {
+      return true;
+    }
+  };
   return (
     <Modal title='New Leave Request' close={close}>
       <Formik
         initialValues={{
+          id: userId,
           requestType: 'Annual Leave',
           startDate: date,
           endDate: date,
@@ -72,6 +102,7 @@ const RequestForm = ({ close }: FormProps) => {
         onSubmit={(values: Values, { setSubmitting, resetForm }) => {
           setConfirmation(values);
           setShowDialog(true);
+
           setSubmitting(false);
           setTimeout(() => {
             resetForm();
@@ -79,7 +110,13 @@ const RequestForm = ({ close }: FormProps) => {
         }}
       >
         {({ handleSubmit, values, setFieldValue }) => (
-          <>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleSubmit();
+            }}
+          >
+            <input name='id' type='hidden' value={values.id} readOnly />
             <AdminFormColumns>
               <AdminFormSelectUnderline
                 options={[
@@ -106,8 +143,8 @@ const RequestForm = ({ close }: FormProps) => {
               />
             </AdminFormColumns>
 
-            <Actions onCancel={() => close()} onCreate={handleSubmit} />
-          </>
+            <Actions onCancel={() => close()} onCreate={handleSubmit} invalid={checkAllowance(values)} />
+          </form>
         )}
       </Formik>
       {showDialog && (

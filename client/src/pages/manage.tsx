@@ -6,6 +6,7 @@ import ContentWrapper from 'src/components/ContentWrapper';
 import StyledErrorRequest from 'src/components/ErrorRequest';
 import Footer from 'src/components/footer';
 import EditRequestForm from 'src/components/form/EditRequestForm';
+import { GetBusinessDatesCount } from 'src/components/helpers/helpers';
 import Icon from 'src/components/icons';
 import Logo from 'src/components/Logo';
 import { APILoader } from 'src/components/table/ApiLoader';
@@ -21,7 +22,7 @@ const ManageRequest = ({ className }: ManageRequestProps) => {
     margin: 45px;
     flex-grow: 1;
   `;
-  const userId = 1;
+  const UserId = 1;
   return (
     <div className={className}>
       <ContentWrapper>
@@ -33,7 +34,7 @@ const ManageRequest = ({ className }: ManageRequestProps) => {
         </span>
         <h1>Manage Leave Requests</h1>
         <TableWrapper>
-          <APILoader url={'http://localhost:1234/getRequestByUserId?userId=' + userId} Component={RequestsTable} />
+          <APILoader url={'http://localhost:1234/getRequestByUserId?userId=' + UserId} Component={RequestsTable} />
         </TableWrapper>
         <Footer />
       </ContentWrapper>
@@ -73,21 +74,52 @@ function RequestsTable({ data }) {
     return 0;
   });
 
-  const deleteLeave = async (values) => {
-    const formData = new FormData();
-    formData.append('leaveId', values.leaveId);
-    fetch('http://localhost:1234/deleteRequest', {
-      method: 'DELETE',
+  const updateLeave = async (leaveId: number, startDate: Date, endDate: Date, userId: Number) => {
+    let days = GetBusinessDatesCount(startDate, endDate);
+
+    const formData: any = new FormData();
+    formData.append('id', userId);
+    formData.append('days', days);
+
+    var requestOptions = {
+      method: 'PUT',
       body: formData,
-    })
+      redirect: 'follow' as RequestRedirect,
+    };
+
+    fetch('http://localhost:1234/addHolidayDays?id=' + userId + '&days=' + days, requestOptions)
       .then((response) => {
-        alert('Delete Successful!');
-        window.location.reload();
+        deleteLeave(leaveId);
+        response.text();
       })
+      .then((result) => console.log(result))
       .catch((error) => {
         alert('Oops! Something went wrong.');
       });
   };
+
+  const deleteLeave = async (leaveId: number) => {
+    const formData: any = new FormData();
+    formData.append('leaveId', leaveId);
+
+    var requestOptions = {
+      method: 'DELETE',
+      body: formData,
+      redirect: 'follow' as RequestRedirect,
+    };
+
+    fetch('http://localhost:1234/deleteRequest?leaveId=' + leaveId, requestOptions)
+      .then((response) => {
+        alert('Delete Successful!');
+        window.location.reload();
+        response.text();
+      })
+      .then((result) => console.log(result))
+      .catch((error) => {
+        alert('Oops! Something went wrong.');
+      });
+  };
+
   return (
     <>
       <Table

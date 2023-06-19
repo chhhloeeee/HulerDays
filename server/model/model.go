@@ -15,6 +15,11 @@ type UserResponse struct {
 	Data    []Users
 }
 
+type LoginResponse struct {
+	Status int    `json:"status"`
+	Token  string `json:"token"`
+}
+
 type Requests struct {
 	LeaveId     int    `form:"leaveId" json:"leaveId"`
 	StartDate   string `form:"startDate" json:"startDate"`
