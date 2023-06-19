@@ -7,34 +7,35 @@ import Icon from 'src/components/icons';
 import Button from 'src/components/Button';
 import { APILoader } from 'src/components/table/ApiLoader';
 import { useContext } from 'react';
-import { UserContext } from 'src/components/contexts/UserContext';
+import UserContextProvider, { UserContext } from 'src/components/contexts/UserContext';
 
 interface HomeProps {
   className?: string;
 }
 
 const Home = ({ className }: HomeProps) => {
-  // const {userId} = useContext(UserContext);
-  const userId = 2;
+  const { userId } = useContext(UserContext);
   return (
     <div className={className}>
-      <ContentWrapper>
-        <div>
-          <Logo />
-          <Button className='logout'>
-            <Icon name='logout' />
-          </Button>
-          <main>
-            <h1>Welcome to HulerDays</h1>
-            <div>
-              <APILoader url={'http://localhost:1234/getUserById?id=' + userId} Component={countDown} />
-              <p>Days Remaining</p>
-            </div>
-          </main>
-        </div>
-        <Grid />
-        <Footer />
-      </ContentWrapper>
+      <UserContextProvider>
+        <ContentWrapper>
+          <div>
+            <Logo />
+            <Button className='logout'>
+              <Icon name='logout' />
+            </Button>
+            <main>
+              <h1>Welcome to HulerDays</h1>
+              <div>
+                <APILoader url={'http://localhost:1234/getUserById?id=' + userId} Component={countDown} />
+                <p>Days Remaining</p>
+              </div>
+            </main>
+          </div>
+          <Grid />
+          <Footer />
+        </ContentWrapper>
+      </UserContextProvider>
     </div>
   );
 };

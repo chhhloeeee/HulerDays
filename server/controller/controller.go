@@ -433,11 +433,28 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	qry = "SELECT id, holiday, isManager from users WHERE accessToken = ?"
+	row = DB.QueryRow(qry, tkn.String())
+	var userId int
+	var holiday int
+	var isManager bool
+	err = row.Scan(&userId, &holiday, &isManager)
+	if err != nil {
+		//We don't provide any further info if a login request fails
+		//we just return "Unauth" but we do fmt.Println the error for logging
+		fmt.Println("Login Error for user", uid, " error was: ", err.Error())
+		w.WriteHeader(http.StatusUnauthorized)
+		return
+	}
+
 	w.Header().Set("Content-Type", "application/json")
 	//w.Header().Set("Access-Control-Allow-Origin", "*")
 	json.NewEncoder(w).Encode(model.LoginResponse{
-		Status: 200,
-		Token:  tkn.String(),
+		Status:    200,
+		Token:     tkn.String(),
+		UserId:    userId,
+		Holiday:   holiday,
+		IsManager: isManager,
 	})
 
 }

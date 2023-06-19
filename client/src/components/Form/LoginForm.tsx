@@ -34,11 +34,11 @@ const FormWrapper = styled.div`
 `;
 
 const LoginForm = ({ className }: LoginFormProps) => {
+  const { setIsManager, setUserId, setHoliday, setToken } = useContext(UserContext);
   const LoginSchema = Yup.object().shape({
     email: Yup.string().email('Invalid email').required('Required'),
   });
   const router = useRouter();
-  //const { setUser } = useContext(UserContext);
 
   const handleLogin = (values) => {
     var requestOptions = {
@@ -51,6 +51,13 @@ const LoginForm = ({ className }: LoginFormProps) => {
       .then((json) => {
         if (json.status == 200) {
           // TODO: set user
+          console.log(json);
+          if (json.isManager == true) {
+            setIsManager(true);
+          }
+          setUserId(json.userId);
+          setHoliday(json.holiday);
+          setToken(json.token);
           router.push('/home');
         } else {
           alert('Incorrect Email and/or Password');
