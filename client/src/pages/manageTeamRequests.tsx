@@ -45,7 +45,11 @@ const TeamRequest = ({ className }: ManageRequestProps) => {
 
 function RequestsTable({ data }) {
   const leave = data.Data;
-  const [confirmation, setConfirmation] = useState({});
+  const [confirmation, setConfirmation] = useState({
+    leaveId: '',
+    requestType: '',
+    status: '',
+  });
   const [denyRequest, setDenyRequest] = useState(false);
   const [approveRequest, setApproveRequest] = useState(false);
 
@@ -65,9 +69,9 @@ function RequestsTable({ data }) {
 
   const updateRequest = async (values: any) => {
     var formdata = new FormData();
-    formdata.append('leaveId', values[0]);
-    formdata.append('requestType', values[1]);
-    formdata.append('status', values[2]);
+    formdata.append('leaveId', values.leaveId);
+    formdata.append('requestType', values.requestType);
+    formdata.append('status', values.status);
 
     var requestOptions = {
       method: 'PUT',
@@ -75,7 +79,10 @@ function RequestsTable({ data }) {
       redirect: 'follow' as RequestRedirect,
     };
 
-    fetch('http://localhost:1234/updateRequest?leaveId=' + values[0] + '&requestType=' + values[1] + '&status=' + values[2], requestOptions)
+    fetch(
+      'http://localhost:1234/updateRequest?leaveId=' + values.leaveId + '&requestType=' + values.requestType + '&status=' + values.status,
+      requestOptions,
+    )
       .then((response) => response.text())
       .then((result) => console.log(result))
       .catch((error) => console.log('error', error));
@@ -96,7 +103,7 @@ function RequestsTable({ data }) {
           <div>
             <Button
               onClick={() => {
-                setConfirmation([service.leaveId, service.requestType, 'Approved']);
+                setConfirmation({ leaveId: service.leaveId, requestType: service.requestType, status: 'Approved' });
                 setApproveRequest(true);
               }}
             >
@@ -104,7 +111,7 @@ function RequestsTable({ data }) {
             </Button>
             <Button
               onClick={() => {
-                setConfirmation([service.leaveId, service.requestType, 'Denied']);
+                setConfirmation({ leaveId: service.leaveId, requestType: service.requestType, status: 'Denied' });
                 setDenyRequest(true);
               }}
             >
