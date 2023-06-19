@@ -46,7 +46,11 @@ function RequestsTable({ data }) {
   const [isCreate, setIsCreate] = useState(false);
   const [requestType, setRequestType] = useState('');
   const [leaveId, setLeaveId] = useState('');
-  const [confirmation, setConfirmation] = useState({});
+  const [confirmation, setConfirmation] = useState({
+    leaveId: '',
+    startDate: new Date(),
+    endDate: new Date(),
+  });
   const [deleteRequest, setDeleteRequest] = useState(false);
 
   const handleOpen = (requestType, leaveId) => {
@@ -71,7 +75,7 @@ function RequestsTable({ data }) {
 
   const deleteLeave = async (values) => {
     const formData = new FormData();
-    formData.append('leaveId', values[0]);
+    formData.append('leaveId', values.leaveId);
     fetch('http://localhost:1234/deleteRequest', {
       method: 'DELETE',
       body: formData,
@@ -99,7 +103,11 @@ function RequestsTable({ data }) {
             </Button>
             <Button
               onClick={() => {
-                setConfirmation([service.leaveId, new Date(service.startDate.slice(0, 23)), new Date(service.endDate.slice(0, 23))]);
+                setConfirmation({
+                  leaveId: service.leaveId,
+                  startDate: new Date(service.startDate.slice(0, 23)),
+                  endDate: new Date(service.endDate.slice(0, 23)),
+                });
                 setDeleteRequest(true);
               }}
             >
