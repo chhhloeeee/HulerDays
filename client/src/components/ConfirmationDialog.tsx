@@ -1,10 +1,10 @@
 /* eslint-disable react/no-danger */
 import { useEffect, useRef, useCallback, MouseEvent, ReactNode } from 'react';
 import styled from 'styled-components';
-import Button from '../Button';
-import Icon from '../icons';
+import Button from './Button';
+import Icon from './icons';
 
-interface ConfirmationDialogProps {
+export interface ConfirmationDialogProps {
   className?: string;
   title: string;
   message: string | ReactNode;
@@ -42,8 +42,16 @@ const ConfirmationDialog = ({ className, title, message, confirm, cancel, confir
           {icon && <Icon name={icon} />}
           <h1>{title}</h1>
           <p>{message}</p>
-          {cancel && <Button darkOutline text={cancelText} onClick={cancel} />}
-          {confirm && <Button text={confirmText} onClick={confirm} />}
+          {cancel && (
+            <Button primaryOutline onClick={cancel}>
+              Cancel
+            </Button>
+          )}
+          {confirm && (
+            <Button primary onClick={confirm}>
+              Confirm
+            </Button>
+          )}
         </div>
       </div>
     </div>

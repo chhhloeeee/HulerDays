@@ -5,7 +5,9 @@ import StyledFormDatePicker from '../DatePicker';
 import AdminFormSelectUnderline from './AdminFormSelectUnderline';
 import AdminFormColumns from './AdminFormColumns';
 import { useRouter } from 'next/router';
-import { GetBusinessDatesCount } from '../helpers/helpers';
+import { useState } from 'react';
+import ConfirmationDialog from '../ConfirmationDialog';
+
 
 interface FormProps {
   close: () => void;
@@ -22,6 +24,8 @@ const RequestForm = ({ close }: FormProps) => {
   var date = new Date();
   var userId = 1;
   const router = useRouter();
+  const [confirmation, setConfirmation] = useState({});
+  const [showDialog, setShowDialog] = useState(false);
 
   const updateLeave = async (values) => {
     var strStartDate = values.startDate.toString();
@@ -96,7 +100,9 @@ const RequestForm = ({ close }: FormProps) => {
         }}
         validateOnMount
         onSubmit={(values: Values, { setSubmitting, resetForm }) => {
-          updateLeave(values);
+          setConfirmation(values);
+          setShowDialog(true);
+
           setSubmitting(false);
           setTimeout(() => {
             resetForm();
@@ -141,6 +147,14 @@ const RequestForm = ({ close }: FormProps) => {
           </form>
         )}
       </Formik>
+      {showDialog && (
+        <ConfirmationDialog
+          title='Confirm Action'
+          message='Are you sure you want to edit this request?'
+          confirm={() => postRequest(confirmation)}
+          cancel={() => setShowDialog(false)}
+        />
+      )}
     </Modal>
   );
 };

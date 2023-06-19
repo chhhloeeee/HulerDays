@@ -3,6 +3,8 @@ import AdminFormColumns from './AdminFormColumns';
 import AdminFormSelectUnderline from './AdminFormSelectUnderline';
 import Modal from '../modal';
 import Actions from '../Actions';
+import { useEffect, useState } from 'react';
+import ConfirmationDialog from '../ConfirmationDialog';
 
 interface FormProps {
   close: () => void;
@@ -16,8 +18,10 @@ interface Values {
 }
 
 const EditRequestForm = ({ close, reqType, id }: FormProps) => {
+  const [confirmation, setConfirmation] = useState({});
+  const [showDialog, setShowDialog] = useState(false);
+
   const postUpdate = async (values) => {
-    console.log(values);
     var formdata = new FormData();
     formdata.append('leaveId', values.leaveId);
     formdata.append('requestType', values.requestType);
@@ -36,44 +40,52 @@ const EditRequestForm = ({ close, reqType, id }: FormProps) => {
     window.location.reload();
     return close();
   };
-  return (
-    <div>
-      <Modal title='Edit Leave Request' close={close}>
-        <Formik
-          initialValues={{
-            requestType: reqType,
-            leaveId: id,
-          }}
-          validateOnMount
-          onSubmit={(values: Values, { setSubmitting, resetForm }) => {
-            postUpdate(values);
-            setSubmitting(false);
-            setTimeout(() => {
-              resetForm();
-            }, 400);
-          }}
-        >
-          {({ handleSubmit, values, setFieldValue }) => (
-            <>
-              <AdminFormColumns>
-                <input name='id' type='hidden' value={values.leaveId} readOnly />
-                <AdminFormSelectUnderline
-                  options={[
-                    { value: 'Annual Leave', label: 'Annual Leave' },
-                    { value: 'Sickness', label: 'Sickness' },
-                  ]}
-                  label='Request Type'
-                  value={values.requestType}
-                  setValue={(val: string) => setFieldValue('requestType', val)}
-                />
-              </AdminFormColumns>
 
-              <Actions onCancel={() => close()} onCreate={handleSubmit} />
-            </>
-          )}
-        </Formik>
-      </Modal>
-    </div>
+  return (
+    <Modal title='Edit Leave Request' close={close}>
+      <Formik
+        initialValues={{
+          requestType: reqType,
+          leaveId: id,
+        }}
+        validateOnMount
+        onSubmit={(values: Values, { setSubmitting, resetForm }) => {
+          setConfirmation(values);
+          setShowDialog(true);
+          setSubmitting(false);
+          setTimeout(() => {
+            resetForm();
+          }, 400);
+        }}
+      >
+        {({ handleSubmit, values, setFieldValue }) => (
+          <>
+            <AdminFormColumns>
+              <input name='id' type='hidden' value={values.leaveId} readOnly />
+              <AdminFormSelectUnderline
+                options={[
+                  { value: 'Annual Leave', label: 'Annual Leave' },
+                  { value: 'Sickness', label: 'Sickness' },
+                ]}
+                label='Request Type'
+                value={values.requestType}
+                setValue={(val: string) => setFieldValue('requestType', val)}
+              />
+            </AdminFormColumns>
+
+            <Actions onCancel={() => close()} onCreate={handleSubmit} />
+          </>
+        )}
+      </Formik>
+      {showDialog && (
+        <ConfirmationDialog
+          title='Confirm Action'
+          message='Are you sure you want to edit this request?'
+          confirm={() => postUpdate(confirmation)}
+          cancel={() => setShowDialog(false)}
+        />
+      )}
+    </Modal>
   );
 };
 

@@ -1,6 +1,7 @@
 /* eslint-disable react/jsx-key */
 import { useState } from 'react';
 import Button from 'src/components/Button';
+import ConfirmationDialog from 'src/components/ConfirmationDialog';
 import ContentWrapper from 'src/components/ContentWrapper';
 import StyledErrorRequest from 'src/components/ErrorRequest';
 import Footer from 'src/components/footer';
@@ -46,6 +47,12 @@ function RequestsTable({ data }) {
   const [isCreate, setIsCreate] = useState(false);
   const [requestType, setRequestType] = useState('');
   const [leaveId, setLeaveId] = useState('');
+  const [confirmation, setConfirmation] = useState({
+    leaveId: '',
+    startDate: new Date(),
+    endDate: new Date(),
+  });
+  const [showDialog, setShowDialog] = useState(false);
 
   const handleOpen = (requestType, leaveId) => {
     setRequestType(requestType);
@@ -127,9 +134,14 @@ function RequestsTable({ data }) {
               <Icon name='edit' />
             </Button>
             <Button
-              onClick={() =>
-                updateLeave(service.leaveId, new Date(service.startDate.slice(0, 23)), new Date(service.endDate.slice(0, 23)), service.userId)
-              }
+              onClick={() => {
+                setConfirmation({
+                  leaveId: service.leaveId,
+                  startDate: new Date(service.startDate.slice(0, 23)),
+                  endDate: new Date(service.endDate.slice(0, 23)),
+                });
+                setShowDialog(true);
+              }}
             >
               <Icon name='delete' />
             </Button>
@@ -137,6 +149,14 @@ function RequestsTable({ data }) {
         ])}
       />
       {isCreate && <EditRequestForm reqType={requestType} id={Number(leaveId)} close={() => setIsCreate(false)} />}
+      {showDialog && (
+        <ConfirmationDialog
+          title='Confirm Action'
+          message='Are you sure you want to deny this request?'
+          confirm={() => deleteLeave(confirmation)}
+          cancel={() => setShowDialog(false)}
+        />
+      )}
     </>
   );
 }
