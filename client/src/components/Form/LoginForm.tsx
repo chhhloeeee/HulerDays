@@ -6,6 +6,8 @@ import Button from '../Button';
 import Logo from '../Logo';
 import { Error } from './Error';
 import * as Yup from 'yup';
+import { useContext } from 'react';
+import { UserContext } from '../contexts/UserContext';
 
 interface LoginFormProps {
   className?: string;
@@ -36,17 +38,19 @@ const LoginForm = ({ className }: LoginFormProps) => {
     email: Yup.string().email('Invalid email').required('Required'),
   });
   const router = useRouter();
+  //const { setUser } = useContext(UserContext);
 
   const handleLogin = (values) => {
-    console.log(values);
     var requestOptions = {
       method: 'GET',
       redirect: 'follow' as RequestRedirect,
     };
 
     fetch('http://localhost:1234/login?uid=' + values.email + '&pwd=' + values.password, requestOptions)
-      .then((response) => {
-        if (response.status == 200) {
+      .then((response) => response.json())
+      .then((json) => {
+        if (json.status == 200) {
+          // TODO: set user
           router.push('/home');
         } else {
           alert('Incorrect Email and/or Password');
