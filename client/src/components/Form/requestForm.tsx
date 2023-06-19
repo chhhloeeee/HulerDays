@@ -7,7 +7,7 @@ import AdminFormColumns from './AdminFormColumns';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import ConfirmationDialog from '../ConfirmationDialog';
-
+import { GetBusinessDatesCount } from '../helpers/helpers';
 
 interface FormProps {
   close: () => void;
@@ -40,7 +40,7 @@ const RequestForm = ({ close }: FormProps) => {
       method: 'PUT',
       body: formData,
       redirect: 'follow' as RequestRedirect,
-      headers: { 'Auth-Token': "test" },
+      headers: { 'Auth-Token': 'test' },
     };
 
     fetch('http://localhost:1234/removeHolidayDays?id=' + values.id + '&days=' + days, requestOptions)
@@ -102,7 +102,6 @@ const RequestForm = ({ close }: FormProps) => {
         onSubmit={(values: Values, { setSubmitting, resetForm }) => {
           setConfirmation(values);
           setShowDialog(true);
-
           setSubmitting(false);
           setTimeout(() => {
             resetForm();
@@ -151,7 +150,7 @@ const RequestForm = ({ close }: FormProps) => {
         <ConfirmationDialog
           title='Confirm Action'
           message='Are you sure you want to edit this request?'
-          confirm={() => postRequest(confirmation)}
+          confirm={() => updateLeave(confirmation)}
           cancel={() => setShowDialog(false)}
         />
       )}

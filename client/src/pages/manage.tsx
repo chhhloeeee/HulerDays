@@ -74,8 +74,10 @@ function RequestsTable({ data }) {
     return 0;
   });
 
-  const updateLeave = async (leaveId: number, startDate: Date, endDate: Date, userId: Number) => {
-    let days = GetBusinessDatesCount(startDate, endDate);
+  const updateLeave = async (values) => {
+    let days = GetBusinessDatesCount(values.startDate, values.endDate);
+
+    let userId = 1;
 
     const formData: any = new FormData();
     formData.append('id', userId);
@@ -89,7 +91,7 @@ function RequestsTable({ data }) {
 
     fetch('http://localhost:1234/addHolidayDays?id=' + userId + '&days=' + days, requestOptions)
       .then((response) => {
-        deleteLeave(leaveId);
+        deleteLeave(values.leaveId);
         response.text();
       })
       .then((result) => console.log(result))
@@ -153,7 +155,7 @@ function RequestsTable({ data }) {
         <ConfirmationDialog
           title='Confirm Action'
           message='Are you sure you want to deny this request?'
-          confirm={() => deleteLeave(confirmation)}
+          confirm={() => updateLeave(confirmation)}
           cancel={() => setShowDialog(false)}
         />
       )}
