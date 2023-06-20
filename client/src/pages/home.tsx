@@ -40,7 +40,6 @@ const Home = ({ className }: HomeProps) => {
       .catch((error) => console.log('error', error));
   };
 
-  console.log(userId);
   return (
     <div className={className}>
       <ContentWrapper>

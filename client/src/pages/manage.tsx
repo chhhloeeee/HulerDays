@@ -56,7 +56,6 @@ function RequestsTable({ data }) {
   });
   const [showDialog, setShowDialog] = useState(false);
   const { userId, token } = useContext(UserContext);
-  console.log(userId);
 
   const handleOpen = (requestType, leaveId) => {
     setRequestType(requestType);

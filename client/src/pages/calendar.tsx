@@ -72,7 +72,6 @@ const CalendarView = ({ className }: CalendarProps) => {
     fetch('http://localhost:1234/getApprovedRequestByUserId?userId=' + userId, requestOptions)
       .then((response) => response.json())
       .then((response) => {
-        console.log(response.Data);
         let appointments = response.Data;
 
         for (let i = 0; i < appointments.length; i++) {
@@ -105,7 +104,6 @@ const CalendarView = ({ className }: CalendarProps) => {
       fetch('http://localhost:1234/getRequestByManagerId?users.managerId=' + userId + '&holiday.status=Approved', requestOptions)
         .then((response) => response.json())
         .then((response) => {
-          console.log(response.Data);
           let appointments = response.Data;
 
           for (let i = 0; i < appointments.length; i++) {
