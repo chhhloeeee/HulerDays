@@ -54,7 +54,7 @@ const LoginForm = ({ className }: LoginFormProps) => {
           setUserId(json.userId);
           setHoliday(json.holiday);
           setToken(json.token);
-          router.refresh('/home');
+          router.push('/home');
         } else {
           alert('Incorrect Email and/or Password');
         }
