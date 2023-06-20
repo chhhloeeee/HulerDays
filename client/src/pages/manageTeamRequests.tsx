@@ -1,4 +1,5 @@
 /* eslint-disable react/jsx-key */
+import Link from 'next/link';
 import { useContext, useState } from 'react';
 import Button from 'src/components/Button';
 import ConfirmationDialog from 'src/components/ConfirmationDialog';
@@ -28,9 +29,9 @@ const TeamRequest = ({ className }: ManageRequestProps) => {
       <ContentWrapper>
         <Logo />
         <span>
-          <Button primary href='/home'>
-            Back
-          </Button>
+          <Link href='/home'>
+            <Button primary>Back</Button>
+          </Link>
         </span>
         <h1>Manage Team Leave</h1>
         <TableWrapper>

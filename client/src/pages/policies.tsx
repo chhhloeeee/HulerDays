@@ -4,6 +4,7 @@ import AboutTwo from '../components/background/AboutTwo';
 import Button from '../components/Button';
 import Footer from '../components/footer';
 import Logo from '../components/Logo';
+import Link from 'next/link';
 
 interface PolicyProps {
   className?: string;
@@ -12,9 +13,9 @@ const Policies = ({ className }: PolicyProps) => {
   return (
     <div className={className}>
       <Logo />
-      <Button primary href='/home'>
-        Back
-      </Button>
+      <Link href='/home'>
+        <Button primary>Back</Button>
+      </Link>
       <h1>Policies</h1>
       <div>
         <div>

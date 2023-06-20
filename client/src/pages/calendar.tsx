@@ -10,6 +10,7 @@ import { useContext, useEffect, useState } from 'react';
 import Logo from 'src/components/Logo';
 import { UserContext } from 'src/contexts/UserContext';
 import Toggle from 'src/components/Toggle';
+import Link from 'next/link';
 
 interface CalendarProps {
   className?: string;
@@ -133,9 +134,9 @@ const CalendarView = ({ className }: CalendarProps) => {
   return (
     <div className={className}>
       <Logo />
-      <Button primary href='/home'>
-        Back
-      </Button>
+      <Link href='/home'>
+        <Button primary>Back</Button>
+      </Link>
       {isManager && (
         <ToggleWrapper>
           <h4>Show Team Leave?</h4>
