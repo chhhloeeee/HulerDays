@@ -8,8 +8,8 @@ import Button from 'src/components/Button';
 import { APILoader } from 'src/components/table/ApiLoader';
 import { useContext, useState } from 'react';
 import UserContextProvider, { UserContext } from 'src/components/contexts/UserContext';
-import { Logout } from 'src/components/helpers/helpers';
 import ConfirmationDialog from 'src/components/ConfirmationDialog';
+import { useRouter } from 'next/router';
 
 interface HomeProps {
   className?: string;
@@ -19,6 +19,22 @@ const Home = ({ className }: HomeProps) => {
   //const { userId } = useContext(UserContext);
   const [showDialog, setShowDialog] = useState(false);
   let userId = 1;
+  const router = useRouter();
+
+  const Logout = (userId: number) => {
+    var requestOptions = {
+      method: 'GET',
+      redirect: 'follow' as RequestRedirect,
+    };
+
+    fetch('http://localhost:1234/logout?id=' + userId, requestOptions)
+      .then((response) => {
+        router.push('/');
+        response.text();
+      })
+      .then((result) => console.log(result))
+      .catch((error) => console.log('error', error));
+  };
   return (
     <div className={className}>
       <UserContextProvider>
