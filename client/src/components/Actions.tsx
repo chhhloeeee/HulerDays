@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Button from './Button';
+import ToolTip from './ToolTip/ToolTip';
 
 export interface ActionsProps {
   className?: string;
@@ -21,6 +22,7 @@ const Actions = ({ className, invalid, onCancel, onCreate }: ActionsProps) => {
       <Button disabled={invalid} onClick={onCreate} primaryOutline>
         Save
       </Button>
+      {invalid && <ToolTip message='You do not have enough leave to make this request' inline />}
     </div>
   );
 };

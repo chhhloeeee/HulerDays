@@ -8,6 +8,8 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 import ConfirmationDialog from '../ConfirmationDialog';
 import { GetBusinessDatesCount } from '../helpers/helpers';
+import styled from 'styled-components';
+import ToolTipButton from '../ToolTip/ToolTipButton';
 
 interface FormProps {
   close: () => void;
@@ -26,6 +28,7 @@ const RequestForm = ({ close }: FormProps) => {
   const router = useRouter();
   const [confirmation, setConfirmation] = useState({});
   const [showDialog, setShowDialog] = useState(false);
+  const [disableSave, setDisableSave] = useState(false);
 
   const updateLeave = async (values) => {
     var strStartDate = values.startDate.toString();
@@ -86,9 +89,18 @@ const RequestForm = ({ close }: FormProps) => {
     let days = GetBusinessDatesCount(new Date(strStartDate), new Date(strEndDate));
 
     if (days > 5) {
-      return true;
+      setDisableSave(true);
+    } else {
+      setDisableSave(false);
     }
+    return disableSave;
   };
+
+  const ActionsWrapper = styled.div`
+    ${ToolTipButton} {
+      margin-left: 10px;
+    }
+  `;
   return (
     <Modal title='New Leave Request' close={close}>
       <Formik
@@ -142,7 +154,9 @@ const RequestForm = ({ close }: FormProps) => {
               />
             </AdminFormColumns>
 
-            <Actions onCancel={() => close()} onCreate={handleSubmit} invalid={checkAllowance(values)} />
+            <ActionsWrapper>
+              <Actions onCancel={() => close()} onCreate={handleSubmit} invalid={checkAllowance(values)} />
+            </ActionsWrapper>
           </form>
         )}
       </Formik>

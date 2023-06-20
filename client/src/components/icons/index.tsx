@@ -5,6 +5,7 @@ import Logout from './Logout';
 import Delete from './Delete';
 import Edit from './Edit';
 import Check from './Check';
+import Info from './Info';
 
 interface IconProps {
   name: string;
@@ -24,11 +25,13 @@ const Icon: FC<IconProps> = ({ name }: IconProps) => {
       return <Edit />;
     case 'check':
       return <Check />;
+    case 'info':
+      return <Info />;
     default:
       return <div />;
   }
 };
 
-export const IconNameList = ['logout', 'close'];
+export const IconNameList = ['logout', 'close', 'chevron-react-select', 'delete', 'edit', 'check', 'info'];
 
 export default Icon;
