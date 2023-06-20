@@ -6,9 +6,10 @@ import Logo from 'src/components/Logo';
 import Icon from 'src/components/icons';
 import Button from 'src/components/Button';
 import { APILoader } from 'src/components/table/ApiLoader';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import UserContextProvider, { UserContext } from 'src/components/contexts/UserContext';
 import { Logout } from 'src/components/helpers/helpers';
+import ConfirmationDialog from 'src/components/ConfirmationDialog';
 
 interface HomeProps {
   className?: string;
@@ -16,13 +17,14 @@ interface HomeProps {
 
 const Home = ({ className }: HomeProps) => {
   const { userId } = useContext(UserContext);
+  const [showDialog, setShowDialog] = useState(false);
   return (
     <div className={className}>
       <UserContextProvider>
         <ContentWrapper>
           <div>
             <Logo />
-            <Button className='logout' onClick={() => Logout(userId)}>
+            <Button className='logout' onClick={() => setShowDialog(true)}>
               <Icon name='logout' />
             </Button>
             <main>
@@ -35,6 +37,14 @@ const Home = ({ className }: HomeProps) => {
           </div>
           <Grid />
           <Footer />
+          {showDialog && (
+            <ConfirmationDialog
+              title='Confirm Action'
+              message='Are you sure you want to deny this request?'
+              confirm={() => Logout(userId)}
+              cancel={() => setShowDialog(false)}
+            />
+          )}
         </ContentWrapper>
       </UserContextProvider>
     </div>
