@@ -1,5 +1,6 @@
 /* eslint-disable react/jsx-key */
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { useContext, useState } from 'react';
 import Button from 'src/components/Button';
 import ConfirmationDialog from 'src/components/ConfirmationDialog';
@@ -55,6 +56,7 @@ function RequestsTable({ data }) {
   });
   const [showDenyDialog, setShowDenyDialog] = useState(false);
   const [showApproveDialog, setShowApproveDialog] = useState(false);
+  const router = useRouter();
 
   if (leave === null) {
     return <StyledErrorRequest />;
@@ -89,7 +91,7 @@ function RequestsTable({ data }) {
       .then((response) => response.text())
       .then((result) => console.log(result))
       .catch((error) => console.log('error', error));
-    window.location.reload();
+    router.replace(router.asPath);
     return close();
   };
 

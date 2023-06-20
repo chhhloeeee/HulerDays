@@ -1,5 +1,6 @@
 /* eslint-disable react/jsx-key */
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { useContext, useState } from 'react';
 import Button from 'src/components/Button';
 import ConfirmationDialog from 'src/components/ConfirmationDialog';
@@ -55,7 +56,8 @@ function RequestsTable({ data }) {
     endDate: new Date(),
   });
   const [showDialog, setShowDialog] = useState(false);
-  const { userId, token } = useContext(UserContext);
+  const { userId, holiday, setHoliday } = useContext(UserContext);
+  const router = useRouter();
 
   const handleOpen = (requestType, leaveId) => {
     setRequestType(requestType);
@@ -88,13 +90,12 @@ function RequestsTable({ data }) {
       method: 'PUT',
       body: formData,
       redirect: 'follow' as RequestRedirect,
-      auth_token: token,
     };
 
     fetch('http://localhost:1234/addHolidayDays?id=' + userId + '&days=' + days, requestOptions)
       .then((response) => {
+        setHoliday(holiday + days);
         deleteLeave(values.leaveId);
-
         response.text();
       })
       .then((result) => console.log(result))
@@ -115,8 +116,7 @@ function RequestsTable({ data }) {
 
     fetch('http://localhost:1234/deleteRequest?leaveId=' + leaveId, requestOptions)
       .then((response) => {
-        alert('Delete Successful!');
-        window.location.reload();
+        router.replace(router.asPath);
         response.text();
       })
       .then((result) => console.log(result))

@@ -8,8 +8,6 @@ import { useRouter } from 'next/router';
 import { useContext, useState } from 'react';
 import ConfirmationDialog from '../ConfirmationDialog';
 import { GetBusinessDatesCount } from '../helpers/helpers';
-import styled from 'styled-components';
-import ToolTipButton from '../ToolTip/ToolTipButton';
 import { UserContext } from 'src/contexts/UserContext';
 
 interface FormProps {
@@ -29,7 +27,7 @@ const RequestForm = ({ close }: FormProps) => {
   const [confirmation, setConfirmation] = useState({});
   const [showDialog, setShowDialog] = useState(false);
   const [disableSave, setDisableSave] = useState(false);
-  const { userId } = useContext(UserContext);
+  const { userId, holiday, setHoliday } = useContext(UserContext);
 
   const updateLeave = async (values) => {
     var strStartDate = values.startDate.toString();
@@ -49,6 +47,7 @@ const RequestForm = ({ close }: FormProps) => {
 
     fetch('http://localhost:1234/removeHolidayDays?id=' + values.id + '&days=' + days, requestOptions)
       .then((response) => {
+        setHoliday(holiday - days);
         postRequest(values);
         response.text();
       })
@@ -89,7 +88,7 @@ const RequestForm = ({ close }: FormProps) => {
     var strEndDate = values.endDate.toString();
     let days = GetBusinessDatesCount(new Date(strStartDate), new Date(strEndDate));
 
-    if (days > 5) {
+    if (days > holiday) {
       setDisableSave(true);
     } else {
       setDisableSave(false);
