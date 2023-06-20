@@ -16,8 +16,9 @@ interface HomeProps {
 }
 
 const Home = ({ className }: HomeProps) => {
-  const { userId } = useContext(UserContext);
+  //const { userId } = useContext(UserContext);
   const [showDialog, setShowDialog] = useState(false);
+  let userId = 1;
   return (
     <div className={className}>
       <UserContextProvider>
