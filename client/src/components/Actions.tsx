@@ -11,9 +11,10 @@ export interface ActionsProps {
   onCreateAnother?: () => void;
   showCreateAnother?: boolean;
   noWrap?: boolean;
+  message?: string;
 }
 
-const Actions = ({ className, invalid, onCancel, onCreate }: ActionsProps) => {
+const Actions = ({ className, invalid, onCancel, onCreate, message }: ActionsProps) => {
   return (
     <div className={className}>
       <Button onClick={onCancel} darkOutline>
@@ -22,7 +23,7 @@ const Actions = ({ className, invalid, onCancel, onCreate }: ActionsProps) => {
       <Button disabled={invalid} onClick={onCreate} primaryOutline>
         Save
       </Button>
-      {invalid && <ToolTip message='You do not have enough leave to make this request' inline />}
+      {invalid && <ToolTip message={message} inline />}
     </div>
   );
 };

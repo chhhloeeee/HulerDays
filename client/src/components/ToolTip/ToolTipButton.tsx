@@ -12,6 +12,7 @@ const ToolTipButton = styled.button<ToolTipButtonProps>`
   right: 5px;
   z-index: ${(props) => props.theme.zLayers.default};
   cursor: pointer;
+  padding-left: 10px;
 
   ${(props) =>
     props.position === 'above-left' &&
@@ -93,7 +94,7 @@ const ToolTipButton = styled.button<ToolTipButtonProps>`
     font-family: ${(props) => props.theme.fonts.primaryFont};
     color: var(--body-text-color);
     white-space: normal;
-    left: 20px;
+    left: 30px;
     top: 0;
   }
 `;

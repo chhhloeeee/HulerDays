@@ -96,11 +96,6 @@ const RequestForm = ({ close }: FormProps) => {
     return disableSave;
   };
 
-  const ActionsWrapper = styled.div`
-    ${ToolTipButton} {
-      margin-left: 10px;
-    }
-  `;
   return (
     <Modal title='New Leave Request' close={close}>
       <Formik
@@ -154,9 +149,12 @@ const RequestForm = ({ close }: FormProps) => {
               />
             </AdminFormColumns>
 
-            <ActionsWrapper>
-              <Actions onCancel={() => close()} onCreate={handleSubmit} invalid={checkAllowance(values)} />
-            </ActionsWrapper>
+            <Actions
+              onCancel={() => close()}
+              onCreate={handleSubmit}
+              invalid={checkAllowance(values)}
+              message='You do not have enough leave to make this request'
+            />
           </form>
         )}
       </Formik>
