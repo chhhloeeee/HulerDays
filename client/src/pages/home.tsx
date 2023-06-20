@@ -16,19 +16,22 @@ interface HomeProps {
 }
 
 const Home = ({ className }: HomeProps) => {
-  //const { userId } = useContext(UserContext);
+  //const { userId, token } = useContext(UserContext);
   const [showDialog, setShowDialog] = useState(false);
   let userId = 1;
+  let token = 'placeholder token';
   const router = useRouter();
 
   const Logout = (userId: number) => {
     var requestOptions = {
       method: 'GET',
       redirect: 'follow' as RequestRedirect,
+      auth_token: token,
     };
 
     fetch('http://localhost:1234/logout?id=' + userId, requestOptions)
       .then((response) => {
+        // is it possible to clear context??
         router.push('/');
         response.text();
       })
