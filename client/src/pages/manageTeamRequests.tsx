@@ -1,5 +1,7 @@
 /* eslint-disable react/jsx-key */
-import { useState } from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useContext, useState } from 'react';
 import Button from 'src/components/Button';
 import ConfirmationDialog from 'src/components/ConfirmationDialog';
 import ContentWrapper from 'src/components/ContentWrapper';
@@ -9,6 +11,7 @@ import Icon from 'src/components/icons';
 import Logo from 'src/components/Logo';
 import { APILoader } from 'src/components/table/ApiLoader';
 import Table from 'src/components/table/Table';
+import { UserContext } from 'src/contexts/UserContext';
 import styled from 'styled-components';
 
 interface ManageRequestProps {
@@ -16,19 +19,20 @@ interface ManageRequestProps {
 }
 
 const TeamRequest = ({ className }: ManageRequestProps) => {
+  const { userId } = useContext(UserContext);
   const TableWrapper = styled.div`
     margin: 45px;
     flex-grow: 1;
   `;
-  const userId = 2;
+
   return (
     <div className={className}>
       <ContentWrapper>
         <Logo />
         <span>
-          <Button primary href='/home'>
-            Back
-          </Button>
+          <Link href='/home'>
+            <Button primary>Back</Button>
+          </Link>
         </span>
         <h1>Manage Team Leave</h1>
         <TableWrapper>
@@ -52,6 +56,7 @@ function RequestsTable({ data }) {
   });
   const [showDenyDialog, setShowDenyDialog] = useState(false);
   const [showApproveDialog, setShowApproveDialog] = useState(false);
+  const router = useRouter();
 
   if (leave === null) {
     return <StyledErrorRequest />;
@@ -86,7 +91,7 @@ function RequestsTable({ data }) {
       .then((response) => response.text())
       .then((result) => console.log(result))
       .catch((error) => console.log('error', error));
-    window.location.reload();
+    router.replace(router.asPath);
     return close();
   };
 

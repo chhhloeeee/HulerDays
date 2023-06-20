@@ -16,8 +16,11 @@ type UserResponse struct {
 }
 
 type LoginResponse struct {
-	Status int    `json:"status"`
-	Token  string `json:"token"`
+	Status    int    `json:"status"`
+	Token     string `json:"token"`
+	UserId    int    `json:"userId"`
+	Holiday   int    `json:"holiday"`
+	IsManager bool   `json:"isManager"`
 }
 
 type Requests struct {

@@ -5,9 +5,10 @@ import StyledFormDatePicker from '../DatePicker';
 import AdminFormSelectUnderline from './AdminFormSelectUnderline';
 import AdminFormColumns from './AdminFormColumns';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import ConfirmationDialog from '../ConfirmationDialog';
 import { GetBusinessDatesCount } from '../helpers/helpers';
+import { UserContext } from 'src/contexts/UserContext';
 
 interface FormProps {
   close: () => void;
@@ -22,10 +23,11 @@ interface Values {
 
 const RequestForm = ({ close }: FormProps) => {
   var date = new Date();
-  var userId = 1;
   const router = useRouter();
   const [confirmation, setConfirmation] = useState({});
   const [showDialog, setShowDialog] = useState(false);
+  const [disableSave, setDisableSave] = useState(false);
+  const { userId, holiday, setHoliday } = useContext(UserContext);
 
   const updateLeave = async (values) => {
     var strStartDate = values.startDate.toString();
@@ -45,6 +47,7 @@ const RequestForm = ({ close }: FormProps) => {
 
     fetch('http://localhost:1234/removeHolidayDays?id=' + values.id + '&days=' + days, requestOptions)
       .then((response) => {
+        setHoliday(holiday - days);
         postRequest(values);
         response.text();
       })
@@ -85,10 +88,14 @@ const RequestForm = ({ close }: FormProps) => {
     var strEndDate = values.endDate.toString();
     let days = GetBusinessDatesCount(new Date(strStartDate), new Date(strEndDate));
 
-    if (days > 5) {
-      return true;
+    if (days > holiday) {
+      setDisableSave(true);
+    } else {
+      setDisableSave(false);
     }
+    return disableSave;
   };
+
   return (
     <Modal title='New Leave Request' close={close}>
       <Formik
@@ -142,7 +149,12 @@ const RequestForm = ({ close }: FormProps) => {
               />
             </AdminFormColumns>
 
-            <Actions onCancel={() => close()} onCreate={handleSubmit} invalid={checkAllowance(values)} />
+            <Actions
+              onCancel={() => close()}
+              onCreate={handleSubmit}
+              invalid={checkAllowance(values)}
+              message='You do not have enough leave to make this request'
+            />
           </form>
         )}
       </Formik>

@@ -6,6 +6,8 @@ import Button from '../Button';
 import Logo from '../Logo';
 import { Error } from './Error';
 import * as Yup from 'yup';
+import { useContext, useEffect } from 'react';
+import { UserContext } from '../../contexts/UserContext';
 
 interface LoginFormProps {
   className?: string;
@@ -32,11 +34,36 @@ const FormWrapper = styled.div`
 `;
 
 const LoginForm = ({ className }: LoginFormProps) => {
+  const { setIsManager, setUserId, setHoliday, setToken } = useContext(UserContext);
   const LoginSchema = Yup.object().shape({
-    password: Yup.string().min(8, 'Your Password must be longer than 8 characters').required('Required'),
     email: Yup.string().email('Invalid email').required('Required'),
   });
   const router = useRouter();
+
+  const handleLogin = (values) => {
+    var requestOptions = {
+      method: 'GET',
+      redirect: 'follow' as RequestRedirect,
+    };
+
+    fetch('http://localhost:1234/login?uid=' + values.email + '&pwd=' + values.password, requestOptions)
+      .then((response) => response.json())
+      .then((json) => {
+        if (json.status == 200) {
+          setIsManager(json.isManager);
+          setUserId(json.userId);
+          setHoliday(json.holiday);
+          setToken(json.token);
+          router.push('/home');
+        } else {
+          alert('Incorrect Email and/or Password');
+        }
+      })
+      .then((result) => console.log(result))
+      .catch((error) => {
+        console.log('error', error);
+      });
+  };
   return (
     <div className={className}>
       <Logo />
@@ -50,8 +77,7 @@ const LoginForm = ({ className }: LoginFormProps) => {
           validationSchema={LoginSchema}
           validateOnMount
           onSubmit={(values: Values, { setSubmitting, resetForm }) => {
-            //handleChangePassword(values, setSubmitting);
-            router.push('/home');
+            handleLogin(values);
             setSubmitting(false);
             setTimeout(() => {
               resetForm();
@@ -80,7 +106,6 @@ const LoginForm = ({ className }: LoginFormProps) => {
                     onBlur={handleBlur}
                     required
                   />
-                  {!!(errors.password && touched.password) && <Error attached>{errors.password}</Error>}
                 </div>
               </form>
               <Button primary type='submit' onClick={() => handleSubmit()}>

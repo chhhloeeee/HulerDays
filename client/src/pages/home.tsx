@@ -6,22 +6,46 @@ import Logo from 'src/components/Logo';
 import Icon from 'src/components/icons';
 import Button from 'src/components/Button';
 import { APILoader } from 'src/components/table/ApiLoader';
-import { useContext } from 'react';
-import { UserContext } from 'src/components/contexts/UserContext';
+import { useContext, useState } from 'react';
+import UserContextProvider, { UserContext } from 'src/contexts/UserContext';
+import ConfirmationDialog from 'src/components/ConfirmationDialog';
+import { useRouter } from 'next/router';
 
 interface HomeProps {
   className?: string;
 }
 
 const Home = ({ className }: HomeProps) => {
-  // const {userId} = useContext(UserContext);
-  const userId = 2;
+  const { userId, token, setIsManager, setUserId, setHoliday, setToken } = useContext(UserContext);
+  const [showDialog, setShowDialog] = useState(false);
+  const router = useRouter();
+
+  const Logout = (userId: number) => {
+    var requestOptions = {
+      method: 'GET',
+      redirect: 'follow' as RequestRedirect,
+      auth_token: token,
+    };
+
+    fetch('http://localhost:1234/logout?id=' + userId, requestOptions)
+      .then((response) => {
+        setIsManager(false);
+        setUserId(0);
+        setHoliday(0);
+        setToken(null);
+        router.push('/');
+        response.text();
+      })
+      .then((result) => console.log(result))
+      .catch((error) => console.log('error', error));
+  };
+
   return (
     <div className={className}>
       <ContentWrapper>
         <div>
           <Logo />
-          <Button className='logout'>
+          <Button className='logout' onClick={() => setShowDialog(true)}>
             <Icon name='logout' />
           </Button>
           <main>
@@ -34,6 +58,14 @@ const Home = ({ className }: HomeProps) => {
         </div>
         <Grid />
         <Footer />
+        {showDialog && (
+          <ConfirmationDialog
+            title='Confirm Action'
+            message='Are you sure you want to deny this request?'
+            confirm={() => Logout(userId)}
+            cancel={() => setShowDialog(false)}
+          />
+        )}
       </ContentWrapper>
     </div>
   );

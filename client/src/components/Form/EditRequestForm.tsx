@@ -3,8 +3,9 @@ import AdminFormColumns from './AdminFormColumns';
 import AdminFormSelectUnderline from './AdminFormSelectUnderline';
 import Modal from '../modal';
 import Actions from '../Actions';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import ConfirmationDialog from '../ConfirmationDialog';
+import { useRouter } from 'next/router';
 
 interface FormProps {
   close: () => void;
@@ -20,6 +21,7 @@ interface Values {
 const EditRequestForm = ({ close, reqType, id }: FormProps) => {
   const [confirmation, setConfirmation] = useState({});
   const [showDialog, setShowDialog] = useState(false);
+  const router = useRouter();
 
   const postUpdate = async (values) => {
     var formdata = new FormData();
@@ -37,7 +39,7 @@ const EditRequestForm = ({ close, reqType, id }: FormProps) => {
       .then((response) => response.text())
       .then((result) => console.log(result))
       .catch((error) => console.log('error', error));
-    window.location.reload();
+    router.replace(router.asPath);
     return close();
   };
 
