@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import RequestForm from './form/requestForm';
 import { useContext, useState } from 'react';
 import Link from 'next/link';
-import { UserContext } from './contexts/UserContext';
+import { UserContext } from '../contexts/UserContext';
 
 interface GridProps {
   className?: string;

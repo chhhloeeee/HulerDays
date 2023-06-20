@@ -7,7 +7,7 @@ import Icon from 'src/components/icons';
 import Button from 'src/components/Button';
 import { APILoader } from 'src/components/table/ApiLoader';
 import { useContext, useState } from 'react';
-import UserContextProvider, { UserContext } from 'src/components/contexts/UserContext';
+import UserContextProvider, { UserContext } from 'src/contexts/UserContext';
 import ConfirmationDialog from 'src/components/ConfirmationDialog';
 import { useRouter } from 'next/router';
 
@@ -16,10 +16,8 @@ interface HomeProps {
 }
 
 const Home = ({ className }: HomeProps) => {
-  //const { userId, token } = useContext(UserContext);
+  const { userId, token, setIsManager, setUserId, setHoliday, setToken } = useContext(UserContext);
   const [showDialog, setShowDialog] = useState(false);
-  let userId = 1;
-  let token = 'placeholder token';
   const router = useRouter();
 
   const Logout = (userId: number) => {
@@ -31,42 +29,45 @@ const Home = ({ className }: HomeProps) => {
 
     fetch('http://localhost:1234/logout?id=' + userId, requestOptions)
       .then((response) => {
-        // is it possible to clear context??
+        setIsManager(false);
+        setUserId(0);
+        setHoliday(0);
+        setToken(null);
         router.push('/');
         response.text();
       })
       .then((result) => console.log(result))
       .catch((error) => console.log('error', error));
   };
+
+  console.log(userId);
   return (
     <div className={className}>
-      <UserContextProvider>
-        <ContentWrapper>
-          <div>
-            <Logo />
-            <Button className='logout' onClick={() => setShowDialog(true)}>
-              <Icon name='logout' />
-            </Button>
-            <main>
-              <h1>Welcome to HulerDays</h1>
-              <div>
-                <APILoader url={'http://localhost:1234/getUserById?id=' + userId} Component={countDown} />
-                <p>Days Remaining</p>
-              </div>
-            </main>
-          </div>
-          <Grid />
-          <Footer />
-          {showDialog && (
-            <ConfirmationDialog
-              title='Confirm Action'
-              message='Are you sure you want to deny this request?'
-              confirm={() => Logout(userId)}
-              cancel={() => setShowDialog(false)}
-            />
-          )}
-        </ContentWrapper>
-      </UserContextProvider>
+      <ContentWrapper>
+        <div>
+          <Logo />
+          <Button className='logout' onClick={() => setShowDialog(true)}>
+            <Icon name='logout' />
+          </Button>
+          <main>
+            <h1>Welcome to HulerDays</h1>
+            <div>
+              <APILoader url={'http://localhost:1234/getUserById?id=' + userId} Component={countDown} />
+              <p>Days Remaining</p>
+            </div>
+          </main>
+        </div>
+        <Grid />
+        <Footer />
+        {showDialog && (
+          <ConfirmationDialog
+            title='Confirm Action'
+            message='Are you sure you want to deny this request?'
+            confirm={() => Logout(userId)}
+            cancel={() => setShowDialog(false)}
+          />
+        )}
+      </ContentWrapper>
     </div>
   );
 };

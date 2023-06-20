@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-key */
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import Button from 'src/components/Button';
 import ConfirmationDialog from 'src/components/ConfirmationDialog';
 import ContentWrapper from 'src/components/ContentWrapper';
@@ -11,6 +11,7 @@ import Icon from 'src/components/icons';
 import Logo from 'src/components/Logo';
 import { APILoader } from 'src/components/table/ApiLoader';
 import Table from 'src/components/table/Table';
+import { UserContext } from 'src/contexts/UserContext';
 import styled from 'styled-components';
 
 interface ManageRequestProps {
@@ -18,11 +19,11 @@ interface ManageRequestProps {
 }
 
 const ManageRequest = ({ className }: ManageRequestProps) => {
+  const { userId } = useContext(UserContext);
   const TableWrapper = styled.div`
     margin: 45px;
     flex-grow: 1;
   `;
-  const UserId = 1;
   return (
     <div className={className}>
       <ContentWrapper>
@@ -34,7 +35,7 @@ const ManageRequest = ({ className }: ManageRequestProps) => {
         </span>
         <h1>Manage Leave Requests</h1>
         <TableWrapper>
-          <APILoader url={'http://localhost:1234/getRequestByUserId?userId=' + UserId} Component={RequestsTable} />
+          <APILoader url={'http://localhost:1234/getRequestByUserId?userId=' + userId} Component={RequestsTable} />
         </TableWrapper>
         <Footer />
       </ContentWrapper>
@@ -53,6 +54,8 @@ function RequestsTable({ data }) {
     endDate: new Date(),
   });
   const [showDialog, setShowDialog] = useState(false);
+  const { userId, token } = useContext(UserContext);
+  console.log(userId);
 
   const handleOpen = (requestType, leaveId) => {
     setRequestType(requestType);
@@ -77,8 +80,6 @@ function RequestsTable({ data }) {
   const updateLeave = async (values) => {
     let days = GetBusinessDatesCount(values.startDate, values.endDate);
 
-    let userId = 1;
-
     const formData: any = new FormData();
     formData.append('id', userId);
     formData.append('days', days);
@@ -87,11 +88,13 @@ function RequestsTable({ data }) {
       method: 'PUT',
       body: formData,
       redirect: 'follow' as RequestRedirect,
+      auth_token: token,
     };
 
     fetch('http://localhost:1234/addHolidayDays?id=' + userId + '&days=' + days, requestOptions)
       .then((response) => {
         deleteLeave(values.leaveId);
+
         response.text();
       })
       .then((result) => console.log(result))

@@ -6,8 +6,8 @@ import Button from '../Button';
 import Logo from '../Logo';
 import { Error } from './Error';
 import * as Yup from 'yup';
-import { useContext } from 'react';
-import { UserContext } from '../contexts/UserContext';
+import { useContext, useEffect } from 'react';
+import { UserContext } from '../../contexts/UserContext';
 
 interface LoginFormProps {
   className?: string;
@@ -50,15 +50,11 @@ const LoginForm = ({ className }: LoginFormProps) => {
       .then((response) => response.json())
       .then((json) => {
         if (json.status == 200) {
-          // TODO: set user
-          console.log(json);
-          if (json.isManager == true) {
-            setIsManager(true);
-          }
+          setIsManager(json.isManager);
           setUserId(json.userId);
           setHoliday(json.holiday);
           setToken(json.token);
-          router.push('/home');
+          router.refresh('/home');
         } else {
           alert('Incorrect Email and/or Password');
         }

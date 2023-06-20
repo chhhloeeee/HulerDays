@@ -15,9 +15,9 @@ export const UserContext = createContext<ContextUserType>({} as ContextUserType)
 
 const UserContextProvider = ({ children }) => {
   const [isManager, setIsManager] = useState(false);
-  const [userId, setUserId] = useState();
-  const [holiday, setHoliday] = useState();
-  const [token, setToken] = useState('');
+  const [userId, setUserId] = useState(null);
+  const [holiday, setHoliday] = useState(null);
+  const [token, setToken] = useState(null);
 
   return (
     <UserContext.Provider

@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-key */
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import Button from 'src/components/Button';
 import ConfirmationDialog from 'src/components/ConfirmationDialog';
 import ContentWrapper from 'src/components/ContentWrapper';
@@ -9,6 +9,7 @@ import Icon from 'src/components/icons';
 import Logo from 'src/components/Logo';
 import { APILoader } from 'src/components/table/ApiLoader';
 import Table from 'src/components/table/Table';
+import { UserContext } from 'src/contexts/UserContext';
 import styled from 'styled-components';
 
 interface ManageRequestProps {
@@ -16,11 +17,12 @@ interface ManageRequestProps {
 }
 
 const TeamRequest = ({ className }: ManageRequestProps) => {
+  const { userId } = useContext(UserContext);
   const TableWrapper = styled.div`
     margin: 45px;
     flex-grow: 1;
   `;
-  const userId = 2;
+
   return (
     <div className={className}>
       <ContentWrapper>

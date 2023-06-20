@@ -1,13 +1,11 @@
-import UserContextProvider from 'src/components/contexts/UserContext';
+import UserContextProvider from 'src/contexts/UserContext';
 import Footer from 'src/components/footer';
 import LoginForm from 'src/components/form/LoginForm';
 
 const Login = () => {
   return (
     <div>
-      <UserContextProvider>
-        <LoginForm />
-      </UserContextProvider>
+      <LoginForm />
       <Footer />
     </div>
   );

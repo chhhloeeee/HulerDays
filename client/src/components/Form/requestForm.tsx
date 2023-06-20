@@ -5,11 +5,12 @@ import StyledFormDatePicker from '../DatePicker';
 import AdminFormSelectUnderline from './AdminFormSelectUnderline';
 import AdminFormColumns from './AdminFormColumns';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import ConfirmationDialog from '../ConfirmationDialog';
 import { GetBusinessDatesCount } from '../helpers/helpers';
 import styled from 'styled-components';
 import ToolTipButton from '../ToolTip/ToolTipButton';
+import { UserContext } from 'src/contexts/UserContext';
 
 interface FormProps {
   close: () => void;
@@ -24,11 +25,11 @@ interface Values {
 
 const RequestForm = ({ close }: FormProps) => {
   var date = new Date();
-  var userId = 1;
   const router = useRouter();
   const [confirmation, setConfirmation] = useState({});
   const [showDialog, setShowDialog] = useState(false);
   const [disableSave, setDisableSave] = useState(false);
+  const { userId } = useContext(UserContext);
 
   const updateLeave = async (values) => {
     var strStartDate = values.startDate.toString();

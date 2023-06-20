@@ -1,7 +1,7 @@
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import StyledLogo from 'src/components/Logo';
-import UserContextProvider from 'src/components/contexts/UserContext';
+import UserContextProvider from 'src/contexts/UserContext';
 import GlobalStyles from 'src/styles/GlobalStyles';
 import ThemeWrapper from 'src/styles/ThemeWrapper';
 

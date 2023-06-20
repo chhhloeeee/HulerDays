@@ -8,7 +8,7 @@ import getDay from 'date-fns/getDay';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { useContext, useEffect, useState } from 'react';
 import Logo from 'src/components/Logo';
-import { UserContext } from 'src/components/contexts/UserContext';
+import { UserContext } from 'src/contexts/UserContext';
 import Toggle from 'src/components/Toggle';
 
 interface CalendarProps {
@@ -59,7 +59,7 @@ const eventStyleGetter = () => {
 
 const CalendarView = ({ className }: CalendarProps) => {
   const [events, setEvents] = useState([]);
-  const { isManager } = useContext(UserContext);
+  const { userId, isManager } = useContext(UserContext);
   const [showLeave, setShowLeave] = useState(false);
 
   async function getData() {
@@ -68,7 +68,7 @@ const CalendarView = ({ className }: CalendarProps) => {
       redirect: 'follow' as RequestRedirect,
     };
 
-    fetch('http://localhost:1234/getApprovedRequestByUserId?userId=2', requestOptions)
+    fetch('http://localhost:1234/getApprovedRequestByUserId?userId=' + userId, requestOptions)
       .then((response) => response.json())
       .then((response) => {
         console.log(response.Data);
@@ -101,7 +101,7 @@ const CalendarView = ({ className }: CalendarProps) => {
         redirect: 'follow' as RequestRedirect,
       };
 
-      fetch('http://localhost:1234/getRequestByManagerId?users.managerId=' + 2 + '&holiday.status=Approved', requestOptions)
+      fetch('http://localhost:1234/getRequestByManagerId?users.managerId=' + userId + '&holiday.status=Approved', requestOptions)
         .then((response) => response.json())
         .then((response) => {
           console.log(response.Data);
