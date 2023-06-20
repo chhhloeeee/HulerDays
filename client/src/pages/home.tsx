@@ -8,6 +8,7 @@ import Button from 'src/components/Button';
 import { APILoader } from 'src/components/table/ApiLoader';
 import { useContext } from 'react';
 import UserContextProvider, { UserContext } from 'src/components/contexts/UserContext';
+import { Logout } from 'src/components/helpers/helpers';
 
 interface HomeProps {
   className?: string;
@@ -21,7 +22,7 @@ const Home = ({ className }: HomeProps) => {
         <ContentWrapper>
           <div>
             <Logo />
-            <Button className='logout'>
+            <Button className='logout' onClick={() => Logout(userId)}>
               <Icon name='logout' />
             </Button>
             <main>
