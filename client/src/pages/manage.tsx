@@ -56,7 +56,7 @@ function RequestsTable({ data }) {
     endDate: new Date(),
   });
   const [showDialog, setShowDialog] = useState(false);
-  const { userId, holiday, setHoliday } = useContext(UserContext);
+  const { userId, holiday, updateHoliday } = useContext(UserContext);
   const router = useRouter();
 
   const handleOpen = (requestType, leaveId) => {
@@ -94,7 +94,7 @@ function RequestsTable({ data }) {
 
     fetch('http://localhost:1234/addHolidayDays?id=' + userId + '&days=' + days, requestOptions)
       .then((response) => {
-        setHoliday(holiday + days);
+        updateHoliday(Number(holiday) + days);
         deleteLeave(values.leaveId);
         response.text();
       })

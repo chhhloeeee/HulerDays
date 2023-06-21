@@ -34,7 +34,7 @@ const FormWrapper = styled.div`
 `;
 
 const LoginForm = ({ className }: LoginFormProps) => {
-  const { setIsManager, setUserId, setHoliday, setToken } = useContext(UserContext);
+  const { updateIsManager, updateUserId, updateHoliday, updateToken } = useContext(UserContext);
   const LoginSchema = Yup.object().shape({
     email: Yup.string().email('Invalid email').required('Required'),
   });
@@ -50,10 +50,10 @@ const LoginForm = ({ className }: LoginFormProps) => {
       .then((response) => response.json())
       .then((json) => {
         if (json.status == 200) {
-          setIsManager(json.isManager);
-          setUserId(json.userId);
-          setHoliday(json.holiday);
-          setToken(json.token);
+          updateIsManager(json.isManager);
+          updateUserId(json.userId);
+          updateHoliday(json.holiday);
+          updateToken(json.token);
           router.push('/home');
         } else {
           alert('Incorrect Email and/or Password');

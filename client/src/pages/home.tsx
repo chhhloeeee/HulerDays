@@ -7,16 +7,17 @@ import Icon from 'src/components/icons';
 import Button from 'src/components/Button';
 import { APILoader } from 'src/components/table/ApiLoader';
 import { useContext, useState } from 'react';
-import UserContextProvider, { UserContext } from 'src/contexts/UserContext';
+import { UserContext } from 'src/contexts/UserContext';
 import ConfirmationDialog from 'src/components/ConfirmationDialog';
 import { useRouter } from 'next/router';
+import NoSSRWrapper from 'src/components/NoSSRWrapper';
 
 interface HomeProps {
   className?: string;
 }
 
 const Home = ({ className }: HomeProps) => {
-  const { userId, token, setIsManager, setUserId, setHoliday, setToken } = useContext(UserContext);
+  const { userId, token } = useContext(UserContext);
   const [showDialog, setShowDialog] = useState(false);
   const router = useRouter();
 
@@ -29,10 +30,10 @@ const Home = ({ className }: HomeProps) => {
 
     fetch('http://localhost:1234/logout?id=' + userId, requestOptions)
       .then((response) => {
-        setIsManager(false);
-        setUserId(0);
-        setHoliday(0);
-        setToken(null);
+        localStorage.removeItem('isManager');
+        localStorage.removeItem('userId');
+        localStorage.removeItem('holiday');
+        localStorage.removeItem('token');
         router.push('/');
         response.text();
       })
@@ -56,13 +57,15 @@ const Home = ({ className }: HomeProps) => {
             </div>
           </main>
         </div>
-        <Grid />
+        <NoSSRWrapper>
+          <Grid />
+        </NoSSRWrapper>
         <Footer />
         {showDialog && (
           <ConfirmationDialog
             title='Confirm Action'
             message='Are you sure you want to deny this request?'
-            confirm={() => Logout(userId)}
+            confirm={() => Logout(Number(userId))}
             cancel={() => setShowDialog(false)}
           />
         )}

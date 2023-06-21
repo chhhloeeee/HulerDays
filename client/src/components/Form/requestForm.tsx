@@ -27,7 +27,7 @@ const RequestForm = ({ close }: FormProps) => {
   const [confirmation, setConfirmation] = useState({});
   const [showDialog, setShowDialog] = useState(false);
   const [disableSave, setDisableSave] = useState(false);
-  const { userId, holiday, setHoliday } = useContext(UserContext);
+  const { userId, holiday, updateHoliday } = useContext(UserContext);
 
   const updateLeave = async (values) => {
     var strStartDate = values.startDate.toString();
@@ -47,7 +47,7 @@ const RequestForm = ({ close }: FormProps) => {
 
     fetch('http://localhost:1234/removeHolidayDays?id=' + values.id + '&days=' + days, requestOptions)
       .then((response) => {
-        setHoliday(holiday - days);
+        updateHoliday(Number(holiday) - days);
         postRequest(values);
         response.text();
       })
@@ -88,7 +88,7 @@ const RequestForm = ({ close }: FormProps) => {
     var strEndDate = values.endDate.toString();
     let days = GetBusinessDatesCount(new Date(strStartDate), new Date(strEndDate));
 
-    if (days > holiday) {
+    if (days > Number(holiday)) {
       setDisableSave(true);
     } else {
       setDisableSave(false);

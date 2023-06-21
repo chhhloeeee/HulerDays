@@ -1,35 +1,61 @@
-import { Dispatch, SetStateAction, createContext, useState } from 'react';
+import { Dispatch, SetStateAction, createContext, useEffect, useState } from 'react';
 
 interface ContextUserType {
-  isManager: boolean;
-  setIsManager: Dispatch<SetStateAction<boolean>>;
-  userId: number;
-  setUserId: Dispatch<SetStateAction<number>>;
-  holiday: number;
-  setHoliday: Dispatch<SetStateAction<number>>;
+  isManager: string;
+  updateIsManager: (val: string) => void;
+  userId: number | string;
+  updateUserId: (val: number) => void;
+  holiday: number | string;
+  updateHoliday: (val: number) => void;
   token: string;
-  setToken: Dispatch<SetStateAction<string>>;
+  updateToken: (val: string) => void;
 }
 
 export const UserContext = createContext<ContextUserType>({} as ContextUserType);
 
 const UserContextProvider = ({ children }) => {
-  const [isManager, setIsManager] = useState(false);
-  const [userId, setUserId] = useState(null);
-  const [holiday, setHoliday] = useState(null);
-  const [token, setToken] = useState(null);
+  const [isManager, setIsManager] = useState(typeof window !== 'undefined' ? window.localStorage.getItem('isManager') : 'false');
+
+  // // to avoid ssr error
+  // useEffect(() => {
+  //   setIsManager(localStorage.getItem('isManager') === isManager.toString());
+  // }, []);
+
+  const [userId, setUserId] = useState(typeof window !== 'undefined' ? window.localStorage.getItem('userId') : 0);
+  const [holiday, setHoliday] = useState(typeof window !== 'undefined' ? window.localStorage.getItem('holiday') : 0);
+  const [token, setToken] = useState(typeof window !== 'undefined' ? window.localStorage.getItem('token') : '');
+
+  const updateIsManager = (newIsManager: string) => {
+    setIsManager(newIsManager);
+    localStorage.setItem('isManager', newIsManager);
+  };
+
+  const updateUserId = (newUserId: number) => {
+    setUserId(newUserId);
+    localStorage.setItem('userId', newUserId.toString());
+  };
+
+  const updateHoliday = (newHoliday: number) => {
+    setHoliday(newHoliday);
+    localStorage.setItem('holiday', newHoliday.toString());
+  };
+
+  const updateToken = (newToken: string) => {
+    setToken(newToken);
+    localStorage.setItem('token', newToken);
+  };
 
   return (
     <UserContext.Provider
       value={{
         isManager,
-        setIsManager,
+        updateIsManager,
         userId,
-        setUserId,
+        updateUserId,
         holiday,
-        setHoliday,
+        updateHoliday,
         token,
-        setToken,
+        updateToken,
       }}
     >
       {children}
