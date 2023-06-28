@@ -157,7 +157,7 @@ function RequestsTable({ data }) {
       {showDialog && (
         <ConfirmationDialog
           title='Confirm Action'
-          message='Are you sure you want to deny this request?'
+          message='Are you sure you want to delete this request?'
           confirm={() => updateLeave(confirmation)}
           cancel={() => setShowDialog(false)}
         />

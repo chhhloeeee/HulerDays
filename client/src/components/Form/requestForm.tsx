@@ -161,7 +161,7 @@ const RequestForm = ({ close }: FormProps) => {
       {showDialog && (
         <ConfirmationDialog
           title='Confirm Action'
-          message='Are you sure you want to edit this request?'
+          message='Are you sure you want to make this request?'
           confirm={() => updateLeave(confirmation)}
           cancel={() => setShowDialog(false)}
         />

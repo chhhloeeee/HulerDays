@@ -64,7 +64,7 @@ const Home = ({ className }: HomeProps) => {
         {showDialog && (
           <ConfirmationDialog
             title='Confirm Action'
-            message='Are you sure you want to deny this request?'
+            message='Are you sure you want to log out?'
             confirm={() => Logout(Number(userId))}
             cancel={() => setShowDialog(false)}
           />
