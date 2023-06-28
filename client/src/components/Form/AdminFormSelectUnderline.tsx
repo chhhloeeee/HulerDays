@@ -37,7 +37,7 @@ const AdminFormSelectUnderline = ({ className, options, label, placeholder, valu
   return (
     <div className={className} ref={ref}>
       <span>{label}</span>
-      <AdminFormSelectUnderlineButton onClick={() => setIsOpen(!isOpen)}>
+      <AdminFormSelectUnderlineButton onClick={() => setIsOpen(!isOpen)} type='button'>
         {valuesLabel || placeholder}
         <Icon name='chevron-react-select' />
       </AdminFormSelectUnderlineButton>
@@ -57,6 +57,7 @@ const AdminFormSelectUnderline = ({ className, options, label, placeholder, valu
                     setValue(option.value);
                     setIsOpen(false);
                   }}
+                  type='button'
                 >
                   {option.label}
                 </AdminFormSelectUnderlineOptionButton>
